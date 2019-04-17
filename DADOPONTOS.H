@@ -1,3 +1,4 @@
+#pragma once
 /***************************************************************************
 *
 *  $MCD Módulo de definição: Módulo Dado Pontos
@@ -23,6 +24,9 @@
 *			
 *
 ********************************************************************************/
+
+
+typedef struct tgDadoPontos * tppDadoPontos;
 
 
 /*************************************************************************
@@ -56,7 +60,7 @@ typedef enum
 *
 *************************************************************************/
 
-DDPnt_tpCondRet CriaDadoPontos (tppDadoPontos ** dado);
+DDPnt_tpCondRet CriaDadoPontos (tppDadoPontos * dado);
 
 
 /*************************************************************************
@@ -67,7 +71,7 @@ DDPnt_tpCondRet CriaDadoPontos (tppDadoPontos ** dado);
 *
 *************************************************************************/
 
-DDPnt_tpCondRet DobraPontos (tppDadoPontos ** dado);
+DDPnt_tpCondRet DobraPontos (tppDadoPontos * dado);
 
 
 /*************************************************************************
@@ -78,4 +82,4 @@ DDPnt_tpCondRet DobraPontos (tppDadoPontos ** dado);
 *
 *************************************************************************/
 
-DDPnt_tpCondRet DestroiDadoPontos (tppDadoPontos ** dado);
+DDPnt_tpCondRet DestroiDadoPontos (tppDadoPontos * dado);
