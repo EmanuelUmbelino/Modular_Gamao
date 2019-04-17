@@ -3,7 +3,7 @@
 *  $MCD Módulo de definição: Módulo Dado Pontos
 *
 *  Arquivo gerado:              DADOPONTOS.H
-*  Letras identificadoras:      DPT
+*  Letras identificadoras:      DDPnt
 *
 *  Projeto: Disciplina INF 1301
 *  Gestor:  DI/PUC-Rio
