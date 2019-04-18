@@ -26,7 +26,7 @@
 ********************************************************************************/
 
 
-typedef struct tgDadoPontos * tppDadoPontos;
+typedef struct tgDadoPontos tpDadoPontos;
 
 
 /*************************************************************************
@@ -39,11 +39,14 @@ typedef enum
 {
 
 	DDPnt_CondRetOk = 0  /* EXECUÇÃO CORRETA */,
+
 	DDPnt_CondRetNok = 1 /* OCORREU ERRO NA EXECUÇÃO  */,
+
 	DDPnt_CondRetMemoryLess = 2 /* NÃO CONSEGUIU ALOCAR MEMÓRIA */,
+
 	DDPnt_CondRetNonexistent = 3 /* ESTRUTURA NÃO CRIADA */
 
-}DDPnt_tpCondRet;
+} DDPnt_tpCondRet 
  
 
 
@@ -60,7 +63,7 @@ typedef enum
 *
 *************************************************************************/
 
-DDPnt_tpCondRet CriaDadoPontos (tppDadoPontos * dado);
+DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
 
 
 /*************************************************************************
@@ -71,7 +74,7 @@ DDPnt_tpCondRet CriaDadoPontos (tppDadoPontos * dado);
 *
 *************************************************************************/
 
-DDPnt_tpCondRet DobraPontos (tppDadoPontos * dado);
+DDPnt_tpCondRet DobraPontos (tpDadoPontos ** dado);
 
 
 /*************************************************************************
@@ -82,4 +85,4 @@ DDPnt_tpCondRet DobraPontos (tppDadoPontos * dado);
 *
 *************************************************************************/
 
-DDPnt_tpCondRet DestroiDadoPontos (tppDadoPontos * dado);
+DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
