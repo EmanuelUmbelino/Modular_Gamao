@@ -14,6 +14,7 @@
 *     Versão   Autores	  Data           Observações
 *      1.00    elu	  	17/04/2019     Inicializado projeto
 *	   1.00    jpk	  	17/04/2019     Criação dos escopos das funções
+*	   1.00    jpk	  	22/04/2019     Finalização parcial do módulo 
 *
 ***************************************************************************/
 

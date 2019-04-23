@@ -68,9 +68,14 @@ DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
 
 /*************************************************************************
 *
+*	$FC Função: DDPnt Dobra pontos da partida
 *
+*	$EC Descrição: Função que, ao executada, dobra os pontos
+*	da partida em andamento.
 *
-*
+*	$FV Valores de retorno:
+*		- DDPnt_CondRetOk
+*		- DDPnt_CondRetNonexistent
 *
 *************************************************************************/
 
@@ -79,9 +84,14 @@ DDPnt_tpCondRet DobraPontos (tpDadoPontos ** dado);
 
 /*************************************************************************
 *
+*	$FC Função: DDPnt Destroi dado de pontos
 *
+*	$EC Descrição: Função que destroi o dado de apostas que drobram os 
+*	pontos de uma partida.
 *
-*
+*	$FV Valores de retorno:
+*		- DDPnt_CondRetOk
+*		- DDPnt_CondRetNonexistent
 *
 *************************************************************************/
 
