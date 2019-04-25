@@ -1,3 +1,4 @@
+#pragma once
 /***************************************************************************
 *  $MCI Módulo de implementação: Módulo Tabuleiro
 *

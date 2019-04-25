@@ -46,7 +46,7 @@ typedef enum
 
 	DDPnt_CondRetNonexistent = 3 /* ESTRUTURA NÃO CRIADA */
 
-} DDPnt_tpCondRet 
+} DDPnt_tpCondRet ;
  
 
 
