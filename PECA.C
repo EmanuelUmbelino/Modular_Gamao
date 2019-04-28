@@ -44,7 +44,7 @@
 *  Função: PEC Criar Peça
 *  ****/
 
-	PEC * PEC_CriarPeca( PEC_cor cor )
+	PEC * PEC_CriarPeca ( PEC_cor cor )
 	{
 		PEC *nova ;
 
@@ -52,7 +52,7 @@
 		if ( nova == NULL )
 		{
 			printf("\nErro na alocação de memória para a peça\n") ;
-			return ;
+			return NULL ;
 		} /* if */
 
 		nova->cor = cor ;
@@ -66,7 +66,7 @@
 *  Função: PEC Destruir Peça
 *  ****/
 
-	void PEC_DestruirPeca( PEC * peca )
+	void PEC_DestruirPeca ( PEC * peca )
 	{
 		if ( peca != NULL )
 		{
@@ -80,12 +80,12 @@
 *  Função: PEC Obter Cor
 *  ****/
 
-	PEC_cor PEC_ObterCor( PEC * peca ) 
+	PEC_cor PEC_ObterCor ( PEC * peca ) 
 	{
 		if ( peca == NULL )
 		{
 			printf("\nErro peça nula ou não criada\n") ;
-			return ;
+			return Erro ;
 		} /* if */
 		return peca->cor ;
 
