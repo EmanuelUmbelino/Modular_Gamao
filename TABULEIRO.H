@@ -25,7 +25,7 @@
 ***************************************************************************/
  
 
-	typedef struct TAB_Tabuleiro * TAB_tpTabuleiro;
+	typedef struct TAB_Tabuleiro * TAB_tppTabuleiro;
 
 
 /***********************************************************************
@@ -54,6 +54,12 @@
 *	$FC Função: TAB Cria tabuleiro
 *
 *	$EC Descrição: Função que cria o tabuleiro da partida
+*	
+*	$EP Parâmetros:
+*		- Endereço do tabuleiro
+*		- ponteiro para a função que processa a
+*         exclusão do valor referenciado pelo elemento
+*		  a ser excluído.
 *
 *	$FV Valores de retorno:
 *		- TAB_CondRetOk
@@ -61,7 +67,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( TAB_tpTabuleiro ** tabuleiro ) ;
+   TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * pDado ), TAB_tppTabuleiro ** tabuleiro ) ;
 
 
 /*************************************************************************
@@ -77,7 +83,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro tab ) ;
+   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro ** tab ) ;
 
 
 /*************************************************************************
@@ -93,6 +99,6 @@
 *
 *************************************************************************/
 
- TAB_tpCondRet TAB_MovePeca( TAB_tpTabuleiro tab, int origem, int destino ) ;
+ TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro ** tab, int origem, int destino ) ;
 
 
