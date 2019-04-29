@@ -16,13 +16,35 @@
 *
 ***************************************************************************/
 
-#include "LISTA.H"
-#include "TABULEIRO.H"
-#include <stdio.h>
-#include <stdlib.h>
+	#include "LISTA.H"
+	#include "TABULEIRO.H"
+	#include <stdio.h>
+	#include <stdlib.h>
 
-typedef struct TAB_Tabuleiro
-{
-	LIS_tppLista Casas;
+	struct TAB_Tabuleiro
+	{
+		LIS_tppLista Casas;
 
-} TAB_tpTabuleiro;
+	} TAB_tpTabuleiro;
+
+
+	TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tabuleiro ) 
+	{
+
+	}
+
+	TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) 
+	{
+
+	}
+
+	TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro * tab, int origem, int destino ) 
+	{
+
+	}
+
+	void ExcluirValor(void* pValor)
+	{
+
+		free(pValor);
+	}

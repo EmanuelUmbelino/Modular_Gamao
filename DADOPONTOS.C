@@ -31,11 +31,13 @@
 /***** Protótipos das funções encapsuladas no módulo *****/
 
 	
-	static DDPnt_tpCondRet CriaDadoPontos( tpDadoPontos ** dado );
+	DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
 
-	static DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
+	DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
 
-	static DDPnt_tpCondRet DobraPontos ( tpDadoPontos ** dado );
+	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado );
+
+	void ExibeValorPartida ( tpDadoPontos * dado );
 
 		
 /******  Código das funções exportadas pelo módulo  ******/
@@ -48,15 +50,14 @@
 	
 	DDPnt_tpCondRet CriaDadoPontos( tpDadoPontos ** dado )
 	{
-		dado = (tpDadoPontos**)malloc(sizeof(tpDadoPontos*));
+		*dado = (tpDadoPontos*)malloc(sizeof(tpDadoPontos));
 
 		if( dado == NULL )
 		{
 			return DDPnt_CondRetMemoryLess;
 		} /* if */
 	
-		(*dado)->valor = 1;
-	
+		(*dado)->valor = 2;
 		return DDPnt_CondRetOk;
 
 	} /* Fim função: DDPnt Criar Dado de Pontos */
@@ -70,14 +71,13 @@
 	DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado )
 	{
 
-		if ( (*dado) == NULL )
+		if ( dado == NULL )
 		{
 			return DDPnt_CondRetNonexistent;
 		} /* if */
 
 		free(*dado);
-		free(dado);
-
+		printf("Dado de Pontos destruido com sucesso!\n");
 		return DDPnt_CondRetOk;
 
 	} /* Fim função: DDPnt Destroi Dado de Pontos */
@@ -88,16 +88,28 @@
 *
 ****************************************************************************/
 
-	DDPnt_tpCondRet DobraPontos ( tpDadoPontos ** dado )
+	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado )
 	{
 	
-		if ( (*dado) == NULL )
+		if ( dado == NULL )
 		{
 			return DDPnt_CondRetNonexistent;
 		} /* if */
 
-		(*dado)->valor *= 2;
+		dado->valor *= 2;
 
 		return DDPnt_CondRetOk;
 	
 	} /* Fim função: DDPnt Dobra Pontos da Partida */
+
+
+/***************************************************************************
+*
+*  Função: DDPnt Exibir valor da partida
+*
+****************************************************************************/
+
+	void ExibeValorPartida (tpDadoPontos* dado)
+	{
+		printf("Valor da partida: %d\n", dado->valor);
+	}

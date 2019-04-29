@@ -67,7 +67,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * pDado ), TAB_tppTabuleiro ** tabuleiro ) ;
+   TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tabuleiro ) ;
 
 
 /*************************************************************************
@@ -83,7 +83,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro ** tab ) ;
+   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) ;
 
 
 /*************************************************************************
@@ -99,6 +99,6 @@
 *
 *************************************************************************/
 
- TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro ** tab, int origem, int destino ) ;
+ TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro * tab, int origem, int destino ) ;
 
 

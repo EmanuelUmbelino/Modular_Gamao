@@ -26,7 +26,7 @@
 ********************************************************************************/
 
 
-typedef struct tgDadoPontos tpDadoPontos;
+	typedef struct tgDadoPontos tpDadoPontos;
 
 
 /*************************************************************************
@@ -35,18 +35,18 @@ typedef struct tgDadoPontos tpDadoPontos;
 *
 *************************************************************************/
 
-typedef enum
-{
+	typedef enum
+	{
 
-	DDPnt_CondRetOk = 0  /* EXECUÇÃO CORRETA */,
+		DDPnt_CondRetOk = 0  /* EXECUÇÃO CORRETA */,
 
-	DDPnt_CondRetNok = 1 /* OCORREU ERRO NA EXECUÇÃO  */,
+		DDPnt_CondRetNok = 1 /* OCORREU ERRO NA EXECUÇÃO  */,
 
-	DDPnt_CondRetMemoryLess = 2 /* NÃO CONSEGUIU ALOCAR MEMÓRIA */,
+		DDPnt_CondRetMemoryLess = 2 /* NÃO CONSEGUIU ALOCAR MEMÓRIA */,
 
-	DDPnt_CondRetNonexistent = 3 /* ESTRUTURA NÃO CRIADA */
+		DDPnt_CondRetNonexistent = 3 /* ESTRUTURA NÃO CRIADA */
 
-} DDPnt_tpCondRet ;
+	} DDPnt_tpCondRet ;
  
 
 
@@ -63,7 +63,7 @@ typedef enum
 *
 *************************************************************************/
 
-DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
+	DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
 
 
 /*************************************************************************
@@ -79,7 +79,7 @@ DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
 *
 *************************************************************************/
 
-DDPnt_tpCondRet DobraPontos (tpDadoPontos ** dado);
+	DDPnt_tpCondRet DobraPontos (tpDadoPontos * dado);
 
 
 /*************************************************************************
@@ -95,4 +95,18 @@ DDPnt_tpCondRet DobraPontos (tpDadoPontos ** dado);
 *
 *************************************************************************/
 
-DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
+	DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
+
+
+/*************************************************************************
+*
+*	$FC Função: DDPnt Exibe valor partida
+*
+*	$EC Descrição: Função que exibe o atual valor da partida
+*
+*	$FV Valores de retorno:
+*		- void 
+*
+*************************************************************************/
+
+	void ExibeValorPartida (tpDadoPontos* dado);
