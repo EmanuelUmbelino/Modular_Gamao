@@ -67,7 +67,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tabuleiro ) ;
+   TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tab ) ;
 
 
 /*************************************************************************
@@ -83,7 +83,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) ;
+   void TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) ;
 
 
 /*************************************************************************

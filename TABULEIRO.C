@@ -31,7 +31,7 @@
 	} TAB_tpTabuleiro ;
 
 
-	TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tabuleiro ) 
+	TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tab ) 
 	{
 		int numBrancas, numPretas, i ;
 		LIS_tppLista * aux ;
@@ -39,65 +39,65 @@
 		numBrancas = 15 ;
 		numPretas = 15 ;
 
-		tabuleiro = ( TAB_tppTabuleiro * ) malloc ( sizeof ( TAB_tppTabuleiro ) ) ;
-		( *tabuleiro )->Casas = LIS_CriarLista( ExcluirValor ) ;
+		*tab = ( TAB_tppTabuleiro * ) malloc ( sizeof ( TAB_tppTabuleiro ) ) ;
+		( *tab )->Casas = LIS_CriarLista( ExcluirValor ) ;
 
 		for (i = 0; i < 24; i++) 
 		{
-			LIS_InserirElementoApos( ( *tabuleiro )->Casas, LIS_CriarLista( ExcluirValor ) ) ;
+			LIS_InserirElementoApos( ( *tab )->Casas, LIS_CriarLista( ExcluirValor ) ) ;
 		}
 		printf("\nCRIADAS TODAS AS CASAS\n");
-		IrInicioLista( ( *tabuleiro )->Casas ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		IrInicioLista( ( *tab )->Casas ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 2; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 5 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 5 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 5; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 2 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 2 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 3; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 4 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 4 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 5; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 1 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 1 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 5; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 4 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 4 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 3; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 2 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 2 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 5; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
 		}
 		
-		LIS_AvancarElementoCorrente( ( *tabuleiro )->Casas , 5 ) ;
-		aux = LIS_ObterValor( ( *tabuleiro )->Casas ) ;
+		LIS_AvancarElementoCorrente( ( *tab )->Casas , 5 ) ;
+		aux = LIS_ObterValor( ( *tab )->Casas ) ;
 		for (i = 0; i < 2; i++) 
 		{
 			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
@@ -106,9 +106,32 @@
 
 	}
 
-	TAB_tpCondRet TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) 
+	void TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) 
 	{
+		int numBrancas, numPretas, i ;
+		LIS_tppLista * aux ;
+		PEC * pecaAux ;
 
+		if ( *tab == NULL )
+		{
+			return ;
+		} /* if */
+
+		while ( LIS_ObterValor( ( *tab )->Casas ) != NULL )
+		{
+			aux = LIS_ObterValor( ( *tab )->Casas ) ;
+			while(LIS_ObterValor( aux ) != NULL) 
+			{
+				PEC_DestruirPeca( LIS_ObterValor( aux ) ) ;
+				LIS_ExcluirElemento( aux ) ;
+			}
+			LIS_DestruirLista( aux ) ;
+			
+			LIS_ExcluirElemento( ( *tab )->Casas ) ;
+		}
+		LIS_DestruirLista( ( *tab )->Casas ) ;
+
+		free( *tab ) ;
 	}
 
 	TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro * tab, int origem, int destino ) 
