@@ -18,7 +18,8 @@
 
 #include   <malloc.h>
 #include   <stdio.h>
-#include "PECA.H"
+#include   <stdlib.h>
+#include   "PECA.H"
 
 /***********************************************************************
 *
