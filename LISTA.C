@@ -10,9 +10,11 @@
 *  Projeto: INF 1301 / 1628 Automatização dos testes de Módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs
+*						elu
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     5       elu   29/abr/2019  funcao para pegar numero de elementos da lista
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformizaçãoo dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os Módulos em um só projeto
@@ -112,6 +114,19 @@
       return pLista ;
 
    } /* Fim função: LIS  &Criar lista */
+
+/***************************************************************************
+*
+*  Função: LIS  &Número Elementos da Lista
+*  ****/
+
+   void LIS_NumElemenLista( LIS_tppLista pLista ,
+                                           int * numElem        )
+   {
+
+      *numElem = pLista->numElem ;
+
+   } /* Fim função: LIS  &Número Elementos da Lista */
 
 /***************************************************************************
 *

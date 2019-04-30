@@ -11,10 +11,12 @@
 *			phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data           Observações
-*      1.05    elu/jpk	24/04/2019     Implementação da funcao criar tabuleiro
-*      1.01    jpk	  	24/04/2019     Criação do módulo
-*      1.00    elu	  	17/04/2019     Inicializado projeto
+*    Versão	  Autores		 	 Data        Observações
+*      4			elu/jpk		24/04/2019     Funcoes Insere/Remove Peça, numPecas e corPeca da
+*																			 casa, alem da IrCasa
+*      3			elu/jpk		24/04/2019     Implementação das funcoes criar e destruir tabuleiro
+*      2				jpk	  	24/04/2019     Criação do módulo
+*      1				elu	  	17/04/2019     Inicializado projeto
 *
 ***************************************************************************/
 
@@ -134,9 +136,29 @@
 		free( *tab ) ;
 	}
 
-	TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro * tab, int origem, int destino ) 
+	TAB_tpCondRet TAB_InserePeca( TAB_tppTabuleiro * tab ) 
 	{
+		
+	}
 
+	TAB_tpCondRet TAB_RemovePeca( TAB_tppTabuleiro * tab ) 
+	{
+		
+	}
+
+	TAB_tpCondRet TAB_NumPecas( TAB_tppTabuleiro * tab ) 
+	{
+		
+	}
+
+	TAB_tpCondRet TAB_CorPecas( TAB_tppTabuleiro * tab ) 
+	{
+		
+	}
+
+	TAB_tpCondRet TAB_IrCasa( TAB_tppTabuleiro * tab, int casa ) 
+	{
+		
 	}
 
 	void ExcluirValor(void* pValor)

@@ -13,9 +13,11 @@
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs
+*						elu
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     5       elu   29/abr/2019  funcao para pegar numero de elementos da lista
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -156,6 +158,23 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 ***********************************************************************/
 
    void LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+
+
+/***********************************************************************
+*
+*  $FC função: LIS  &Número Elementos da Lista
+*
+*  $ED Descrição da função
+*     Retorna o numero de elementos da lista
+*
+*  $EP parâmetros
+*     pLista - ponteiro para a lista
+*     pValor - ponteiro onde sera armazenado o numero de elementos
+*
+***********************************************************************/
+
+   void LIS_NumElemenLista(  LIS_tppLista pLista ,
+                                           int * numElem ) ;
 
 
 /***********************************************************************
