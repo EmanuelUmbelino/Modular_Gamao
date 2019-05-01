@@ -6,14 +6,15 @@
 *
 *  Projeto: Disciplina INF 1301
 *  Autores: elu - Emanuel Lima Umbelino
-*           jpk - João Pedro Kalil
-*			phs - Pedro Henrique Soares
+*						jpk - João Pedro Kalil
+*						phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
 *    Versão	  Autores		 	 Data        Observações
-*      7			elu/jpk		01/05/2019     Refeitas todas as funcoes, agora so existe um tabuleiro
-*      6			elu/jpk		01/05/2019     Consertada funcao criar tabuleiro
-*      5			elu/jpk		01/05/2019     Implementação das funcoes Insere/Remove Peça, numPecas
+*      8				elu			01/05/2019     Especificações
+*      7				elu			01/05/2019     Refeitas todas as funcoes, agora so existe um tabuleiro
+*      6				elu			01/05/2019     Consertada funcao criar tabuleiro
+*      5				elu			01/05/2019     Implementação das funcoes Insere/Remove Peça, numPecas
 *																			 e corPeca da casa, alem da IrCasa
 *      4			elu/jpk		24/04/2019     Definição das funções Insere/Remove Peça, numPecas
 *																			 e corPeca da casa, alem da IrCasa

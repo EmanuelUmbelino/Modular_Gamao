@@ -14,9 +14,10 @@
 *        phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data           Observações
-*      1.00    elu	  	17/04/2019     Inicializado projeto
-*	   1.00    jpk	  	24/04/2019     Criação do módulo 
+*     Versão   Autores	  Data					Observações
+*	  	 	3    		elu	  	01/05/2019			Implementação de funções e especificações
+*	  	 	2   		jpk	  	24/04/2019			Criação do módulo 
+*      	1    		elu	  	17/04/2019			Inicializado projeto
 *
 *  $ED Descrição do módulo
 *			Este módulo contém a estrutura do Tabuleiro.
@@ -60,10 +61,11 @@
 
 /***********************************************************************
 *
-*	$FC Função: TAB Cria tabuleiro
+*	$FC Função: TAB Criar tabuleiro
 *
 *  $ED Descrição da função
-*     Cria um novo tabuleiro de gamão vazio, com 24 casas.
+*     Cria um novo tabuleiro de gamão, com 24 casas, com peças
+*     na posição inicial do jogo de gamão.
 *     Caso já exista uma tabuleiro, este será destruído.
 *	
 *	$EP Parâmetros:
@@ -80,7 +82,7 @@
 
 /*************************************************************************
 *
-*	$FC Função: TAB Destroi Tabuleiro
+*	$FC Função: TAB Destruir Tabuleiro
 *
 *  $ED Descrição da função
 *     Remove e destroi as peças, destroi as casas e o tabuleiro corrente.
@@ -153,7 +155,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_NumPecasCasa( int casa, int * numPecas ) ;
+   TAB_tpCondRet TAB_NumPecasCasa( int nCasa, int * numPecas ) ;
 
 
 /*************************************************************************
@@ -174,7 +176,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CorPecasCasa( int casa, PEC_cor * cor ) ;
+   TAB_tpCondRet TAB_CorPecasCasa( int nCasa, PEC_cor * cor ) ;
 
 #undef TABULEIRO_EXT
 
