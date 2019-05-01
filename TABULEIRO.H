@@ -104,6 +104,9 @@
 *     $P nCasa - é o número da casa escolhida para inserir
 *     $P cor - é a cor da peça a ser inserida
 *
+*  $EAE Assertivas de entradas esperadas
+*     Se tiver peças na casa: cor == TAB_CorPecasCasa( nCasa )
+*
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK
 *		- TAB_CondRetTabNaoExiste
