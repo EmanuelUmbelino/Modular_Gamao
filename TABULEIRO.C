@@ -1,4 +1,3 @@
-#pragma once
 /***************************************************************************
 *  $MCI Módulo de implementação: Módulo Tabuleiro
 *
@@ -12,160 +11,386 @@
 *
 *  $HA Histórico de evolução:
 *    Versão	  Autores		 	 Data        Observações
-*      4			elu/jpk		24/04/2019     Funcoes Insere/Remove Peça, numPecas e corPeca da
-*																			 casa, alem da IrCasa
+*      7			elu/jpk		01/05/2019     Refeitas todas as funcoes, agora so existe um tabuleiro
+*      6			elu/jpk		01/05/2019     Consertada funcao criar tabuleiro
+*      5			elu/jpk		01/05/2019     Implementação das funcoes Insere/Remove Peça, numPecas
+*																			 e corPeca da casa, alem da IrCasa
+*      4			elu/jpk		24/04/2019     Definição das funções Insere/Remove Peça, numPecas
+*																			 e corPeca da casa, alem da IrCasa
 *      3			elu/jpk		24/04/2019     Implementação das funcoes criar e destruir tabuleiro
 *      2				jpk	  	24/04/2019     Criação do módulo
 *      1				elu	  	17/04/2019     Inicializado projeto
 *
 ***************************************************************************/
 
+	#include	<malloc.h>
+	#include 	<stdio.h>
+	#include	<stdlib.h>
 	#include "PECA.H"
 	#include "LISTA.H"
+	#define TABULEIRO_OWN
 	#include "TABULEIRO.H"
-	#include <stdio.h>
-	#include <stdlib.h>
+	#undef TABULEIRO_OWN
 
-	struct TAB_Tabuleiro
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: ARV Descritor do tabuleiro
+*
+*
+*  $ED Descrição do tipo
+*     Descreve a organização do tabuleiro
+*
+***********************************************************************/
+
+	typedef struct tgTabuleiro {
+			LIS_tppLista Casas ;
+					/* Ponteiro para a lista de Casas
+					*
+					*$EED Assertivas estruturais
+					*   É NULL sse o nó é raiz
+					*   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
+					*   corrente apontam para o nó corrente */
+
+	} tpTabuleiro ;
+
+/*****  Dados encapsulados no módulo  *****/
+
+		static tpTabuleiro * tab = NULL ;
+				/* Ponteiro para o tabuleiro */
+
+/***** Protótipos das funções encapuladas no módulo *****/
+
+	static TAB_tpCondRet ConfigInicial( ) ;
+
+	static TAB_tpCondRet InsereNPecasCasa( int n, PEC_cor cor, int nCasa ) ;
+
+	static LIS_tppLista * PegarCasa( int nCasa ) ;
+
+/*****  Código das funções exportadas pelo módulo  *****/
+
+/***************************************************************************
+*
+*  Função: TAB Criar Tabuleiro
+*  ****/
+
+	TAB_tpCondRet TAB_CriarTabuleiro( ) 
 	{
-		LIS_tppLista Casas ;
+		int cond, i ;
+		LIS_tppLista * casa = NULL;
 
-	} TAB_tpTabuleiro ;
-
-
-	TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tab ) 
-	{
-		int numBrancas, numPretas, i ;
-		
-
-		*tab = ( TAB_tppTabuleiro * ) malloc ( sizeof ( TAB_tppTabuleiro ) ) ;
-		( *tab )->Casas = LIS_CriarLista( ExcluirValor ) ; //Cria a cabeça da lista de casas
-
-		for (i = 0; i < 24; i++) 
+		if ( tab != NULL )
 		{
-			LIS_InserirElementoApos( ( *tab )->Casas, LIS_CriarLista( ExcluirValor ) ) ; //Cria as casas
-		} /* for */
-		printf("\nCRIADAS TODAS AS CASAS\n");
+			TAB_DestruirTabuleiro( ) ;
+		} /* if */
+
+		tab = ( tpTabuleiro * ) malloc ( sizeof ( tpTabuleiro ) ) ;
+		if ( tab == NULL )
+		{
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
 		
-		IrInicioLista( ( *tab )->Casas ) ;
-		TAB_InserePeca( tab );
+		( tab )->Casas = LIS_CriarLista( LIS_DestruirLista ) ;
+		if ( ( tab )->Casas == NULL )
+		{
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
 
-	}
+		for ( i = 0; i < 24; i++ ) 
+		{
+			*casa = LIS_CriarLista( PEC_DestruirPeca ) ;
+			if ( *casa == NULL )
+			{
+				return TAB_CondRetFaltouMemoria ;
+			} /* if */
 
-	void TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) 
+			LIS_InserirElementoApos( tab->Casas, casa ) ;
+		} /* for */
+
+		cond = ConfigInicial( ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Criar Tabuleiro */
+
+/***************************************************************************
+*
+*  Função: TAB Destruir Tabuleiro
+*  ****/
+
+	void TAB_DestruirTabuleiro( ) 
 	{
-		int numBrancas, numPretas, i ;
-		LIS_tppLista * aux ;
-		PEC * pecaAux ;
+		LIS_tppLista * casa ;
+		int numCasas, numPecas ;
 
-		if ( *tab == NULL )
+		if ( tab == NULL )
 		{
 			return ;
 		} /* if */
 
-		while ( LIS_ObterValor( ( *tab )->Casas ) != NULL )
+		LIS_NumElemenLista( tab->Casas, &numCasas );
+		TAB_NumPecasCasa( 1, &numPecas ) ;
+
+		while ( numCasas > 0 )
 		{
-			aux = LIS_ObterValor( ( *tab )->Casas ) ;
-			while(LIS_ObterValor( aux ) != NULL) 
+			while( numPecas > 0) 
 			{
-				PEC_DestruirPeca( LIS_ObterValor( aux ) ) ;
-				LIS_ExcluirElemento( aux ) ;
+				TAB_RemovePecaCasa( 1 ) ;
+				TAB_NumPecasCasa( 1, &numPecas ) ;
 			} /* while */
-			LIS_DestruirLista( aux ) ;
+			casa = PegarCasa ( 1 ) ;
+			LIS_DestruirLista( *casa ) ;
 			
-			LIS_ExcluirElemento( ( *tab )->Casas ) ;
+			LIS_ExcluirElemento( tab->Casas ) ;
+			LIS_NumElemenLista( tab->Casas, &numCasas );
 		} /* while */
-		LIS_DestruirLista( ( *tab )->Casas ) ;
+		LIS_DestruirLista( tab->Casas ) ;
 
-		free( *tab ) ;
-	}
+		free( tab ) ;
+		tab = NULL ;
+	} /* Fim função: TAB Destruir Tabuleiro */
 
-	TAB_tpCondRet TAB_InserePeca( TAB_tppTabuleiro * tab ) 
+/***************************************************************************
+*
+*  Função: TAB Insere Peça na Casa
+*  ****/
+
+	TAB_tpCondRet TAB_InserePecaCasa( int nCasa, PEC_cor cor ) 
 	{
-		LIS_tppLista * aux ;
-		PEC * pecAux;
-		int i;
+		LIS_tppLista * casa ;
+		PEC * peca ;
 
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 2; i++) 
-		{
-			pecAux = PEC_CriarPeca(Preta);
-			LIS_InserirElementoApos( aux, pecAux );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 5 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 5; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 2 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 3; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 4 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 5; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 1 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 5; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 4 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 3; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 2 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 5; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Preta) );
-		} /* for */
-		
-		LIS_AvancarElementoCorrente( ( *tab )->Casas , 5 ) ;
-		aux = LIS_ObterValor( ( *tab )->Casas ) ;
-		for (i = 0; i < 2; i++) 
-		{
-			LIS_InserirElementoApos( aux, PEC_CriarPeca(Vermelha) );
-		} /* for */
+		if ( tab == NULL ) {
+			return TAB_CondRetTabNaoExiste ;
+		} /* if */
 
-		printf("\nINSERIDAS AS PEÇAS\n");
-	}
+		peca = PEC_CriarPeca( cor ) ;
+		if ( peca == NULL ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
 
-	TAB_tpCondRet TAB_RemovePeca( TAB_tppTabuleiro * tab ) 
+		casa = PegarCasa ( nCasa ) ;
+		if ( casa == NULL ) {
+			return TAB_CondRetCasaNaoExiste ;
+		} /* if */
+		LIS_InserirElementoApos( *casa, peca );
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Insere Peça na Casa */
+
+/***************************************************************************
+*
+*  Função: TAB Remove Peça da Casa
+*  ****/
+
+	TAB_tpCondRet TAB_RemovePecaCasa( int nCasa ) 
 	{
-		
-	}
+		LIS_tppLista * casa ;
+		int cond ;
 
-	TAB_tpCondRet TAB_NumPecas( TAB_tppTabuleiro * tab ) 
+		if ( tab == NULL ) {
+			return TAB_CondRetTabNaoExiste ;
+		} /* if */
+
+		casa = PegarCasa ( nCasa ) ;
+		if ( casa == NULL ) {
+			return TAB_CondRetCasaNaoExiste ;
+		} /* if */
+		cond = LIS_ExcluirElemento( *casa ) ;
+
+		if ( cond == LIS_CondRetListaVazia ) {
+			return TAB_CondRetCasaVazia ;
+		} /* if */
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Remove Peça da Casa */
+
+/***************************************************************************
+*
+*  Função: TAB Num Peças da Casa
+*  ****/
+
+	TAB_tpCondRet TAB_NumPecasCasa( int nCasa, int * numPecas ) 
 	{
-		
-	}
+		LIS_tppLista * casa ;
 
-	TAB_tpCondRet TAB_CorPecas( TAB_tppTabuleiro * tab ) 
+		if ( tab == NULL ) {
+			return TAB_CondRetTabNaoExiste ;
+		} /* if */
+
+		casa = PegarCasa ( nCasa ) ;
+		if ( casa == NULL ) {
+			return TAB_CondRetCasaNaoExiste ;
+		} /* if */
+
+		LIS_NumElemenLista( *casa, numPecas );
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Num Peças da Casa */
+
+/***************************************************************************
+*
+*  Função: TAB Cor Peças da Casa
+*  ****/
+
+	TAB_tpCondRet TAB_CorPecasCasa( int nCasa, PEC_cor * cor ) 
 	{
-		
-	}
+		LIS_tppLista * casa ;
+		PEC * peca ;
 
-	TAB_tpCondRet TAB_IrCasa( TAB_tppTabuleiro * tab, int casa ) 
+		if ( tab == NULL ) {
+			return TAB_CondRetTabNaoExiste ;
+		} /* if */
+
+		casa = PegarCasa ( nCasa ) ;
+		if ( casa == NULL ) {
+			return TAB_CondRetCasaNaoExiste ;
+		} /* if */
+
+		peca = LIS_ObterValor( *casa ) ;
+
+		if ( peca == NULL ) {
+			return TAB_CondRetCasaVazia ;
+		} /* if */
+
+		*cor = PEC_ObterCor( peca );
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Cor Peças da Casa */
+
+
+/*****  Código das funções encapsuladas no módulo  *****/
+
+	
+/***************************************************************************
+*
+*  $FC Função: TAB Configuração Inicial
+*
+*  $ED Descrição da função
+*     Insere peças na configuração inicial de um tabuleiro de gamão.
+*
+*  $FV Valor retornado
+*		- TAB_CondRetOK
+*		- TAB_CondRetTabNaoExiste
+*		- TAB_CondRetFaltouMemoria
+*  ****/
+	
+	TAB_tpCondRet ConfigInicial( ) 
 	{
-		
-	}
+		int cond ;
 
-	//void ExcluirValor(void* pValor)
-	//{
-	//	free(pValor);
-	//}
+		if ( tab == NULL ) {
+			return TAB_CondRetTabNaoExiste ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 2, Preta, 1 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 5, Vermelha, 6 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 3, Vermelha, 8 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 5, Preta, 12 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 5, Vermelha, 13 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 3, Preta, 17 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 5, Preta, 19 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		cond = InsereNPecasCasa( 2, Vermelha, 24 ) ;
+		if ( cond == TAB_CondRetFaltouMemoria ) {
+			return TAB_CondRetFaltouMemoria ;
+		} /* if */
+
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Configuração Inicial */
+
+	
+/***************************************************************************
+*
+*	$FC Função: TAB Insere N Peças na Casa
+*
+*  $ED Descrição da função
+*     Insere n peças da cor fornecida na casa fornecida.
+*	
+*	 $EP Parâmetros:
+*     $P n - é o número da peças para inserir
+*     $P nCasa - é o número da casa escolhida para inserir
+*     $P cor - é a cor da peça a ser inserida
+*
+*	 $FV Valores de retorno:
+*		- TAB_CondRetOK
+*		- TAB_CondRetTabNaoExiste
+*		- TAB_CondRetFaltouMemoria
+*		- TAB_CondRetCasaNaoExiste
+*  ****/
+
+	TAB_tpCondRet InsereNPecasCasa( int n, PEC_cor cor, int nCasa ) 
+	{
+		int i, cond ;
+
+		if ( tab == NULL ) {
+			return TAB_CondRetTabNaoExiste ;
+		} /* if */
+		for ( i = 0; i < n; i++ ) 
+		{
+			cond = TAB_InserePecaCasa( nCasa, Preta );
+			if ( cond == TAB_CondRetFaltouMemoria ) {
+				return TAB_CondRetFaltouMemoria ;
+			} /* if */
+			else if (cond == TAB_CondRetCasaNaoExiste ) {
+				return TAB_CondRetCasaNaoExiste ;
+			} /* else if */
+		} /* for */
+		return TAB_CondRetOK ;
+	} /* Fim função: TAB Insere N Pecas na Casa */
+
+	
+/***************************************************************************
+*
+*  $FC Função: TAB Pegar Casa
+*	
+* $EAE Assertivas de entradas esperadas
+*     tab != NULL
+*
+*	$EP Parâmetros:
+*     $P nCasa - é o número da casa escolhida para pegar
+*
+*  $FV Valor retornado
+*			Ponteiro para a casa escolhida.
+*     Será NULL caso a casa não exista ( nCasa < 1 ou nCasa > 24 ).
+*  ****/
+
+	LIS_tppLista * PegarCasa( int nCasa ) 
+	{
+		if ( nCasa < 1 || nCasa > 24 ) {
+			return NULL ;
+		} /* if */
+
+		IrInicioLista( tab->Casas ) ;
+		LIS_AvancarElementoCorrente( tab->Casas , nCasa-1 ) ;
+
+		return LIS_ObterValor( tab->Casas ) ;
+	} /* Fim função: TAB Pegar Casa */
+ 
+
+/********** Fim do módulo de implementação: Módulo Tabuleiro **********/

@@ -1,4 +1,5 @@
-#pragma once
+#if ! defined( TABULEIRO_ )
+#define TABULEIRO_
 /***************************************************************************
 *
 *  $MCD Módulo de definição: Módulo Tabuleiro
@@ -23,82 +24,161 @@
 *			movimentar uma peça entre as casas.
 *
 ***************************************************************************/
- 
 
-	typedef struct TAB_Tabuleiro * TAB_tppTabuleiro;
+#if defined( TABULEIRO_OWN )
+   #define TABULEIRO_EXT
+#else
+   #define TABULEIRO_EXT extern
+#endif
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: TAB Condições de retorno
+*
+*
+***********************************************************************/
+
+   typedef enum {
+
+         TAB_CondRetOK = 0 ,
+               /* Executou correto */
+
+         TAB_CondRetTabNaoExiste = 1 ,
+               /* Tabuleiro não existe */
+
+         TAB_CondRetFaltouMemoria = 2 ,
+               /* Faltou memória ao alocar dados */
+
+         TAB_CondRetCasaNaoExiste = 3 ,
+               /* Casa fornecida não existe */
+
+         TAB_CondRetCasaVazia = 4 ,
+               /* A casa está vazia*/
+
+   } TAB_tpCondRet ;
 
 
 /***********************************************************************
 *
-*  Tipo de dados: Condições de retorno TAB
-*
-***********************************************************************/
-
-	typedef enum
-	{
-
-		TAB_CondRetOk = 0  /* EXECUÇÃO CORRETA */,
-
-		TAB_CondRetNok = 1 /* OCORREU ERRO NA EXECUÇÃO  */,
-
-		TAB_CondRetMemoryLess = 2 /* NÃO CONSEGUIU ALOCAR MEMÓRIA */,
-
-		TAB_CondRetNonexistent = 3 /* ESTRUTURA NÃO CRIADA */
-
-	} TAB_tpCondRet ;
-
-
-
-/*************************************************************************
-*
 *	$FC Função: TAB Cria tabuleiro
 *
-*	$EC Descrição: Função que cria o tabuleiro da partida
+*  $ED Descrição da função
+*     Cria um novo tabuleiro de gamão vazio, com 24 casas.
+*     Caso já exista uma tabuleiro, este será destruído.
 *	
 *	$EP Parâmetros:
-*		- Endereço do tabuleiro
-*		- ponteiro para a função que processa a
-*         exclusão do valor referenciado pelo elemento
-*		  a ser excluído.
+*     $P tab - É o parámetro que receberá o tabuleiro criado
 *
 *	$FV Valores de retorno:
-*		- TAB_CondRetOk
-*		- TAB_CondRetMemoryLess
+*		- TAB_CondRetOK
+*		- TAB_CondRetFaltouMemoria
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( void ( * ExcluirValor ) ( void * valor ), TAB_tppTabuleiro * tab ) ;
+   TAB_tpCondRet TAB_CriarTabuleiro( ) ;
 
 
 /*************************************************************************
 *
 *	$FC Função: TAB Destroi Tabuleiro
 *
-*	$EC Descrição: Função que destroi o tabuleiro da partida
-*
-*	$FV Valores de retorno:
-*		- TAB_CondRetOk
-*		- TAB_CondRetNonexistent
-*		- TAB_CondRetMemoryLess
+*  $ED Descrição da função
+*     Remove e destroi as peças, destroi as casas e o tabuleiro corrente.
+*     Faz nada caso o tabuleiro corrente não exista.
 *
 *************************************************************************/
 
-   void TAB_DestruirTabuleiro( TAB_tppTabuleiro * tab ) ;
+   void TAB_DestruirTabuleiro( ) ;
 
 
 /*************************************************************************
 *
-*	$FC Função: TAB Mover peças do tabuleiro
+*	$FC Função: TAB Insere Peça na Casa
 *
-*	$EC Descrição: Função que move as peças existentes no tabuleiro
+*  $ED Descrição da função
+*     Insere a peça da cor fornecida na casa fornecida.
+*	
+*	$EP Parâmetros:
+*     $P nCasa - é o número da casa escolhida para inserir
+*     $P cor - é a cor da peça a ser inserida
 *
 *	$FV Valores de retorno:
-*		- TAB_CondRetOk
-*		- TAB_CondRetNonexistent
-*		- TAB_CondRetNok
+*		- TAB_CondRetOK
+*		- TAB_CondRetTabNaoExiste
+*		- TAB_CondRetFaltouMemoria
+*		- TAB_CondRetCasaNaoExiste
 *
 *************************************************************************/
 
- TAB_tpCondRet TAB_MovePeca( TAB_tppTabuleiro * tab, int origem, int destino ) ;
+   TAB_tpCondRet TAB_InserePecaCasa( int nCasa, PEC_cor cor ) ;
 
 
+/*************************************************************************
+*
+*	$FC Função: TAB Remove Peça da Casa
+*
+*  $ED Descrição da função
+*     Remove a peça da casa fornecida.
+*     Faz nada se casa estiver vazia.
+*	
+*	$EP Parâmetros:
+*     $P nCasa - é o número da casa escolhida para inserir
+*     $P cor - é a cor da peça a ser inserida
+*
+*	$FV Valores de retorno:
+*		- TAB_CondRetOK
+*		- TAB_CondRetTabNaoExiste
+*		- TAB_CondRetCasaVazia
+*		- TAB_CondRetCasaNaoExiste
+*
+*************************************************************************/
+
+   TAB_tpCondRet TAB_RemovePecaCasa( int nCasa ) ;
+
+
+/*************************************************************************
+*
+*	$FC Função: TAB Num Peças da Casa
+*
+*  $EP Parâmetros
+*     $P casa - é o número da casa escolhida para ver o número de peças
+*     $P numPecas - É o parámetro que receberá o número de peças
+*                    da casa escolhida.
+*                    Este parámetro é passado por referência.
+*
+*	$FV Valores de retorno:
+*		- TAB_CondRetOK
+*		- TAB_CondRetTabNaoExiste
+*		- TAB_CondRetCasaNaoExiste
+*
+*************************************************************************/
+
+   TAB_tpCondRet TAB_NumPecasCasa( int casa, int * numPecas ) ;
+
+
+/*************************************************************************
+*
+*	$FC Função: TAB Cor Peças da Casa
+*
+*  $EP Parâmetros
+*     $P casa - é o número da casa escolhida para ver a cor das peças
+*     $P numPecas - É o parámetro que receberá a cor das peças
+*                    da casa escolhida.
+*                    Este parámetro é passado por referência.
+*
+*	$FV Valores de retorno:
+*		- TAB_CondRetOK
+*		- TAB_CondRetTabNaoExiste
+*		- TAB_CondRetCasaVazia
+*		- TAB_CondRetCasaNaoExiste
+*
+*************************************************************************/
+
+   TAB_tpCondRet TAB_CorPecasCasa( int casa, PEC_cor * cor ) ;
+
+#undef TABULEIRO_EXT
+
+/********** Fim do módulo de definição: Módulo Tabuleiro **********/
+
+#else
+#endif

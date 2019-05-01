@@ -44,7 +44,7 @@ typedef struct peca PEC ;
 
    typedef enum {
 
-         Erro = -1 ,
+         Vazio = -1 ,
 
          Preta = 0 ,
 
