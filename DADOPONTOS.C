@@ -12,9 +12,10 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
-*      1.00    elu	  	17/04/2019     Inicializado projeto
-*	   1.00    jpk	  	17/04/2019     Criação dos escopos das funções
-*	   1.00    jpk	  	22/04/2019     Finalização parcial do módulo 
+*		4		jpk		01/05/2019	   Finalização do módulo
+*	    3    	jpk	  	22/04/2019     Finalização parcial do módulo 
+*	    2   	jpk	  	17/04/2019     Criação dos escopos das funções
+*       1	    elu	  	17/04/2019     Inicializado projeto
 *
 ***************************************************************************/
 
@@ -26,6 +27,12 @@
 	{
 		int valor;
 			/* valor da partida atual */
+		char podeDobrar;
+			/*	número do jogador que pode dobrar os pontos da partida 
+			*	- d --> os dois podem
+			*	- v --> o vermelho pode
+			*	- p --> o preto pode
+			*/
 	} tpDadoPontos ;
 
 /***** Protótipos das funções encapsuladas no módulo *****/
@@ -38,6 +45,8 @@
 	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado );
 
 	void ExibeValorPartida ( tpDadoPontos * dado );
+
+	void PodeDobrar ( tpDadoPontos * dado );
 
 		
 /******  Código das funções exportadas pelo módulo  ******/
@@ -58,6 +67,7 @@
 		} /* if */
 	
 		(*dado)->valor = 2;
+		(*dado)->podeDobrar = 'n';
 		return DDPnt_CondRetOk;
 
 	} /* Fim função: DDPnt Criar Dado de Pontos */
@@ -88,7 +98,7 @@
 *
 ****************************************************************************/
 
-	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado )
+	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado , char * jogador )
 	{
 	
 		if ( dado == NULL )
@@ -96,6 +106,11 @@
 			return DDPnt_CondRetNonexistent;
 		} /* if */
 
+		if (dado->podeDobrar != jogador)
+		{
+			return DDPnt_CondRetNok;
+		} /* if */
+		
 		dado->valor *= 2;
 
 		return DDPnt_CondRetOk;
@@ -112,4 +127,16 @@
 	void ExibeValorPartida (tpDadoPontos* dado)
 	{
 		printf("Valor da partida: %d\n", dado->valor);
+	}
+
+
+/***************************************************************************
+*
+*  Função: DDPnt Pode dobrar Pontos
+*
+****************************************************************************/
+
+	void PodeDobrar ( tpDadoPontos * dado , char * jogador)
+	{
+		*jogador = dado->podeDobrar;
 	}

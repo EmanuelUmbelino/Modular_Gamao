@@ -14,8 +14,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
-*      1.00    elu	  	17/04/2019     Inicializado projeto
-*	   1.00    jpk	  	17/04/2019     Criação dos protótipos das funções
+*	   2    jpk	  	17/04/2019     Criação dos protótipos das funções
+*      1    elu	  	17/04/2019     Inicializado projeto
 *
 *  $ED Descrição do módulo
 *			Este módulo contém o tipo abstrato de dados da estrutura Dado Pontos.
@@ -26,7 +26,7 @@
 ********************************************************************************/
 
 
-	typedef struct tgDadoPontos tpDadoPontos;
+	typedef struct tgDadoPontos tppDadoPontos;
 
 
 /*************************************************************************
@@ -63,7 +63,7 @@
 *
 *************************************************************************/
 
-	DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
+	DDPnt_tpCondRet CriaDadoPontos ( tppDadoPontos ** dado );
 
 
 /*************************************************************************
@@ -79,7 +79,7 @@
 *
 *************************************************************************/
 
-	DDPnt_tpCondRet DobraPontos (tpDadoPontos * dado);
+	DDPnt_tpCondRet DobraPontos (tppDadoPontos * dado);
 
 
 /*************************************************************************
@@ -95,7 +95,7 @@
 *
 *************************************************************************/
 
-	DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
+	DDPnt_tpCondRet DestroiDadoPontos ( tppDadoPontos ** dado );
 
 
 /*************************************************************************
@@ -109,4 +109,18 @@
 *
 *************************************************************************/
 
-	void ExibeValorPartida (tpDadoPontos* dado);
+	void ExibeValorPartida (tppDadoPontos* dado);
+
+/*************************************************************************
+*
+*	$FC Função: DDPnt Pode dobrar
+*
+*	$EC Descrição: Função que exibe o jogador que pode dobrar
+*	os pontos da atual partida
+*
+*	$FV Valores de retorno:
+*		- void 
+*
+*************************************************************************/
+
+	void PodeDobrar (tppDadoPontos* dado);
