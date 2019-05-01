@@ -44,8 +44,6 @@ typedef struct peca PEC ;
 
    typedef enum {
 
-         Vazio = -1 ,
-
          Preta = 0 ,
 
          Vermelha = 1

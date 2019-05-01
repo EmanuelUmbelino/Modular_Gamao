@@ -86,7 +86,7 @@
 		if ( peca == NULL )
 		{
 			printf("\nErro peça nula ou não criada\n") ;
-			return Vazio ;
+			return NULL ;
 		} /* if */
 		return peca->cor ;
 

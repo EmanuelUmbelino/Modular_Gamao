@@ -22,7 +22,8 @@
 *  $ED Descrição do módulo
 *			Este módulo contém a estrutura do Tabuleiro.
 *			Se pode criar e visualizar o tabuleiro, além de 
-*			movimentar uma peça entre as casas.
+*			inserir e retirar uma peça entre as casas. Também é possível
+*			saber o número e as cores das peças de uma casa.
 *
 ***************************************************************************/
 
@@ -77,7 +78,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( ) ;
+   TAB_tpCondRet TAB_CriarTabuleiro( void ) ;
 
 
 /*************************************************************************
@@ -90,7 +91,7 @@
 *
 *************************************************************************/
 
-   void TAB_DestruirTabuleiro( ) ;
+   void TAB_DestruirTabuleiro( void ) ;
 
 
 /*************************************************************************

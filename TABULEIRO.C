@@ -29,6 +29,7 @@
 	#include	<stdlib.h>
 	#include "PECA.H"
 	#include "LISTA.H"
+	#include "COR.H"
 	#define TABULEIRO_OWN
 	#include "TABULEIRO.H"
 	#undef TABULEIRO_OWN
@@ -46,12 +47,7 @@
 
 	typedef struct tgTabuleiro {
 			LIS_tppLista Casas ;
-					/* Ponteiro para a lista de Casas
-					*
-					*$EED Assertivas estruturais
-					*   É NULL sse o nó é raiz
-					*   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-					*   corrente apontam para o nó corrente */
+					/* Ponteiro para a lista de Casas */
 
 	} tpTabuleiro ;
 
@@ -75,7 +71,7 @@
 *  Função: TAB Criar Tabuleiro
 *  ****/
 
-	TAB_tpCondRet TAB_CriarTabuleiro( ) 
+	TAB_tpCondRet TAB_CriarTabuleiro( void ) 
 	{
 		int cond, i ;
 		LIS_tppLista * casa = NULL;
@@ -120,7 +116,7 @@
 *  Função: TAB Destruir Tabuleiro
 *  ****/
 
-	void TAB_DestruirTabuleiro( ) 
+	void TAB_DestruirTabuleiro( void ) 
 	{
 		LIS_tppLista * casa ;
 		int numCasas, i ;
@@ -240,7 +236,7 @@
 		peca = LIS_ObterValor( casa ) ;
 
 		*cor = PEC_ObterCor( peca );
-		if ( *cor == Vazio ) {
+		if ( *cor == NULL ) {
 			return TAB_CondRetCasaVazia ;
 		} /* if */
 
@@ -264,7 +260,7 @@
 *		- TAB_CondRetFaltouMemoria
 *  ****/
 	
-	TAB_tpCondRet ConfigInicial( ) 
+	TAB_tpCondRet ConfigInicial( void ) 
 	{
 		int cond ;
 

@@ -7,40 +7,35 @@
 *  Projeto: Disciplinas INF 1301
 *  Autores: elu - Emanuel Lima Umbelino
 *           jpk - João Pedro Kalil
-*			phs - Pedro Henrique Soares
+*           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
 *    Versão	  Autores		 	 Data        Observações
+*      2				elu	  	01/05/2019     Criados casos de teste
 *      1				elu	  	01/05/2019     Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo contém as funções específicas para o teste do
-*     módulo árvore. Ilustra como redigir um interpretador de comandos
+*     módulo tabuleiro. Ilustra como redigir um interpretador de comandos
 *     de teste específicos utilizando o arcabouço de teste para C.
 *
 *  $EIU Interface com o usuário pessoa
-*     Comandos de teste específicos para testar o módulo árvore:
+*     Comandos de teste específicos para testar o módulo tabuleiro:
 *
-*     =criar        - chama a função ARV_CriarArvore( )
-*     =insdir <Char> <Int> <Int>
-*                   - chama a função ARV_InserirDireita( <Char> , <Int> , <Int> )
-*                     Obs. notação: <Char>  é o valor do parâmetro
+*     "=criar"        - chama a função TAB_CriarTabuleiro( )
+*     "=insere <Int> <Int>"
+*                   - chama a função TAB_InserePecaCasa( <Int> , <Int> )
+*                     Obs. notação: <Int>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
 *
-*     "=insesq" <Char> <Int> <Int>
-*                   - chama a função ARV_InserirEsquerda( <Char> , <Int> , <Int> )
-*     "=irpai"      - chama a função ARV_IrPai( )
-*     "=iresq"      - chama a função ARV_IrEsquerda( )
-*     "=irdir"      - chama a função ARV_IrDireita( )
-*     "=obter" <Char>
-*                   - chama a função ARV_ObterValorCorr( ) e compara
-*                     o valor retornado com o valor <Char>
-*     "=destroi"    - chama a função ARV_DestruirArvore( )
-*     "=costura"    - chama a função ARV_CosturarFolhas( )
-*     "=imprimecostura"
-*                   - chama a função ARV_ImprimeCostura( )
-*     "=imprimelista"
-*                   - chama a função ARV_ImprimeLista()
+*     "=remove <Int>"
+*                   - chama a função TAB_RemovePecaCasa( <Int> )
+*     "=obternum <Int> <*Int>"
+*                   - chama a função TAB_NumPecasCasa( <Int> , <*Int> )
+*     "=obtercor <Int> <*PEC_cor>"
+*                   - chama a função TAB_CorPecasCasa( <Int> , <*PEC_cor> )
+*     "=destruir"   - chama a função TAB_DestruirTabuleiro( )
+*     "=imprimir"		- chama a função TAB_ImprimeTabuleiro()
 *
 ***************************************************************************/
 
@@ -52,6 +47,7 @@
 #include    "generico.h"
 #include    "lerparm.h"
 #include    "lista.h"
+#include    "cor.h"
 #include    "peca.h"
 #include    "tabuleiro.h"
 
@@ -70,11 +66,11 @@
 
 /***********************************************************************
 *
-*  $FC Função: TARV Efetuar operações de teste específicas para árvore
+*  $FC Função: TTAB Efetuar operações de teste específicas para tabuleiro
 *
 *  $ED Descrição da função
 *     Efetua os diversos comandos de teste específicos para o módulo
-*     árvore sendo testado.
+*     tabuleiro ir sendo testado.
 *
 *  $EP Parâmetros
 *     $P ComandoTeste - String contendo o comando
@@ -91,9 +87,9 @@
 		TAB_tpCondRet CondRetEsperada = TAB_CondRetCasaVazia ;
 												  /* inicializa para qualquer coisa */
 
-		PEC_cor ValorRecebidoCor	= Vazio ;
-		PEC_cor ValorDadoCor			= Vazio ;
-		PEC_cor ValorEsperadoCor	= Vazio ;
+		PEC_cor ValorRecebidoCor	= NULL ;
+		PEC_cor ValorDadoCor			= NULL ;
+		PEC_cor ValorEsperadoCor	= NULL ;
 		int ValorDadoInt					= 0 ;
 		int ValorRecebidoInt			= 0 ;
 		int ValorEsperadoInt			= 0 ;
@@ -208,6 +204,11 @@
 					return Ret ;
 				} /* if */
 
+				if ( ValorRecebidoCor == NULL) 
+				{
+					return Ret ;
+				} /* if */
+				
 				return TST_CompararInt( ValorEsperadoCor , ValorRecebidoCor ,
 												 "Cor das peças na casa está errada." ) ;
 
@@ -246,7 +247,7 @@
 
 		return TST_CondRetNaoConhec ;
 
-	} /* Fim função: TARV Efetuar operações de teste específicas para árvore */
+	} /* Fim função: TTAB Efetuar operações de teste específicas para tabuleiro */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 

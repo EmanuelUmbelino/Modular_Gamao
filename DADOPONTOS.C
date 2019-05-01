@@ -1,9 +1,8 @@
-	#pragma once
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo Dado Pontos
+*  $MCI Módulo de implementação: Módulo Dado de Pontos
 *
 *  Arquivo gerado:              DADOPONTOS.C
-*  Letras identificadoras:      DDPnt
+*  Letras identificadoras:      DPT
 *
 *  Projeto: Disciplina INF 1301
 *  Autores: elu - Emanuel Lima Umbelino
@@ -11,132 +10,144 @@
 *			phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data           Observações
-*		4		jpk		01/05/2019	   Finalização do módulo
-*	    3    	jpk	  	22/04/2019     Finalização parcial do módulo 
-*	    2   	jpk	  	17/04/2019     Criação dos escopos das funções
-*       1	    elu	  	17/04/2019     Inicializado projeto
+*     Versão   Autores	  Data          Observações
+*				5				elu			01/05/2019	   Revisão e reimplementação completa do módulo
+*				4				jpk			01/05/2019	   Finalização parcial do módulo
+*	    	3    		jpk	  	22/04/2019     Finalização parcial do módulo 
+*	    	2   		jpk	  	17/04/2019     Criação dos escopos das funções
+*       1	   	  elu	  	17/04/2019     Inicializado projeto
 *
 ***************************************************************************/
 
+	#include	<malloc.h>
+	#include 	<stdio.h>
+	#include	<stdlib.h>
+	#include "COR.H"
+	#define DPT_OWN
 	#include "DADOPONTOS.H"
-	#include <stdlib.h>
-	#include <stdio.h>
+	#undef DPT_OWN
+
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: DPT Descritor do dado de pontos
+*
+*
+*  $ED Descrição do tipo
+*     Descreve a organização do dados de pontos
+*
+***********************************************************************/
 
 	typedef struct tgDadoPontos
 	{
 		int valor;
-			/* valor da partida atual */
-		char podeDobrar;
-			/*	número do jogador que pode dobrar os pontos da partida 
-			*	- d --> os dois podem
-			*	- v --> o vermelho pode
-			*	- p --> o preto pode
-			*/
+			/* Valor da partida atual */
+		PEC_cor podeDobrar;
+			/*	Cor do jogador que pode Dobrar 
+			*
+			*$EED Assertivas estruturais
+			*   Começa com NULL, os dois podem dobrar
+			*   Depois vai revezando entre os jogadores */
 	} tpDadoPontos ;
 
-/***** Protótipos das funções encapsuladas no módulo *****/
+/*****  Dados encapsulados no módulo  *****/
 
-	
-	DDPnt_tpCondRet CriaDadoPontos ( tpDadoPontos ** dado );
+		static tpDadoPontos * dpt = NULL ;
+				/* Ponteiro para o dado de pontos */
 
-	DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado );
 
-	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado );
-
-	void ExibeValorPartida ( tpDadoPontos * dado );
-
-	void PodeDobrar ( tpDadoPontos * dado );
-
-		
 /******  Código das funções exportadas pelo módulo  ******/
 
 /***************************************************************************
 *
-*  Função: DDPnt Criar Dado de Pontos
-*
-****************************************************************************/
+*  Função:  DPT Criar Dado de Pontos
+*  ****/
 	
-	DDPnt_tpCondRet CriaDadoPontos( tpDadoPontos ** dado )
+	DPT_tpCondRet CriarDadoPontos( )
 	{
-		*dado = (tpDadoPontos*)malloc(sizeof(tpDadoPontos));
+		dpt = ( tpDadoPontos* ) malloc ( sizeof( tpDadoPontos ) ) ;
 
-		if( dado == NULL )
-		{
-			return DDPnt_CondRetMemoryLess;
+		if ( dpt == NULL ) {
+			return DPT_CondRetFaltouMemoria ;
 		} /* if */
 	
-		(*dado)->valor = 2;
-		(*dado)->podeDobrar = 'n';
-		return DDPnt_CondRetOk;
+		dpt->valor = 2 ;
+		dpt->podeDobrar =  NULL ;
+		return DPT_CondRetOK ;
 
-	} /* Fim função: DDPnt Criar Dado de Pontos */
+	} /* Fim função: DPT Criar Dado de Pontos */
 
 /***************************************************************************
 *
-*  Função: DDPnt Detroi Dado de Pontos
-*
-****************************************************************************/
+*  Função: DPT Detruir Dado de Pontos
+*  ****/
 
-	DDPnt_tpCondRet DestroiDadoPontos ( tpDadoPontos ** dado )
+	void DestruirDadoPontos ( )
 	{
-
-		if ( dado == NULL )
+		if ( dpt == NULL )
 		{
-			return DDPnt_CondRetNonexistent;
+			return ;
 		} /* if */
 
-		free(*dado);
-		printf("Dado de Pontos destruido com sucesso!\n");
-		return DDPnt_CondRetOk;
+		free(dpt) ;
+		dpt = NULL ;
 
-	} /* Fim função: DDPnt Destroi Dado de Pontos */
+	} /* Fim função: DPT Detruir Dado de Pontos */
 
 /***************************************************************************
 *
-*  Função: DDPnt Dobra Pontos da Partida
-*
-****************************************************************************/
+*  Função: DPT Dobra Pontos da Partida
+*  ****/
 
-	DDPnt_tpCondRet DobraPontos ( tpDadoPontos * dado , char * jogador )
+	DPT_tpCondRet DobraPontos ( PEC_cor jogador )
 	{
-	
-		if ( dado == NULL )
-		{
-			return DDPnt_CondRetNonexistent;
+		if ( dpt == NULL ) {
+			return DPT_CondRetDPTNaoExiste ;
 		} /* if */
 
-		if (dado->podeDobrar != jogador)
-		{
-			return DDPnt_CondRetNok;
+		if ( dpt->podeDobrar != NULL && dpt->podeDobrar != jogador ) {
+			return DPT_NaoPodeDobrar;
 		} /* if */
-		
-		dado->valor *= 2;
 
-		return DDPnt_CondRetOk;
+		dpt->valor *= 2 ;
+		dpt->podeDobrar = !jogador ;
+		return DPT_CondRetOK ;
 	
-	} /* Fim função: DDPnt Dobra Pontos da Partida */
+	} /* Fim função: DPT Dobra Pontos da Partida */
 
 
 /***************************************************************************
 *
-*  Função: DDPnt Exibir valor da partida
+*  Função: DPT Valor da Partida
 *
 ****************************************************************************/
 
-	void ExibeValorPartida (tpDadoPontos* dado)
+	DPT_tpCondRet DPT_ValorPartida ( int * valor )
 	{
-		printf("Valor da partida: %d\n", dado->valor);
-	}
+		if ( dpt == NULL ) {
+			return DPT_CondRetDPTNaoExiste ;
+		} /* if */
+
+		*valor = dpt->valor ;
+		return DPT_CondRetOK ;
+	} /* Fim função: DPT Valor da Partida */
 
 
 /***************************************************************************
 *
-*  Função: DDPnt Pode dobrar Pontos
+*  Função: DPT Quem Pode Dobrar
 *
 ****************************************************************************/
 
-	void PodeDobrar ( tpDadoPontos * dado , char * jogador)
+	DPT_tpCondRet DPT_QuemPodeDobrar ( PEC_cor * jogador )
 	{
-		*jogador = dado->podeDobrar;
-	}
+		if ( dpt == NULL ) {
+			return DPT_CondRetDPTNaoExiste ;
+		} /* if */
+
+		*jogador = dpt->podeDobrar ;
+		return DPT_CondRetOK ;
+	} /* Fim função: DPT Quem Pode Dobrar */
+ 
+
+/********** Fim do módulo de implementação: Módulo Dado de Pontos **********/

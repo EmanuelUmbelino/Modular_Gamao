@@ -1,10 +1,11 @@
-#pragma once
+#if ! defined( DPT_ )
+#define DPT_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: Módulo Dado Pontos
+*  $MCD Módulo de definição: Módulo Dado de Pontos
 *
 *  Arquivo gerado:              DADOPONTOS.H
-*  Letras identificadoras:      DDPnt
+*  Letras identificadoras:      DPT
 *
 *  Projeto: Disciplina INF 1301
 *  Gestor:  DI/PUC-Rio
@@ -14,113 +15,127 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
-*	   2    jpk	  	17/04/2019     Criação dos protótipos das funções
-*      1    elu	  	17/04/2019     Inicializado projeto
+*	   	 3    		elu	  	01/05/2019     Revisão das funções
+*	   	 2    		jpk	  	17/04/2019     Criação dos protótipos das funções
+*      1   		  elu	  	17/04/2019     Inicializado projeto
 *
 *  $ED Descrição do módulo
-*			Este módulo contém o tipo abstrato de dados da estrutura Dado Pontos.
+*			Este módulo contém a estrutura do dado de pontos.
 *			Serve para saber o valor da partida, dobra-lo e saber quem pode dobrar
 *			o valor da partida.
 *			
 *
 ********************************************************************************/
 
-
-	typedef struct tgDadoPontos tppDadoPontos;
-
+#if defined( DPT_OWN )
+   #define DPT_EXT
+#else
+   #define DPT_EXT extern
+#endif
 
 /*************************************************************************
 *
-*	Tipo de dados: Condições de retorno DDPnt 
+*  $TC Tipo de dados: DPT Condições de retorno
+*
 *
 *************************************************************************/
 
-	typedef enum
-	{
+   typedef enum {
 
-		DDPnt_CondRetOk = 0  /* EXECUÇÃO CORRETA */,
+         DPT_CondRetOK = 0 ,
+               /* Executou correto */
 
-		DDPnt_CondRetNok = 1 /* OCORREU ERRO NA EXECUÇÃO  */,
+         DPT_NaoPodeDobrar = 1 ,
+               /* Não criou nó raiz */
 
-		DDPnt_CondRetMemoryLess = 2 /* NÃO CONSEGUIU ALOCAR MEMÓRIA */,
+         DPT_CondRetFaltouMemoria = 2 ,
+               /* Faltou memória ao alocar dados */
 
-		DDPnt_CondRetNonexistent = 3 /* ESTRUTURA NÃO CRIADA */
+         DPT_CondRetDPTNaoExiste = 3 ,
+               /* DPT não existe */
 
-	} DDPnt_tpCondRet ;
- 
+   } DPT_tpCondRet ;
 
 
 /*************************************************************************
 *
-*	$FC Função: DDPnt Cria dado de pontos
+*	$FC Função: DPT Criar dado de pontos
 *
 *	$EC Descrição: Função que cria o dado de apostas que drobram os 
 *	pontos de uma partida.
 *
 *	$FV Valores de retorno:
-*		- DDPnt_CondRetOk
-*		- DDPnt_CondRetMemoryLess
+*		- DPT_CondRetOK
+*		- DPT_CondRetFaltouMemoria
 *
 *************************************************************************/
 
-	DDPnt_tpCondRet CriaDadoPontos ( tppDadoPontos ** dado );
+	 DPT_tpCondRet CriarDadoPontos ( ) ;
 
 
 /*************************************************************************
 *
-*	$FC Função: DDPnt Dobra pontos da partida
+*	$FC Função: DPT Dobra pontos da partida
 *
 *	$EC Descrição: Função que, ao executada, dobra os pontos
-*	da partida em andamento.
+*	da partida em andamento. 
+*
+* $EED Assertivas estruturais: Quando um jogador dobra os pontos, ele não 
+* pode fazer uma outra dobra de pontos até que o outro jogador tenha feito.
 *
 *	$FV Valores de retorno:
-*		- DDPnt_CondRetOk
-*		- DDPnt_CondRetNonexistent
+*		- DPT_CondRetOK
+*		- DPT_NaoPodeDobrar
+*		- DPT_CondRetDPTNaoExiste
 *
 *************************************************************************/
 
-	DDPnt_tpCondRet DobraPontos (tppDadoPontos * dado);
+	 DPT_tpCondRet DPT_DobraPontos ( PEC_cor jogador ) ;
 
 
 /*************************************************************************
 *
-*	$FC Função: DDPnt Destroi dado de pontos
+*	$FC Função: DPT Destroir dado de pontos
 *
-*	$EC Descrição: Função que destroi o dado de apostas que drobram os 
-*	pontos de uma partida.
-*
-*	$FV Valores de retorno:
-*		- DDPnt_CondRetOk
-*		- DDPnt_CondRetNonexistent
+*	$EC Descrição: Função que destroi o dado de apostas.
 *
 *************************************************************************/
 
-	DDPnt_tpCondRet DestroiDadoPontos ( tppDadoPontos ** dado );
+	 void DestruirDadoPontos ( void ) ;
 
 
 /*************************************************************************
 *
-*	$FC Função: DDPnt Exibe valor partida
+*	$FC Função: DPT Valor da Partida
 *
 *	$EC Descrição: Função que exibe o atual valor da partida
 *
 *	$FV Valores de retorno:
-*		- void 
+*		- DPT_CondRetOK
+*		- DPT_CondRetDPTNaoExiste
 *
 *************************************************************************/
 
-	void ExibeValorPartida (tppDadoPontos* dado);
+	 DPT_tpCondRet DPT_ValorPartida ( int * valor ) ;
 
 /*************************************************************************
 *
-*	$FC Função: DDPnt Pode dobrar
+*	$FC Função: DPT Quem Pode Dobrar
 *
 *	$EC Descrição: Função que exibe o jogador que pode dobrar
 *	os pontos da atual partida
 *
 *	$FV Valores de retorno:
-*		- void 
+*		- DPT_CondRetOK
+*		- DPT_CondRetDPTNaoExiste
 *
 *************************************************************************/
 
-	void PodeDobrar (tppDadoPontos* dado);
+	 DPT_tpCondRet DPT_QuemPodeDobrar ( PEC_cor * jogador );
+
+#undef DPT_EXT
+
+/********** Fim do módulo de definição: Módulo Dado de Pontos **********/
+
+#else
+#endif
