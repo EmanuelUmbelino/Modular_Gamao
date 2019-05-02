@@ -25,8 +25,7 @@
 *     "=criar <CorPecas>"        - chama a função PEC_CriarPeca( pecaRetornada , <CorPecas> )
 *                     Obs. notação: <CorPecas>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
-*     "=obtercor"
-*                   - chama a função PEC_ObterCor( pecaAtual , corRetornada )
+*     "=obtercor"   - chama a função PEC_ObterCor( pecaAtual , corRetornada )
 *     "=destruir"   - chama a função PEC_DestruirPeca( pecaAtual )
 *
 ***************************************************************************/
@@ -98,7 +97,7 @@
 				CondRetObtido = PEC_CriarPeca( &peca,  ValorDadoCor ) ;
 
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-												"Retorno errado ao criar oa peça." ) ;
+												"Retorno errado ao criar a peça." ) ;
 
 			} /* fim ativa: Testar PEC Criar peça */
 

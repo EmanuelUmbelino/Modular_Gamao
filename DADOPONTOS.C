@@ -62,7 +62,7 @@
 *  Função:  DPT Criar Dado de Pontos
 *  ****/
 	
-	DPT_tpCondRet CriarDadoPontos( )
+	DPT_tpCondRet DPT_CriarDadoPontos( void )
 	{
 		dpt = ( tpDadoPontos* ) malloc ( sizeof( tpDadoPontos ) ) ;
 
@@ -71,7 +71,7 @@
 		} /* if */
 	
 		dpt->valor = 2 ;
-		dpt->podeDobrar =  NULL ;
+		dpt->podeDobrar =  Neutro ;
 		return DPT_CondRetOK ;
 
 	} /* Fim função: DPT Criar Dado de Pontos */
@@ -81,7 +81,7 @@
 *  Função: DPT Detruir Dado de Pontos
 *  ****/
 
-	void DestruirDadoPontos ( )
+	void DPT_DestruirDadoPontos ( void )
 	{
 		if ( dpt == NULL )
 		{
@@ -98,13 +98,13 @@
 *  Função: DPT Dobra Pontos da Partida
 *  ****/
 
-	DPT_tpCondRet DobraPontos ( CorPecas * jogador )
+	DPT_tpCondRet DPT_DobraPontos ( CorPecas jogador )
 	{
 		if ( dpt == NULL ) {
 			return DPT_CondRetDPTNaoExiste ;
 		} /* if */
 
-		if ( dpt->podeDobrar != NULL && dpt->podeDobrar != jogador ) {
+		if ( dpt->podeDobrar != Neutro && dpt->podeDobrar != jogador ) {
 			return DPT_NaoPodeDobrar;
 		} /* if */
 

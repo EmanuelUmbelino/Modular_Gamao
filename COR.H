@@ -35,6 +35,8 @@
 
    typedef enum corPecas{
 
+         Neutro = -1 ,
+
          Preta = 0 ,
 
          Vermelha = 1

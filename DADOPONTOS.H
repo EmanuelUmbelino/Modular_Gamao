@@ -47,7 +47,7 @@
                /* Executou correto */
 
          DPT_NaoPodeDobrar = 1 ,
-               /* Não criou nó raiz */
+               /* Jogador escolhido nao pode dobrar */
 
          DPT_CondRetFaltouMemoria = 2 ,
                /* Faltou memória ao alocar dados */
@@ -71,7 +71,7 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet CriarDadoPontos ( ) ;
+	 DPT_tpCondRet DPT_CriarDadoPontos ( void ) ;
 
 
 /*************************************************************************
@@ -91,18 +91,18 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_DobraPontos ( CorPecas * jogador ) ;
+	 DPT_tpCondRet DPT_DobraPontos ( CorPecas jogador ) ;
 
 
 /*************************************************************************
 *
-*	$FC Função: DPT Destroir dado de pontos
+*	$FC Função: DPT Destruir dado de pontos
 *
 *	$EC Descrição: Função que destroi o dado de apostas.
 *
 *************************************************************************/
 
-	 void DestruirDadoPontos ( void ) ;
+	 void DPT_DestruirDadoPontos ( void ) ;
 
 
 /*************************************************************************
