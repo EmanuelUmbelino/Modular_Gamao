@@ -4,7 +4,7 @@
 *  Arquivo gerado:              TESTDPT.C
 *  Letras identificadoras:      TDPT
 *
-*  Projeto: Disciplinas INF 1301
+*  Projeto: INF 1301 Jogo Gamão via Terminal
 *  Autores: elu - Emanuel Lima Umbelino
 *           jpk - João Pedro Kalil
 *           phs - Pedro Henrique Soares
@@ -191,7 +191,7 @@
 
 		return TST_CondRetNaoConhec ;
 
-	} /* Fim função: TPEC Efetuar operações de teste específicas para peça */
+	} /* Fim função: TDPT Efetuar operações de teste específicas para dado de pontos */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 

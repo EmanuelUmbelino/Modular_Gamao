@@ -7,8 +7,7 @@
 *  Arquivo gerado:              DADOPONTOS.H
 *  Letras identificadoras:      DPT
 *
-*  Projeto: Disciplina INF 1301
-*  Gestor:  DI/PUC-Rio
+*  Projeto: INF 1301 Jogo Gamão via Terminal
 *  Autores: elu - Emanuel Lima Umbelino
 *			jpk - João Pedro Kalil
 *			phs - Pedro Henrique Soares

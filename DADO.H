@@ -1,3 +1,5 @@
+#if ! defined( DADO_ )
+#define DADO_
 /***************************************************************************
 *  $MCI Módulo de definição: Dado
 *
@@ -10,46 +12,58 @@
 *           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão  Autor    Data      Observações
-*     1.00     phs   18/abr/2019 Início do desenvolvimento
+*     Versão  Autor    Data      	Observações
+*     	2	     elu   02/05/2019 	Feita função de jogar dado
+*     	1      phs   18/04/2019 	Início do desenvolvimento
 *
 *  $ED Descrição do módulo
-*     Este módulo implementa um conjunto simples de funções para manipular
-*     e obter os valores de um conjunto de dados.
+*     Este módulo implementa a função do dado, que é sortear um 
+*     valor de 1 a 6. 
 *
 ***************************************************************************/
 
+#if defined( DADO_OWN )
+   #define DADO_EXT
+#else
+   #define DADO_EXT extern
+#endif
+
 /***********************************************************************
 *
-*  $FC Função: DAD  Joga os dados
+*  $TC Tipo de dados: DAD Condições de retorno
+*
+*
+***********************************************************************/
+
+   typedef enum {
+
+         DAD_CondRetOK = 0 ,
+               /* Executou correto */
+
+   } DAD_tpCondRet ;
+
+/***********************************************************************
+*
+*  $FC Função: DAD Jogar Dado
 *
 *  $ED Descrição da função
-*     Gera dois números aleatórios
+*     Sorteia um valor de 1 a 6 e retorna por referencia.
 *
-***********************************************************************/
-
-void DAD_JogarDados(void);
-
-/***********************************************************************
-*
-*  $FC Função: DAD 	Obtem valor do dado1
+*  $EP Parâmetros
+*     $P cor - É o parámetro que receberá o valor do dado por referencia
 *
 *  $FV Valor retornado
-*     dado1
+*		- PEC_CondRetOK
+*		- PEC_CondRetPecNaoExiste
 *
 ***********************************************************************/
 
-int DAD_obtemDado1();
+DAD_tpCondRet DAD_JogarDado( int * valor ) ;
 
-/***********************************************************************
-*
-*  $FC Função: DAD 	Obtem valor do dado2
-*
-*  $FV Valor retornado
-*     dado2
-*
-***********************************************************************/
+	 
+#undef Dado_EXT
 
-int DAD_obtemDado2();
+/********** Fim do módulo de definição: Módulo Dado **********/
 
-/********** Fim do módulo de definição: Módulo dados **********/
+#else
+#endif
