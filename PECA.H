@@ -1,4 +1,5 @@
-
+#if ! defined( PECA_ )
+#define PECA_
 /***************************************************************************
 *
 *  $MCD Módulo de definição: Módulo Peça
@@ -14,15 +15,43 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
-*      1.05    elu	  	27/04/2019     Criadas funções de criar, destruir e obter cor
-*      1.00    elu	  	17/04/2019     Inicializado projeto
+*      3    		elu	  	01/05/2019     Adaptacoes modulo cor e condicoes de retorno
+*      2    		elu	  	27/04/2019     Criadas funções de criar, destruir e obter cor
+*      1    		elu	  	17/04/2019     Inicializado projeto
 *
 *  $ED Descrição do módulo
 *			Este módulo contém o tipo abstrato de dados da estrutura Peça.
 *			Se pode criar e destruir uma peça, além de obter a cor da peça.
 *
 ***************************************************************************/
- 
+
+#include   "COR.H"
+#if defined( PECA_OWN )
+   #define PECA_EXT
+#else
+   #define PECA_EXT extern
+#endif
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: PEC Condições de retorno
+*
+*
+***********************************************************************/
+
+   typedef enum {
+
+         PEC_CondRetOK = 0 ,
+               /* Executou correto */
+
+         PEC_CondRetPecNaoExiste = 1 ,
+               /* Peça não existe */
+
+         PEC_CondRetFaltouMemoria = 2 ,
+               /* Faltou memória ao alocar dados */
+
+   } PEC_tpCondRet ;
+	
 
 /***********************************************************************
 *
@@ -34,21 +63,7 @@
 *
 ***********************************************************************/
 
-typedef struct peca PEC ;
-
-/***********************************************************************
-*
-*  $TC Tipo de dados: PEC Cores das peças
-*
-***********************************************************************/
-
-   typedef enum {
-
-         Preta = 0 ,
-
-         Vermelha = 1
-
-   } PEC_cor ;
+		 typedef struct peca PEC ;
 
 /***********************************************************************
 *
@@ -56,13 +71,18 @@ typedef struct peca PEC ;
 *
 *  $ED Descrição da função
 *     Cria uma nova peça com a cor escolhida.
+*	
+*	$EP Parâmetros:
+*     $P peça - É o parámetro que receberá a peça criada por referencia
+*     $P cor - É a cor escolhida para criar a peça
 *
 *  $FV Valor retornado
-*     PEC
+*		- PEC_CondRetOK
+*		- PEC_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
-   PEC * PEC_CriarPeca( PEC_cor cor ) ;
+   PEC_tpCondRet PEC_CriarPeca( PEC ** peca, CorPecas cor ) ;
 
 
 /***********************************************************************
@@ -74,13 +94,15 @@ typedef struct peca PEC ;
 *
 *  $EP Parâmetros
 *     $P peca - É o ponteiro para a peça que quer obter cor
+*     $P cor - É o parámetro que receberá a cor da peça por referencia
 *
 *  $FV Valor retornado
-*     PEC_cor
+*		- PEC_CondRetOK
+*		- PEC_CondRetPecNaoExiste
 *
 ***********************************************************************/
 
-   PEC_cor PEC_ObterCor( PEC * peca )  ;
+   PEC_tpCondRet PEC_ObterCor( PEC * peca, CorPecas * cor )  ;
 
 
 /***********************************************************************
@@ -98,4 +120,9 @@ typedef struct peca PEC ;
    void PEC_DestruirPeca( PEC * peca ) ;
 
 	 
+#undef PECA_EXT
+
 /********** Fim do módulo de definição: Módulo Peça **********/
+
+#else
+#endif

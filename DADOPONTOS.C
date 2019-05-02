@@ -22,7 +22,6 @@
 	#include	<malloc.h>
 	#include 	<stdio.h>
 	#include	<stdlib.h>
-	#include "COR.H"
 	#define DPT_OWN
 	#include "DADOPONTOS.H"
 	#undef DPT_OWN
@@ -42,7 +41,7 @@
 	{
 		int valor;
 			/* Valor da partida atual */
-		PEC_cor podeDobrar;
+		CorPecas podeDobrar;
 			/*	Cor do jogador que pode Dobrar 
 			*
 			*$EED Assertivas estruturais
@@ -99,7 +98,7 @@
 *  Função: DPT Dobra Pontos da Partida
 *  ****/
 
-	DPT_tpCondRet DobraPontos ( PEC_cor jogador )
+	DPT_tpCondRet DobraPontos ( CorPecas * jogador )
 	{
 		if ( dpt == NULL ) {
 			return DPT_CondRetDPTNaoExiste ;
@@ -139,7 +138,7 @@
 *
 ****************************************************************************/
 
-	DPT_tpCondRet DPT_QuemPodeDobrar ( PEC_cor * jogador )
+	DPT_tpCondRet DPT_QuemPodeDobrar ( CorPecas * jogador )
 	{
 		if ( dpt == NULL ) {
 			return DPT_CondRetDPTNaoExiste ;

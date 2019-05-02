@@ -27,6 +27,7 @@
 *
 ********************************************************************************/
 
+#include "COR.H"
 #if defined( DPT_OWN )
    #define DPT_EXT
 #else
@@ -90,7 +91,7 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_DobraPontos ( PEC_cor jogador ) ;
+	 DPT_tpCondRet DPT_DobraPontos ( CorPecas * jogador ) ;
 
 
 /*************************************************************************
@@ -131,7 +132,7 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_QuemPodeDobrar ( PEC_cor * jogador );
+	 DPT_tpCondRet DPT_QuemPodeDobrar ( CorPecas * jogador );
 
 #undef DPT_EXT
 

@@ -27,6 +27,7 @@
 *
 ***************************************************************************/
 
+#include "COR.H"
 #if defined( TABULEIRO_OWN )
    #define TABULEIRO_EXT
 #else
@@ -68,9 +69,6 @@
 *     Cria um novo tabuleiro de gamão, com 24 casas, com peças
 *     na posição inicial do jogo de gamão.
 *     Caso já exista uma tabuleiro, este será destruído.
-*	
-*	$EP Parâmetros:
-*     $P tab - É o parámetro que receberá o tabuleiro criado
 *
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK
@@ -116,7 +114,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_InserePecaCasa( int nCasa, PEC_cor cor ) ;
+   TAB_tpCondRet TAB_InserePecaCasa( int nCasa, CorPecas cor ) ;
 
 
 /*************************************************************************
@@ -180,7 +178,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CorPecasCasa( int nCasa, PEC_cor * cor ) ;
+   TAB_tpCondRet TAB_CorPecasCasa( int nCasa, CorPecas * cor ) ;
 
 #undef TABULEIRO_EXT
 

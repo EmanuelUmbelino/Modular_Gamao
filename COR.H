@@ -29,17 +29,17 @@
 #endif
 /***********************************************************************
 *
-*  $TC Tipo de dados: PEC Cores das peças
+*  $TC Tipo de dados: COR Cores das peças
 *
 ***********************************************************************/
 
-   typedef enum {
+   typedef enum corPecas{
 
          Preta = 0 ,
 
          Vermelha = 1
 
-   } PEC_cor ;
+   } CorPecas ;
 
 #undef COR_EXT
 

@@ -32,8 +32,8 @@
 *                   - chama a função TAB_RemovePecaCasa( <Int> )
 *     "=obternum <Int> <*Int>"
 *                   - chama a função TAB_NumPecasCasa( <Int> , <*Int> )
-*     "=obtercor <Int> <*PEC_cor>"
-*                   - chama a função TAB_CorPecasCasa( <Int> , <*PEC_cor> )
+*     "=obtercor <Int> <*CorPecas>"
+*                   - chama a função TAB_CorPecasCasa( <Int> , <*CorPecas> )
 *     "=destruir"   - chama a função TAB_DestruirTabuleiro( )
 *     "=imprimir"		- chama a função TAB_ImprimeTabuleiro()
 *
@@ -87,9 +87,9 @@
 		TAB_tpCondRet CondRetEsperada = TAB_CondRetCasaVazia ;
 												  /* inicializa para qualquer coisa */
 
-		PEC_cor ValorRecebidoCor	= NULL ;
-		PEC_cor ValorDadoCor			= NULL ;
-		PEC_cor ValorEsperadoCor	= NULL ;
+		CorPecas ValorRecebidoCor	= 0 ;
+		CorPecas ValorDadoCor			= 0 ;
+		CorPecas ValorEsperadoCor	= 0 ;
 		int ValorDadoInt					= 0 ;
 		int ValorRecebidoInt			= 0 ;
 		int ValorEsperadoInt			= 0 ;
@@ -172,7 +172,7 @@
 				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
 											  "Retorno errado ao obter número de peças da casa." ) ;
 
-				if ( Ret != TST_CondRetOK )
+				if ( Ret != TST_CondRetOK || CondRetObtido != TAB_CondRetOK )
 				{
 					return Ret ;
 				} /* if */
@@ -199,16 +199,11 @@
 				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
 											  "Retorno errado ao obter número de peças da casa." ) ;
 
-				if ( Ret != TST_CondRetOK )
+				if ( Ret != TST_CondRetOK || CondRetObtido != TAB_CondRetOK )
 				{
 					return Ret ;
 				} /* if */
 
-				if ( ValorRecebidoCor == NULL) 
-				{
-					return Ret ;
-				} /* if */
-				
 				return TST_CompararInt( ValorEsperadoCor , ValorRecebidoCor ,
 												 "Cor das peças na casa está errada." ) ;
 

@@ -29,7 +29,6 @@
 	#include	<stdlib.h>
 	#include "PECA.H"
 	#include "LISTA.H"
-	#include "COR.H"
 	#define TABULEIRO_OWN
 	#include "TABULEIRO.H"
 	#undef TABULEIRO_OWN
@@ -60,7 +59,7 @@
 
 	static TAB_tpCondRet ConfigInicial( ) ;
 
-	static TAB_tpCondRet InsereNPecasCasa( int n, PEC_cor cor, int nCasa ) ;
+	static TAB_tpCondRet InsereNPecasCasa( int n, CorPecas cor, int nCasa ) ;
 
 	static LIS_tppLista * PegarCasa( int nCasa ) ;
 
@@ -143,7 +142,7 @@
 *  Função: TAB Insere Peça na Casa
 *  ****/
 
-	TAB_tpCondRet TAB_InserePecaCasa( int nCasa, PEC_cor cor ) 
+	TAB_tpCondRet TAB_InserePecaCasa( int nCasa, CorPecas cor ) 
 	{
 		LIS_tppLista * casa ;
 		PEC * peca ;
@@ -151,8 +150,7 @@
 		if ( tab == NULL ) {
 			return TAB_CondRetTabNaoExiste ;
 		} /* if */
-
-		peca = PEC_CriarPeca( cor ) ;
+		PEC_CriarPeca( &peca, cor ) ;
 		if ( peca == NULL ) {
 			return TAB_CondRetFaltouMemoria ;
 		} /* if */
@@ -218,11 +216,11 @@
 *  Função: TAB Cor Peças da Casa
 *  ****/
 
-	TAB_tpCondRet TAB_CorPecasCasa( int nCasa, PEC_cor * cor ) 
+	TAB_tpCondRet TAB_CorPecasCasa( int nCasa, CorPecas * cor ) 
 	{
 		LIS_tppLista * casa ;
 		PEC * peca ;
-		int nPecas ;
+		int nPecas, cond ;
 
 		if ( tab == NULL ) {
 			return TAB_CondRetTabNaoExiste ;
@@ -235,8 +233,8 @@
 
 		peca = LIS_ObterValor( casa ) ;
 
-		*cor = PEC_ObterCor( peca );
-		if ( *cor == NULL ) {
+		cond = PEC_ObterCor( peca, cor );
+		if ( cond == PEC_CondRetPecNaoExiste ) {
 			return TAB_CondRetCasaVazia ;
 		} /* if */
 
@@ -267,7 +265,6 @@
 		if ( tab == NULL ) {
 			return TAB_CondRetTabNaoExiste ;
 		} /* if */
-
 		cond = InsereNPecasCasa( 2, Preta, 1 ) ;
 		if ( cond == TAB_CondRetFaltouMemoria ) {
 			return TAB_CondRetFaltouMemoria ;
@@ -331,7 +328,7 @@
 *		- TAB_CondRetCasaNaoExiste
 *  ****/
 
-	TAB_tpCondRet InsereNPecasCasa( int n, PEC_cor cor, int nCasa ) 
+	TAB_tpCondRet InsereNPecasCasa( int n, CorPecas cor, int nCasa ) 
 	{
 		int i, cond ;
 
