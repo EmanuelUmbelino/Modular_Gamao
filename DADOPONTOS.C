@@ -70,7 +70,7 @@
 			return DPT_CondRetFaltouMemoria ;
 		} /* if */
 	
-		dpt->valor = 2 ;
+		dpt->valor = 1 ;
 		dpt->podeDobrar =  Neutro ;
 		return DPT_CondRetOK ;
 

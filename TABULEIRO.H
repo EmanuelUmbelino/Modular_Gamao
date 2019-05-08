@@ -20,9 +20,8 @@
 *
 *  $ED Descrição do módulo
 *			Este módulo contém a estrutura do Tabuleiro.
-*			Se pode criar e visualizar o tabuleiro, além de 
-*			inserir e retirar uma peça entre as casas. Também é possível
-*			saber o número e as cores das peças de uma casa.
+*			Se pode criar o tabuleiro, além de inserir e retirar uma peça de 
+*			uma casa. Também é possível saber o número e as cores das peças de uma casa.
 *
 ***************************************************************************/
 

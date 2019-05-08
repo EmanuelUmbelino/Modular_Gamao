@@ -35,7 +35,6 @@
 *     "=obtercor <Int> <*CorPecas>"
 *                   - chama a função TAB_CorPecasCasa( <Int> , <*CorPecas> )
 *     "=destruir"   - chama a função TAB_DestruirTabuleiro( )
-*     "=imprimir"		- chama a função TAB_ImprimeTabuleiro()
 *
 ***************************************************************************/
 
@@ -58,7 +57,6 @@
 #define     REMOVE_CMD         	"=remove"
 #define     OBTER_NUM_CMD       "=obternum"
 #define     OBTER_COR_CMD       "=obtercor"
-#define     IMPRIMI_CMD         "=imprimir"
 #define     DESTROI_CMD         "=destruir"
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -208,25 +206,6 @@
 												 "Cor das peças na casa está errada." ) ;
 
 			} /* fim ativa: Testar TAB Cor Peças da Casa */
-
-		 /* Testar TAB Imprime Tabuleiro */
-
-			else if ( strcmp( ComandoTeste , IMPRIMI_CMD ) == 0 )
-			{
-				return TST_CondRetOK ;
-				NumLidos = LER_LerParametros( "i" ,
-										 &CondRetEsperada ) ;
-				if ( NumLidos != 1 )
-				{
-					return TST_CondRetParm ;
-				} /* if */
-
-				// CondRetObtido = TAB_ImprimeTabuleiro() ;
-
-				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-												"Retorno errado ao imprimir costura." ) ;
-
-			} /* fim ativa: Testar TAB Imprime Tabuleiro */
 
 
 		/* Testar TAB Destruir Tabuleiro */

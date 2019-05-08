@@ -17,7 +17,10 @@
 *      1.00    elu	  	01/05/2019     Criado Modulo
 *
 *  $ED Descrição do módulo
-*			Este módulo contém as cores de peças possiveis no jogo.
+*			Este modulo contém um enum para as cores possíveis das peças e  
+*			dos respectivos jogadores responsáveis pelas mesmas. 
+*			Só existem peças pretas e vermelhas. 
+*			O valor neutro serve apenas e exclusivamente para a inicialização do Dado de Pontos. 
 *
 ***************************************************************************/
 
