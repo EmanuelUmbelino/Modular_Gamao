@@ -42,7 +42,7 @@
 #include    "LISTA.H"
 #include    "COR.H"
 #include    "PECA.H"
-#include    "FIM.H"
+#include    "PECASFINALIZADAS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 

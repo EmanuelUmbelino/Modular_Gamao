@@ -22,7 +22,7 @@
 #include "PECA.H"
 
 #define FIM_OWN
-#include "FIM.H"
+#include "PECASFINALIZADAS.H"
 #undef FIM_OWN
 
 
@@ -95,19 +95,8 @@
 			return ;
 		} /* if */
 
-		LIS_NumElemenLista( FIM->Vermelhas, &numCasas ) ;
-
-		for (i = 0; i < numCasas; i++)
-		{
-			LIS_EsvaziarLista( FIM->Vermelhas ) ;
-		} /* for */
-
-		LIS_NumElemenLista( FIM->Pretas, &numCasas ) ;
-		
-		for (i = 0; i < numCasas; i++)
-		{
-			LIS_EsvaziarLista( FIM->Pretas ) ;
-		} /* for */
+		LIS_EsvaziarLista( FIM->Pretas ) ;
+		LIS_EsvaziarLista( FIM->Vermelhas ) ;
 
 		LIS_DestruirLista( FIM->Vermelhas ) ;
 		LIS_DestruirLista( FIM->Pretas ) ;
@@ -136,12 +125,12 @@
 			return FIM_CondRetFaltouMemoria ;
 		} /* if */
 		
-		if ( cor == 0 )   // peças pretas
+		if ( cor == Preta )   // peças pretas
 		{
 			LIS_InserirElementoAntes( FIM->Pretas, peca ) ;
 			return FIM_CondRetOK ;
 		} /* if */
-		else if ( cor == 1 )  // peças vermelhas
+		else if ( cor == Vermelha )  // peças vermelhas
 		{
 			LIS_InserirElementoAntes( FIM->Vermelhas, peca ) ;
 			return FIM_CondRetOK ;
