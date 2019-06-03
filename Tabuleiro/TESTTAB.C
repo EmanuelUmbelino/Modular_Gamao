@@ -45,9 +45,9 @@
 
 #include    "generico.h"
 #include    "lerparm.h"
-#include    "lista.h"
+#include    "lista/LISTA.H"
 #include    "cor.h"
-#include    "peca.h"
+#include    "lista/LISTA.H"
 #include    "tabuleiro.h"
 
 /* Tabela dos nomes dos comandos de teste específicos */
@@ -85,9 +85,9 @@
 		TAB_tpCondRet CondRetEsperada = TAB_CondRetCasaVazia ;
 												  /* inicializa para qualquer coisa */
 
-		CorPecas ValorRecebidoCor	= 0 ;
-		CorPecas ValorDadoCor			= 0 ;
-		CorPecas ValorEsperadoCor	= 0 ;
+		CorPecas ValorRecebidoCor	= Neutro ;
+		CorPecas ValorDadoCor			= Neutro ;
+		CorPecas ValorEsperadoCor	= Neutro ;
 		int ValorDadoInt					= 0 ;
 		int ValorRecebidoInt			= 0 ;
 		int ValorEsperadoInt			= 0 ;

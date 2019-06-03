@@ -39,9 +39,9 @@
 
 #include    "GENERICO.H"
 #include    "LERPARM.H"
-#include    "LISTA.H"
+#include    "Lista/LISTA.H"
 #include    "COR.H"
-#include    "PECA.H"
+#include    "Lista/PECA.H"
 #include    "PECASFINALIZADAS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */

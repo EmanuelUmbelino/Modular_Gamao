@@ -2,27 +2,27 @@
 #define BAR_
 /***************************************************************************
 *
-*  $MCD MÛdulo de definiÁ„o: MÛdulo BAR
+*  $MCD M√≥dulo de defini√ß√£o: M√≥dulo BAR
 *
 *  Arquivo gerado:              BAR.H
 *  Letras identificadoras:      BAR
 *
-*  Projeto: INF 1301 Jogo Gam„o via Terminal
+*  Projeto: INF 1301 Jogo Gam√£o via Terminal
 *  Autores: elu - Emanuel Lima Umbelino
-*			jpk - Jo„o Pedro Kalil
+*			jpk - Jo√£o Pedro Kalil
 *			phs - Pedro Henrique Soares
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o   Autores	  Data           ObservaÁıes
-*      1    	jpk	  	28/05/2019     CriaÁ„o do MÛdulo
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o   Autores	  Data           Observa√ß√µes
+*      1    	jpk	  	28/05/2019     Cria√ß√£o do M√≥dulo
 *
-*  $ED DescriÁ„o do mÛdulo
-*			Este mÛdulo contÈm o tipo abstrato de dados da estrutura PeÁas capturadas(BAR)
-*			que È uma lista duplamente encadeada  genÈrica com cabeÁa.
-*			Se pode criar e destruir uma BAR, alÈm de poder inserir e retirar peÁas da BAR.
+*  $ED Descri√ß√£o do m√≥dulo
+*			Este m√≥dulo cont√©m o tipo abstrato de dados da estrutura Pe√ßas capturadas(BAR)
+*			que √© uma lista duplamente encadeada  gen√©rica com cabe√ßa.
+*			Se pode criar e destruir uma BAR, al√©m de poder inserir e retirar pe√ßas da BAR.
 *
 ***************************************************************************/
-#include "../../../../../../../Projects/Modular_Gamao/COR.H"
+#include "Cor/COR.H"
 #if defined( BAR_OWN )
 #define BAR_EXT
 #else
@@ -35,28 +35,28 @@
 		/* Executou correto */
 
 		BAR_CondRetBarNaoExiste = 1,
-		/* BAR n„o existe */
+		/* BAR n√£o existe */
 
 		BAR_CondRetFaltouMemoria = 2,
-		/* Faltou memÛria ao alocar dados */
+		/* Faltou mem√≥ria ao alocar dados */
 
-		BAR_CondRetCasaNaoExiste = 3,
-		/* Casa fornecida n„o existe */
+		BAR_CondRetListaNaoExiste = 3,
+		/* Lista fornecida n√£o existe */
 
-		BAR_CondRetCasaVazia = 4,
-		/* A casa est· vazia*/
+		BAR_CondRetListaVazia = 4,
+		/* A lista est√° vazia*/
 
 	} BAR_tpCondRet;
 
 
 /***********************************************************************
 *
-*	$FC FunÁ„o: BAR Criar Barra
+*	$FC Fun√ß√£o: BAR Criar Barra
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Cria a barra de peÁas que podem ser capturadas durante 
-*	  o jogo de gam„o.
-*     Caso j· exista uma Barra, esta ser· destruÌda.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Cria a barra de pe√ßas que podem ser capturadas durante 
+*	  o jogo de gam√£o.
+*     Caso j√° exista uma Barra, esta ser√° destru√≠da.
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
@@ -69,12 +69,12 @@
 
 /*************************************************************************
 *
-*	$FC FunÁ„o: BAR Destruir Barra
+*	$FC Fun√ß√£o: BAR Destruir Barra
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Remove e destroi as peÁas que foram capturadas e a Barra de 
-*	  peÁas capturadas.
-*     Faz nada caso o tabuleiro corrente n„o exista.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Remove e destroi as pe√ßas que foram capturadas e a Barra de 
+*	  pe√ßas capturadas.
+*     Faz nada caso o tabuleiro corrente nÔøΩo exista.
 *
 *************************************************************************/
 
@@ -82,45 +82,45 @@
 
 /*************************************************************************
 *
-*	$FC FunÁ„o: BAR Insere PeÁa na Barra
+*	$FC Fun√ß√£o: BAR Insere Pe√ßa na Barra
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Insere a peÁa da cor fornecida .
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Insere a pe√ßa da cor fornecida .
 *
-*	$EP Par‚metros:
-*     $P cor - È a cor da peÁa a ser inserida
+*	$EP Par√¢metros:
+*     $P cor - √© a cor da pe√ßa a ser inserida
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
 *		- BAR_CondRetTabNaoExiste
 *		- BAR_CondRetFaltouMemoria
-*		- BAR_CondRetCasaNaoExiste
+*		- BAR_CondRetListaNaoExiste
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_InserePecaCasa( CorPecas cor );
+	BAR_tpCondRet BAR_InserePecaLista( CorPecas cor );
 
 
 /*************************************************************************
 *
-*	$FC FunÁ„o: BAR Remove PeÁa da Barra
+*	$FC Fun√ß√£o: BAR Remove Pe√ßa da Barra
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Remove a peÁa da Barra
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Remove a pe√ßa da Barra
 *     Faz nada se a barra estiver vazia.
 *
-*	$EP Par‚metros:
-*     $P cor - È a cor da peÁa a ser inserida
+*	$EP Par√¢metros:
+*     $P cor - √© a cor da pe√ßa a ser removida
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
 *		- BAR_CondRetTabNaoExiste
-*		- BAR_CondRetCasaVazia
-*		- BAR_CondRetCasaNaoExiste
+*		- BAR_CondRetListaVazia
+*		- BAR_CondRetListaNaoExiste
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_RemovePecaCasa( CorPecas cor );
+	BAR_tpCondRet BAR_RemovePecaLista( CorPecas cor );
 
 
 #undef BAR_EXT
