@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI M�dulo de implementação: Módulo BAR
+*  $MCI Módulo de implementação: Módulo BAR
 *
 *  Arquivo gerado:              BAR.C
 *  Letras identificadoras:      BAR
@@ -11,6 +11,7 @@
 *
 *  $HA Histórico de evolução:
 *    Versão	  Autores	 	   Data           Observações 
+*      2		jpk	  		04/06/2019     Conserto da função de destruir a barra 
 *      1		jpk	  		24/04/2019     Criação do módulo
 *
 ***************************************************************************/
@@ -96,17 +97,8 @@
 			return;
 		} /* if */
 
-		LIS_NumElemenLista(bar->Vermelhas, &numCasas);
-		for (i = 0; i < numCasas; i++)
-		{
-			LIS_EsvaziarLista(bar->Vermelhas);
-		} /* for */
-
-		LIS_NumElemenLista(bar->Pretas, &numCasas);
-		for (i = 0; i < numCasas; i++)
-		{
-			LIS_EsvaziarLista(bar->Pretas);
-		} /* for */
+		LIS_EsvaziarLista(bar->Vermelhas);
+		LIS_EsvaziarLista(bar->Pretas);
 
 		LIS_DestruirLista(bar->Vermelhas);
 		LIS_DestruirLista(bar->Pretas);
