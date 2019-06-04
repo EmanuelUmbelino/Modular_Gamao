@@ -14,6 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
+*      2    	jpk	  	04/06/2019     Alguns ajustes em comentários
 *      1    	jpk	  	28/05/2019     Criação do Módulo
 *
 *  $ED Descrição do módulo
@@ -92,7 +93,7 @@
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
-*		- BAR_CondRetTabNaoExiste
+*		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetFaltouMemoria
 *		- BAR_CondRetListaNaoExiste
 *
@@ -114,7 +115,7 @@
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
-*		- BAR_CondRetTabNaoExiste
+*		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetListaVazia
 *		- BAR_CondRetListaNaoExiste
 *
