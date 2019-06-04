@@ -14,6 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
+*      2    	jpk	  	04/06/2019     Alguns ajustes em comentários
 *      1    	jpk	  	28/05/2019     Criação do Módulo
 *
 *  $ED Descrição do módulo
