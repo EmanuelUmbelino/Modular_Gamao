@@ -39,9 +39,9 @@
 
 #include    "GENERICO.H"
 #include    "LERPARM.H"
-#include    "Lista/LISTA.H"
+#include    "LISTA.H"
 #include    "COR.H"
-#include    "Lista/PECA.H"
+#include    "PECA.H"
 #include    "PECASCAPTURADAS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
@@ -78,7 +78,7 @@
 					/* inicializa para qualquer coisa */
 
 		CorPecas ValorRecebidoCor	= Neutro ;
-		int ValorDadoCor			= 0 ;
+		int ValorRecebido			= 0 ;
 		int ValorEsperadoInt		= 0 ;
 		int ValorObtido				= 0 ;
 		int  NumLidos = -1 ;
@@ -104,19 +104,21 @@
 
 			} /* fim ativa: Testar BAR Criar Barra */
 
-		/* Testar BAR Insere Peça na Lista */
+		//* Testar BAR Insere Peça na Lista */
 
 			else if ( strcmp( ComandoTeste , INSERE_CMD ) == 0 )
 			{
 
-				NumLidos = LER_LerParametros( "ci" ,
-										&ValorRecebidoCor , &CondRetEsperada ) ;
+				NumLidos = LER_LerParametros( "ii" ,
+										&ValorRecebido , &CondRetEsperada ) ;
 				if ( NumLidos != 2 )
 				{
 					return TST_CondRetParm ;
 				} /* if */
 
-				CondRetObtido = BAR_InserePecaLista( ValorRecebidoCor ) ;
+
+				ValorRecebidoCor = (CorPecas)ValorRecebido;
+				CondRetObtido = BAR_InserePecaLista( (CorPecas)ValorRecebidoCor ) ;
 
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
 												"Retorno errado ao inserir peça na casa dada." ) ;
@@ -128,13 +130,14 @@
 			else if ( strcmp( ComandoTeste , REMOVE_CMD ) == 0 )
 			{
 
-				NumLidos = LER_LerParametros( "ci" ,
-										 &ValorRecebidoCor , &CondRetEsperada ) ;
+				NumLidos = LER_LerParametros( "ii" ,
+										 &ValorRecebido , &CondRetEsperada ) ;
 				if ( NumLidos != 2 )
 				{
 					return TST_CondRetParm ;
 				} /* if */
 
+				ValorRecebidoCor = (CorPecas)ValorRecebido;
 				CondRetObtido = BAR_RemovePecaLista( ValorRecebidoCor ) ;
 
 				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,

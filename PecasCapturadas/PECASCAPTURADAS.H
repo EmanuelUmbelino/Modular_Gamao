@@ -22,7 +22,7 @@
 *			Se pode criar e destruir uma BAR, além de poder inserir e retirar peças da BAR.
 *
 ***************************************************************************/
-#include "Cor/COR.H"
+#include "COR.H"
 #if defined( BAR_OWN )
 #define BAR_EXT
 #else
@@ -74,7 +74,7 @@
 *  $ED Descrição da função
 *     Remove e destroi as peças que foram capturadas e a Barra de 
 *	  peças capturadas.
-*     Faz nada caso o tabuleiro corrente n�o exista.
+*     Faz nada caso o tabuleiro corrente não exista.
 *
 *************************************************************************/
 
@@ -92,7 +92,7 @@
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
-*		- BAR_CondRetTabNaoExiste
+*		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetFaltouMemoria
 *		- BAR_CondRetListaNaoExiste
 *
@@ -114,7 +114,7 @@
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
-*		- BAR_CondRetTabNaoExiste
+*		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetListaVazia
 *		- BAR_CondRetListaNaoExiste
 *

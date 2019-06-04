@@ -18,8 +18,8 @@
 #include	<malloc.h>
 #include 	<stdio.h>
 #include	<stdlib.h>
-#include "Lista/LISTA.H"
-#include "Lista/PECA.H"
+#include "LISTA.H"
+#include "PECA.H"
 #define BAR_OWN
 #include "PECASCAPTURADAS.H"
 #undef BAR_OWN
@@ -68,14 +68,13 @@
 		{
 			return BAR_CondRetFaltouMemoria;
 		} /* if */
-
-		(bar)->Vermelhas = LIS_CriarLista(LIS_DestruirLista);
-		(bar)->Pretas = LIS_CriarLista(LIS_DestruirLista);
+		
+		(bar)->Vermelhas = LIS_CriarLista(PEC_DestruirPeca);
+		(bar)->Pretas = LIS_CriarLista(PEC_DestruirPeca);
 		if ((bar)->Vermelhas == NULL || (bar)->Pretas == NULL)
 		{
 			return BAR_CondRetFaltouMemoria;
 		} /* if */
-
 		return BAR_CondRetOK;
 	}/* Fim função: BAR Criar Barra de peças capturadas */
 
@@ -90,24 +89,13 @@
 	{
 		int i , numCasas;
 		LIS_tppLista* capturadas;
-
 		if (bar == NULL)
 		{
 			return;
 		} /* if */
 
-		LIS_NumElemenLista(bar->Vermelhas, &numCasas);
-		for (i = 0; i < numCasas; i++)
-		{
-			LIS_EsvaziarLista(bar->Vermelhas);
-		} /* for */
-
-		LIS_NumElemenLista(bar->Pretas, &numCasas);
-		for (i = 0; i < numCasas; i++)
-		{
-			LIS_EsvaziarLista(bar->Pretas);
-		} /* for */
-
+		LIS_EsvaziarLista(bar->Vermelhas);
+		LIS_EsvaziarLista(bar->Pretas);
 		LIS_DestruirLista(bar->Vermelhas);
 		LIS_DestruirLista(bar->Pretas);
 		free(bar);
@@ -123,7 +111,6 @@
 
 	BAR_tpCondRet BAR_InserePecaLista(CorPecas cor)
 	{
-		LIS_tppLista* barra ;
 		PEC* peca;
 
 		if (bar == NULL) {
@@ -131,21 +118,18 @@
 		} /* if */
 
 		PEC_CriarPeca(&peca, cor);
-		
 		if (peca == NULL) {
 			return BAR_CondRetFaltouMemoria;
 		} /* if */
 		
 		if (cor == 0)   // peças pretas
 		{
-			*barra = bar->Pretas;
-			LIS_InserirElementoAntes(*barra, peca);
+			LIS_InserirElementoAntes((bar)->Pretas, peca);
 			return BAR_CondRetOK;
 		} /* if */
 		else if (cor == 1)  // peças vermelhas
 		{
-			*barra = bar->Vermelhas;
-			LIS_InserirElementoAntes(*barra, peca);
+			LIS_InserirElementoAntes((bar)->Vermelhas, peca);
 			return BAR_CondRetOK;
 		} /* else if */
 
@@ -159,19 +143,17 @@
 
 	BAR_tpCondRet BAR_RemovePecaLista(CorPecas cor)
 	{
-		LIS_tppLista* barra;
 		int cond;
 		
 		if (cor == 0)
 		{
-			*barra = bar->Pretas;
+			cond = LIS_ExcluirElemento((bar)->Pretas);
 		} /* if */
 		else if (cor == 1)
 		{
-			*barra = bar->Vermelhas;
+			cond = LIS_ExcluirElemento((bar)->Vermelhas);
 		} /* else if */
 		
-		cond = LIS_ExcluirElemento(*barra);			
 		
 		if (cond == LIS_CondRetListaVazia) {
 			return BAR_CondRetListaVazia;
