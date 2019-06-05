@@ -41,10 +41,7 @@
 		BAR_CondRetFaltouMemoria = 2,
 		/* Faltou memória ao alocar dados */
 
-		BAR_CondRetListaNaoExiste = 3,
-		/* Lista fornecida não existe */
-
-		BAR_CondRetListaVazia = 4,
+		BAR_CondRetListaVazia = 3,
 		/* A lista está vazia*/
 
 	} BAR_tpCondRet;
@@ -117,7 +114,6 @@
 *		- BAR_CondRetOK
 *		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetListaVazia
-*		- BAR_CondRetListaNaoExiste
 *
 *************************************************************************/
 
@@ -137,7 +133,6 @@
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
 *		- BAR_CondRetBarNaoExiste
-*		- BAR_CondRetListaNaoExiste
 *
 *************************************************************************/
 

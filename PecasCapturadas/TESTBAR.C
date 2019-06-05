@@ -50,6 +50,7 @@
 #define     INSERE_CMD         	"=insere"
 #define     REMOVE_CMD          "=remover"
 #define     DESTROI_CMD         "=destruir"
+#define     CONTA_PECAS_CMD     "=conta"
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -81,6 +82,7 @@
 		int ValorRecebido			= 0 ;
 		int ValorEsperadoInt		= 0 ;
 		int ValorObtido				= 0 ;
+		int * NumPecas				= NULL;
 		int  NumLidos = -1 ;
 
 		TST_tpCondRet Ret ;
@@ -119,7 +121,6 @@
 
 				ValorRecebidoCor = (CorPecas)ValorRecebido;
 				CondRetObtido = BAR_InserePecaLista( (CorPecas)ValorRecebidoCor ) ;
-
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
 												"Retorno errado ao inserir peça na casa dada." ) ;
 
@@ -142,11 +143,7 @@
 
 				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
 											  "Retorno errado ao obter número de peças da casa." ) ;
-
-				if ( Ret != TST_CondRetOK || CondRetObtido != BAR_CondRetOK )
-				{
-					return Ret ;
-				} /* if */
+				return Ret;
                 
 			} /* fim ativa: Testar BAR Remove Peça da Lista */
 
@@ -160,6 +157,24 @@
 				return TST_CondRetOK ;
 
 			} /* fim ativa: Testar BAR Destruir Barra */
+
+		//* Testar BAR Numero de Peças na Lista */
+
+			else if ( strcmp( ComandoTeste , CONTA_PECAS_CMD ) == 0 )
+			{
+				NumLidos = LER_LerParametros( "i" , &CondRetEsperada ) ;
+				if ( NumLidos != 1 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
+
+
+				
+				CondRetObtido = BAR_NumeroPecasListas( NumPecas ) ;
+
+				return TST_CompararInt( CondRetEsperada , CondRetObtido , "Retorno errado ao inserir peça na casa dada." ) ;
+
+			} /* fim ativa: Testar BAR Numero de Peças na Lista */
 
 		return TST_CondRetNaoConhec ;
 

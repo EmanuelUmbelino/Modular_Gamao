@@ -117,12 +117,14 @@
 	{
 		PEC* peca;
 
-		if (bar == NULL) {
+		if (bar == NULL) 
+		{
 			return BAR_CondRetBarNaoExiste;
 		} /* if */
 
 		PEC_CriarPeca(&peca, cor);
-		if (peca == NULL) {
+		if (peca == NULL) 
+		{
 			return BAR_CondRetFaltouMemoria;
 		} /* if */
 		
@@ -149,6 +151,11 @@
 	{
 		int cond;
 		
+		if (bar == NULL)
+		{
+			return BAR_CondRetBarNaoExiste;
+		} /* if */
+
 		if (cor == Preta)
 		{
 			cond = LIS_ExcluirElemento((bar)->Pretas);
@@ -180,11 +187,10 @@
 		
 		if (bar->Vermelhas == NULL || bar->Pretas == NULL)
 		{
-			return BAR_CondRetListaNaoExiste;
+			return BAR_CondRetListaVazia;
 		} /* if */
 		numPecas = (int*)malloc(sizeof(int)*2);
 		LIS_NumElemenLista( bar->Pretas, &numPecas[0] );
 		LIS_NumElemenLista( bar->Vermelhas, &numPecas[1] );
-		
 		return BAR_CondRetOK;
 	} /* Fim função: BAR Numero de peças das listas da barra */
