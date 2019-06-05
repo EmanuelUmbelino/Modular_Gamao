@@ -11,8 +11,9 @@
 *
 *  $HA Histórico de evolução:
 *    Versão	  Autores	 	   Data           Observações 
-*      2		jpk	  		04/06/2019     Conserto da função de destruir a barra 
-*										   e subtituição dos valores 0 e 1 por "Preta" e "Vermelha"
+*      2		jpk	  		04/06/2019     -Conserto da função de destruir a barra 
+*										   -Subtituição dos valores 0 e 1 por "Preta" e "Vermelha"
+*										   -Implementação da função de contar número de peças das listas da barra
 *
 *      1		jpk	  		24/04/2019     Criação do módulo
 *
@@ -21,8 +22,8 @@
 #include	<malloc.h>
 #include 	<stdio.h>
 #include	<stdlib.h>
-#include "..\Peca\PECA.H"
-#include "..\Lista\LISTA.H"
+#include "LISTA.H"
+#include "PECA.H"
 #define BAR_OWN
 #include "PECASCAPTURADAS.H"
 #undef BAR_OWN
@@ -163,3 +164,27 @@
 		} /* if */
 		return BAR_CondRetOK;
 	} /* Fim função: BAR Remover peça da Barra de peças capturadas */
+
+/***************************************************************************
+*
+*  Função: BAR Numero de peças das listas da barra
+*
+***************************************************************************/
+
+	BAR_tpCondRet BAR_NumeroPecasListas( int * numPecas )
+	{
+		if (bar == NULL)
+		{
+			return BAR_CondRetBarNaoExiste;
+		} /* if */
+		
+		if (bar->Vermelhas == NULL || bar->Pretas == NULL)
+		{
+			return BAR_CondRetListaNaoExiste;
+		} /* if */
+		numPecas = (int*)malloc(sizeof(int)*2);
+		LIS_NumElemenLista( bar->Pretas, &numPecas[0] );
+		LIS_NumElemenLista( bar->Vermelhas, &numPecas[1] );
+		
+		return BAR_CondRetOK;
+	} /* Fim função: BAR Numero de peças das listas da barra */
