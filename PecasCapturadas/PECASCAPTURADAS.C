@@ -12,6 +12,8 @@
 *  $HA Histórico de evolução:
 *    Versão	  Autores	 	   Data           Observações 
 *      2		jpk	  		04/06/2019     Conserto da função de destruir a barra 
+*										   e subtituição dos valores 0 e 1 por "Preta" e "Vermelha"
+*
 *      1		jpk	  		24/04/2019     Criação do módulo
 *
 ***************************************************************************/
@@ -47,7 +49,7 @@
 /*****  Dados encapsulados no módulo  *****/
 
 	static tpBarra* bar = NULL;
-		/* Ponteiro para o tabuleiro */
+		/* Ponteiro para a barra de peças capturadas */
 
 
 
@@ -123,12 +125,12 @@
 			return BAR_CondRetFaltouMemoria;
 		} /* if */
 		
-		if (cor == 0)   // peças pretas
+		if (cor == Preta)   // peças pretas
 		{
 			LIS_InserirElementoAntes((bar)->Pretas, peca);
 			return BAR_CondRetOK;
 		} /* if */
-		else if (cor == 1)  // peças vermelhas
+		else if (cor == Vermelha)  // peças vermelhas
 		{
 			LIS_InserirElementoAntes((bar)->Vermelhas, peca);
 			return BAR_CondRetOK;
@@ -146,11 +148,11 @@
 	{
 		int cond;
 		
-		if (cor == 0)
+		if (cor == Preta)
 		{
 			cond = LIS_ExcluirElemento((bar)->Pretas);
 		} /* if */
-		else if (cor == 1)
+		else if (cor == Vermelha)
 		{
 			cond = LIS_ExcluirElemento((bar)->Vermelhas);
 		} /* else if */
