@@ -24,7 +24,7 @@
 *
 ***************************************************************************/
 
-#include   "COR.H"
+#include   "..\Cor\COR.H"
 #if defined( PECA_OWN )
    #define PECA_EXT
 #else

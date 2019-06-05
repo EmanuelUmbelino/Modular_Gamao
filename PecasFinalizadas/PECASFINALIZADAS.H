@@ -22,7 +22,7 @@
 *			Se pode criar e destruir uma FIM, além de poder inserir peças e contar-las em FIM.
 *
 ***************************************************************************/
-#include "COR.H"
+#include "..\Cor\COR.H"
 #if defined( FIM_OWN )
 #define FIM_EXT
 #else
