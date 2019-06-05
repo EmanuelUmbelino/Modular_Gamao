@@ -18,8 +18,8 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "LISTA.H"
-#include "PECA.H"
+#include "..\Peca\PECA.H"
+#include "..\Lista\LISTA.H"
 
 #define FIM_OWN
 #include "PECASFINALIZADAS.H"
