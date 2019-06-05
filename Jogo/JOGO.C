@@ -27,6 +27,10 @@
 
 	static void JOG_ImprimirJogo( void ) ;
 
+	static void menuInicial( void ) ;
+
+	static void novoJogo( void ) ;
+
 /***************************************************************************
 *
 *  Função: JOG Iniciar Jogo
@@ -34,14 +38,9 @@
 
 	void JOG_IniciarJogo( void ) 
 	{
-		int ch1, ch2, se = 1;
-		printf("PRESS A KEY TO CONTINUE \n");
-		ch1 = getch();
-		ch2 = 0;
-		CLEAR_SCREEN;
 		TAB_CriarTabuleiro();
-		JOG_ImprimirJogo();
-		system("pause");
+		CLEAR_SCREEN;
+		menuInicial();
 
 	} /* Fim função: JOG Iniciar Jogo */
 
@@ -194,6 +193,78 @@ void imprimePeca( int posicao, CorPecas cor, int totalCasa ) {
 		printf(" ");
 	}
 	printf(" ");
+}
+
+void menuInicial() {
+	int ch1, ch2, opcaoSelecionada = 0;
+	while(1){
+		printf("\n      G A M A O \n\n  ");
+		if(opcaoSelecionada == 0) { printf("\033[1;36m>"); }
+		else{ printf(" "); }
+		printf(" Novo Jogo\033[0m\n  ");
+		if(opcaoSelecionada == 1) { printf("\033[1;36m>"); }
+		else{ printf(" "); }
+		printf(" Carregar Jogo\033[0m\n  ");
+		if(opcaoSelecionada == 2) { printf("\033[1;36m>"); }
+		else{ printf(" "); }
+		printf(" Sair\033[0m\n\n\n");
+		ch1 = getch();
+		ch2 = 0;
+		CLEAR_SCREEN;
+		if (ch1 == 0xE0) { // a scroll key was pressed
+			ch2 = getch();
+			// determine what it was
+			switch(ch2)
+			{
+				case 72: opcaoSelecionada -= 1; break;
+				case 80: opcaoSelecionada += 1; break;
+			};
+			if(opcaoSelecionada > 2){ opcaoSelecionada = 0 ; }
+			else if(opcaoSelecionada < 0){ opcaoSelecionada = 2 ; }
+		}
+		else if(ch1 == 13){
+			break;
+		}
+	}
+	if(opcaoSelecionada == 0){
+		novoJogo();
+	}
+}
+
+void novoJogo(){
+	int ch, jg1[2],jg2[2];
+	jg1[0]=0;jg1[1]=0;
+	jg2[0]=0;jg2[1]=0;
+	CLEAR_SCREEN;
+	printf("\n Escolha quem sera o JOGADOR 1 e quem sera o JOGADOR 2\n\n");
+	printf("\n Pressione qualquer tecla para avancar\n\n");
+	getch();
+	CLEAR_SCREEN;
+	printf("\n Sortear os 2 dados pra ver quem comeca\n\n");
+	printf("\n Pressione qualquer tecla para sortear\n\n");
+	while(1){
+		getch();
+		DAD_JogarDado(&jg1[0]);DAD_JogarDado(&jg1[1]);
+		DAD_JogarDado(&jg2[0]);DAD_JogarDado(&jg2[1]);
+		CLEAR_SCREEN;
+		printf("\n Sortear os 2 dados pra ver quem comeca\n");
+		printf("\n JOGADOR 1:  %d + %d = %d",jg1[0],jg1[1],jg1[0]+jg1[1]);
+		printf("\n JOGADOR 2:  %d + %d = %d",jg2[0],jg2[1],jg2[0]+jg2[1]);
+		if(jg1[0]+jg1[1] == jg2[0]+jg2[1]){
+			printf("\n\n Empatou...");
+			printf("\n\n Pressione qualquer tecla para sortear novamente\n\n");
+		} else {
+			break;
+		}
+	}
+	if(jg1[0]+jg1[1] > jg2[0]+jg2[1]){
+		printf("\n\n JOGADOR 1 comeca!");
+	} else {
+		printf("\n\n JOGADOR 2 comeca!");
+	}
+	printf("\n\n Pressione qualquer tecla para comecar o jogo\n\n");
+	getch();
+	
 }
 
 
