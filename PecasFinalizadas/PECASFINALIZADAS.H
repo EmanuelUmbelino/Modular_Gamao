@@ -2,9 +2,9 @@
 #define FIM_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: Módulo FIM
+*  $MCD Módulo de definição: Módulo Lista de Peças Finalizadas
 *
-*  Arquivo gerado:              FIM.H
+*  Arquivo gerado:              PECASFINALIZADAS.H
 *  Letras identificadoras:      FIM
 *
 *  Projeto: INF 1301 Jogo Gamão via Terminal
@@ -91,7 +91,6 @@
 *		- FIM_CondRetOK
 *		- FIM_CondRetTabNaoExiste
 *		- FIM_CondRetFaltouMemoria
-*		- FIM_CondRetCasaNaoExiste
 *
 *************************************************************************/
 

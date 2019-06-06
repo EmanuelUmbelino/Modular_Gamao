@@ -1,7 +1,7 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo FIM
+*  $MCI Módulo de implementação: Módulo Lista de Peças Finalizadas
 *
-*  Arquivo gerado:              FIM.C
+*  Arquivo gerado:              PECASFINALIZADAS.C
 *  Letras identificadoras:      FIM
 *
 *  Projeto: INF 1301 Jogo Gamão via Terminal
@@ -88,8 +88,6 @@
 
 	void FIM_DestruirFinalizadas(void)
 	{
-		int i , numCasas;
-
 		if ( FIM == NULL )
 		{
 			return ;
@@ -100,7 +98,9 @@
 
 		LIS_DestruirLista( FIM->Vermelhas ) ;
 		LIS_DestruirLista( FIM->Pretas ) ;
+
 		free( FIM ) ;
+		
 		FIM = NULL ;
 	} /* Fim função: Destruir Lista de Peças Finalizadas */
 
