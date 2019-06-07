@@ -23,7 +23,7 @@
 *			Se pode criar e destruir uma BAR, além de poder inserir e retirar peças da BAR.
 *
 ***************************************************************************/
-#include "..\Cor\COR.H"
+#include "COR.H"
 #if defined( BAR_OWN )
 #define BAR_EXT
 #else
@@ -41,10 +41,7 @@
 		BAR_CondRetFaltouMemoria = 2,
 		/* Faltou memória ao alocar dados */
 
-		BAR_CondRetListaNaoExiste = 3,
-		/* Lista fornecida não existe */
-
-		BAR_CondRetListaVazia = 4,
+		BAR_CondRetListaVazia = 3,
 		/* A lista está vazia*/
 
 	} BAR_tpCondRet;
@@ -117,12 +114,29 @@
 *		- BAR_CondRetOK
 *		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetListaVazia
-*		- BAR_CondRetListaNaoExiste
 *
 *************************************************************************/
 
 	BAR_tpCondRet BAR_RemovePecaLista( CorPecas cor );
 
+/*************************************************************************
+*
+*	$FC Função: BAR Número de peças das filas que tem na barra
+*
+*  $ED Descrição da função
+*     Conta o número de peças de cada lista da barra
+*
+*	$EP Parâmetros:
+*     $P numPecas - é onde o número de pecas de cada casa será
+*	  retornado.
+*
+*	$FV Valores de retorno:
+*		- BAR_CondRetOK
+*		- BAR_CondRetBarNaoExiste
+*
+*************************************************************************/
+
+	BAR_tpCondRet BAR_NumeroPecasListas( int * numPecas );
 
 #undef BAR_EXT
 #else

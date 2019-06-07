@@ -2,7 +2,7 @@
 *  $MCI Módulo de implementação: Módulo de teste específico
 *
 *  Arquivo gerado:              TESTFIM.C
-*  Letras identificadoras:      FIM
+*  Letras identificadoras:      TFIM
 *
 *  Projeto: INF 1301 Jogo Gamão via Terminal
 *  Autores: elu - Emanuel Lima Umbelino
@@ -19,14 +19,14 @@
 *     de comandos de teste específicos utilizando o arcabouço de teste para C.
 *
 *  $EIU Interface com o usuário pessoa
-*     Comandos de teste específicos para testar o módulo tabuleiro:
+*     Comandos de teste específicos para testar o módulo Lista de Peças Finalizadas:
 *
-*     "=criar"        - chama a função FIM_CriarFinalizadas( )
+*     "=criar  <Int>" - chama a função FIM_CriarFinalizadas( )
 *     "=insere <Int>"
 *                   - chama a função FIM_FinalizarPeca( <Int> )
 *                     Obs. notação: <Int>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
-*     "=obternum <Int> <*Int>"
+*     "=obternumpec <Int> <*Int>"
 *                   - chama a função FIM_QuantidadeFinalizada( <Int> , <*Int> )
 *     "=destruir"   - chama a função FIM_DestruirFinalizadas( )
 *
@@ -35,13 +35,13 @@
 #include    <string.h>
 #include    <stdio.h>
 
-#include    "TST_ESPC.H"
+#include    "../TST_ESPC.H"
 
-#include    "GENERICO.H"
-#include    "LERPARM.H"
-#include    "Lista/LISTA.H"
-#include    "COR.H"
-#include    "Lista/PECA.H"
+#include    "../GENERICO.H"
+#include    "../LERPARM.H"
+#include    "../Lista/LISTA.H"
+#include    "../Cor/COR.H"
+#include    "../Peca/PECA.H"
 #include    "PECASFINALIZADAS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
@@ -56,7 +56,7 @@
 
 /***********************************************************************
 *
-*  $FC Função: TTAB Efetuar operações de teste específicas para tabuleiro
+*  $FC Função: FIM Efetuar operações de teste específicas para tabuleiro
 *
 *  $ED Descrição da função
 *     Efetua os diversos comandos de teste específicos para o módulo
@@ -73,19 +73,19 @@
 	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	{
 
-		TAB_tpCondRet CondRetObtido   = TAB_CondRetOK ;
-		TAB_tpCondRet CondRetEsperada = TAB_CondRetCasaVazia ;
-					/* inicializa para qualquer coisa */
+		FIM_tpCondRet CondRetObtido   = FIM_CondRetOK ;
+		FIM_tpCondRet CondRetEsperada ;
+					/* inicializa para qualquer operação de teste */
 
-		CorPecas ValorRecebidoCor	= 0 ;
-		int ValorDadoCor			= 0 ;
+		CorPecas ValorRecebidoCor	= Neutro ;
+		CorPecas ValorDadoCor		= Neutro ;
 		int ValorEsperadoInt		= 0 ;
-		int ValorObtido				= 0 ;
-		int  NumLidos = -1 ;
+		int ValorObtidoInt			= 0 ;
+		int  NumLidos				= -1 ;
 
 		TST_tpCondRet Ret ;
 
-		/* Testar TAB Criar tabuleiro */
+		/* Testar FIM Criar Lista de Peças Finalizadas */
 
 			if ( strcmp( ComandoTeste , CRIAR_FIM_CMD ) == 0 )
 			{
@@ -102,16 +102,16 @@
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
 												"Retorno errado ao criar o tabuleiro." ) ;
 
-			} /* fim ativa: Testar TAB Criar tabuleiro */
+			} /* fim ativa: Testar FIM Criar Lista de Peças Finalizadas */
 
-		/* Testar TAB Insere Peça na Casa */
+		/* Testar FIM Insere Peça na Lista de Peças Finalizadas */
 
 			else if ( strcmp( ComandoTeste , INSERE_CMD ) == 0 )
 			{
 
 				NumLidos = LER_LerParametros( "ii" ,
 										&ValorDadoCor , &CondRetEsperada ) ;
-				if ( NumLidos != 3 )
+				if ( NumLidos != 2 )
 				{
 					return TST_CondRetParm ;
 				} /* if */
@@ -119,51 +119,53 @@
 				CondRetObtido = FIM_FinalizarPeca( ValorDadoCor ) ;
 
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-												"Retorno errado ao inserir peça na casa dada." ) ;
+												"Retorno errado ao finaliza peça de determinada cor." ) ;
 
-			} /* fim ativa: Testar TAB Insere Peça na Casa */
+			} /* fim ativa: Testar FIM Insere Peça na Lista de Peças Finalizadas */
 
-		/* Testar TAB Remove Peça na Casa */
+		/* Testar FIM Obtem Quantidade de Peças Finalizadas */
 
 			else if ( strcmp( ComandoTeste , OBTER_NUM_CMD ) == 0 )
 			{
 
 				NumLidos = LER_LerParametros( "iii" ,
-										 &ValorEsperadoInt, &ValorDadoCor, &CondRetEsperada ) ;
-				if ( NumLidos != 2 )
+										&ValorDadoCor , &ValorEsperadoInt , &CondRetEsperada ) ;
+				if ( NumLidos != 3 )
 				{
 					return TST_CondRetParm ;
 				} /* if */
 
-				CondRetObtido = FIM_QuantidadeFinalizada( ValorDadoCor, &ValorObtido) ;
+				CondRetObtido = FIM_QuantidadeFinalizada( ValorDadoCor , &ValorObtidoInt ) ;
 
 				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
-											  "Retorno errado ao obter número de peças da casa." ) ;
+												"Retorno errado ao contar numero de pecas finalizadas." ) ;
 
-				if ( Ret != TST_CondRetOK || CondRetObtido != TAB_CondRetOK )
+				if (Ret != TST_CondRetOK || CondRetObtido != FIM_CondRetOK)
 				{
-					return Ret ;
-				} /* if */
+					return Ret;
+				}
 
-				return TST_CompararInt( ValorEsperadoInt , ValorObtido ,
-												"Quantidade de peças finalizadas está errada." ) ;
+				return TST_CompararInt( ValorEsperadoInt , ValorObtidoInt ,
+												"Quantidade de pecas finalizadas está errada." ) ;
 
-			} /* fim ativa: Testar TAB Remove Peça na Casa */
 
-		/* Testar TAB Destruir Tabuleiro */
+			} /* fim ativa: Testar FIM Obtem Quantidade de Peças Finalizadas */
+
+
+		/* Testar FIM Destruir Lista de Peças Finalizadas */
 
 			else if ( strcmp( ComandoTeste , DESTROI_CMD ) == 0 )
 			{
 
-				FIM_DestruirPecasFinalizadas( ) ;
+				FIM_DestruirFinalizadas( ) ;
 
 				return TST_CondRetOK ;
 
-			} /* fim ativa: Testar TAB Destruir Tabuleiro */
+			} /* fim ativa: Testar FIM Destruir Lista de Peças Finalizadas */
 
 		return TST_CondRetNaoConhec ;
 
-	} /* Fim função: TTAB Efetuar operações de teste específicas para tabuleiro */
+	} /* Fim função: TFIM Efetuar operações de teste específicas para lista de peças finalizadas */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 
