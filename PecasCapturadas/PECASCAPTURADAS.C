@@ -22,8 +22,8 @@
 #include	<malloc.h>
 #include 	<stdio.h>
 #include	<stdlib.h>
-#include "LISTA.H"
-#include "PECA.H"
+#include "..\Peca\PECA.H"
+#include "..\Lista\LISTA.H"
 #define BAR_OWN
 #include "PECASCAPTURADAS.H"
 #undef BAR_OWN
@@ -113,7 +113,7 @@
 *
 ***************************************************************************/
 
-	BAR_tpCondRet BAR_InserePecaLista(CorPecas cor)
+	BAR_tpCondRet BAR_InserePeca(CorPecas cor)
 	{
 		PEC* peca;
 
@@ -147,7 +147,7 @@
 *
 ***************************************************************************/
 
-	BAR_tpCondRet BAR_RemovePecaLista(CorPecas cor)
+	BAR_tpCondRet BAR_RemovePeca(CorPecas cor)
 	{
 		int cond;
 		
@@ -178,19 +178,28 @@
 *
 ***************************************************************************/
 
-	BAR_tpCondRet BAR_NumeroPecasListas( int * numPecas )
+	BAR_tpCondRet BAR_NumPecas( CorPecas cor, int * numPecas )
 	{
 		if (bar == NULL)
 		{
 			return BAR_CondRetBarNaoExiste;
 		} /* if */
-		
-		if (bar->Vermelhas == NULL || bar->Pretas == NULL)
+
+		if (cor == Vermelha) 
 		{
-			return BAR_CondRetListaVazia;
+			if (bar->Vermelhas == NULL) 
+			{
+				return BAR_CondRetListaVazia;
+			} /* if */
+			LIS_NumElemenLista( bar->Vermelhas, numPecas );
 		} /* if */
-		numPecas = (int*)malloc(sizeof(int)*2);
-		LIS_NumElemenLista( bar->Pretas, &numPecas[0] );
-		LIS_NumElemenLista( bar->Vermelhas, &numPecas[1] );
+		else 
+		{
+			if (bar->Pretas == NULL) 
+			{
+				return BAR_CondRetListaVazia;
+			} /* if */
+			LIS_NumElemenLista( bar->Pretas, numPecas );
+		} /* else */
 		return BAR_CondRetOK;
 	} /* Fim função: BAR Numero de peças das listas da barra */

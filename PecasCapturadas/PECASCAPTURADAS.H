@@ -23,7 +23,7 @@
 *			Se pode criar e destruir uma BAR, além de poder inserir e retirar peças da BAR.
 *
 ***************************************************************************/
-#include "COR.H"
+#include "..\Cor\COR.H"
 #if defined( BAR_OWN )
 #define BAR_EXT
 #else
@@ -96,7 +96,7 @@
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_InserePecaLista( CorPecas cor );
+	BAR_tpCondRet BAR_InserePeca( CorPecas cor );
 
 
 /*************************************************************************
@@ -117,7 +117,7 @@
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_RemovePecaLista( CorPecas cor );
+	BAR_tpCondRet BAR_RemovePeca( CorPecas cor );
 
 /*************************************************************************
 *
@@ -136,7 +136,7 @@
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_NumeroPecasListas( int * numPecas );
+	BAR_tpCondRet BAR_NumPecas( CorPecas cor, int * numPecas );
 
 #undef BAR_EXT
 #else
