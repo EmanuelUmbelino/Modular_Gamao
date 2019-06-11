@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 
 #include "TABULEIRO.H"
 #include "PECASCAPTURADAS.H"
@@ -67,6 +68,7 @@
 		cores[Vermelha] = VERMELHO;
 		TAB_CriarTabuleiro();
 		FIM_CriarFinalizadas();
+		DPT_CriarDadoPontos();
 		BAR_CriarBarra();
 		CLEAR_SCREEN;
 		menuInicial();
@@ -263,7 +265,8 @@ void salvarJogo ( char * nomeJogo ){
 }
 
 void jogo( CorPecas jogadorAtual ){
-	int casaSelecionada, casaFixada, passo = 0, dAtual = 0, ch, i;
+	int casaSelecionada, casaFixada, passo = 0, dAtual = 0, ch, i, valorPartida;
+	CorPecas podeDobrar;
 	char nomeJogo[15];
 	int dados[4];
 	for(i = 0; i < 4; i ++){
@@ -271,6 +274,7 @@ void jogo( CorPecas jogadorAtual ){
 	}
 	casaSelecionada = proxCasaDeCor( 0, jogadorAtual );
 	casaFixada = casaSelecionada;
+	podeDobrar = Neutro;
 	while(1){
 		CLEAR_SCREEN;
 		if(jogadorAtual == Vermelha){
@@ -278,6 +282,8 @@ void jogo( CorPecas jogadorAtual ){
 		} else {
 			printf("\nVez do \033%sVERDE\033[0m\n",cores[jogadorAtual]);
 		}
+		DPT_ValorPartida(&valorPartida);
+		printf("Valor da partida: %d\n",valorPartida);
 		imprimirJogo( jogadorAtual, casaSelecionada, casaFixada, dados );
 		
 		printf("\nJogadas Disponiveis:");
@@ -299,6 +305,9 @@ void jogo( CorPecas jogadorAtual ){
 			printf("\nEsc - voltar para selecao de peca\n");
 		}
 
+		printf("D - Dobrar pontos\n");
+		printf("S - Salvar jogo\n");
+		printf("Esc - Fechar jogo\n");
 		ch = getch();
 		if(ch == 122) { // Z
 			if(passo == 1){
@@ -372,6 +381,22 @@ void jogo( CorPecas jogadorAtual ){
 				casaSelecionada = casaFixada;
 				passo = 1;
 			}
+			if (passo == 0)
+			{
+				CLEAR_SCREEN;
+				printf("Se o jogo nao foi salvo ele nao podera ser continuado de onde parou.\nDeseja continuar?[S / N]\n");
+				ch = getch();
+				if (ch == 's')
+				{
+					printf("Fechando...");
+					Sleep(1000);
+					exit(1);
+				}
+				else
+				{
+					continue;
+				}
+			}
 		}
 		else if (ch == 115) // S
 		{
@@ -379,6 +404,20 @@ void jogo( CorPecas jogadorAtual ){
 			printf("Insira o nome do jogo para ser salvo (Max de 15 caracteres)..\n");
 			scanf("%s",nomeJogo) ;
 			salvarJogo(nomeJogo);
+		}
+		else if (ch == 100) // D
+		{
+			if (jogadorAtual == podeDobrar || podeDobrar == Neutro)
+			{
+				DPT_DobraPontos(jogadorAtual);
+				DPT_QuemPodeDobrar(&podeDobrar);
+			}
+			else
+			{
+				CLEAR_SCREEN;
+				printf("Voce nao pode dobrar os pontos dessa partida.\nPressione qualquer tecla para continuar...\n");
+				getch();
+			}
 		}
 	}
 }
