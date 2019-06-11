@@ -4,12 +4,12 @@
 #include <string.h>
 #include <windows.h>
 
-#include "..\Tabuleiro\TABULEIRO.H"
-#include "..\PecasCapturadas\PECASCAPTURADAS.H"
-#include "..\PecasFinalizadas\PECASFINALIZADAS.H"
-#include "..\Dado\DADO.H"
-#include "..\DadoPontos\DADOPONTOS.H"
-#include "..\Cor\COR.H"
+#include "TABULEIRO.H"
+#include "PECASCAPTURADAS.H"
+#include "PECASFINALIZADAS.H"
+#include "DADO.H"
+#include "DADOPONTOS.H"
+#include "COR.H"
 #define JOGO_OWN
 #include "JOGO.H"
 #undef JOGO_OWN
@@ -52,6 +52,10 @@
 
 	static void imprimeSetaSelecao ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) ;
 
+	static void salvarJogo ( void ) ;
+
+	static void carregarJogo ( char * nomeJogo ) ; 
+
 /***************************************************************************
 *
 *  Função: JOG Iniciar Jogo
@@ -71,6 +75,7 @@
 
 void menuInicial() {
 	int ch1, ch2, opcaoSelecionada = 0;
+	char nomeJogo[15];
 	while(1){
 		printf("\n      G A M A O \n\n  ");
 		if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
@@ -102,6 +107,13 @@ void menuInicial() {
 	}
 	if(opcaoSelecionada == 0){
 		novoJogo();
+	}
+	else if (opcaoSelecionada == 1)
+	{
+		CLEAR_SCREEN;
+		printf("Insira o nome do jogo que deseja carregar.\n");
+		scanf("%s",nomeJogo);
+		carregarJogo(nomeJogo);
 	}
 }
 
@@ -140,8 +152,119 @@ void novoJogo(){
 	jogo( jogadorInicial );
 }
 
+void carregarJogo ( char * nomeJogo ) 
+{
+	FILE * fp;
+	int i, j, casa, numPecas, numPecasAux, valorPartida;
+	CorPecas corPec = Neutro;
+	char Jogo[1];
+	
+	fp = fopen(nomeJogo, "r");
+	if (fp == NULL)
+	{
+		CLEAR_SCREEN;
+		printf("Nao foi possivel carregar o jogo %s!\n",nomeJogo);
+		CLEAR_SCREEN;
+		menuInicial();
+	}
+	else
+	{
+		while(fscanf(fp, "%s\n", Jogo)!=EOF)
+		{
+			if (strcmp(Jogo,"T")==0)
+			{
+				for(i=0 ; i<24 ; i++)
+				{
+					fscanf(fp,"%d %d %d\n",&casa,&numPecas, &corPec);
+					TAB_NumPecasCasa( casa, &numPecasAux ) ;
+					for(j=0; j<numPecasAux; j++)
+					{
+						TAB_RemovePecaCasa( casa ); 
+					}
+					for(j=0; j<numPecas; j++)
+					{
+						TAB_InserePecaCasa(casa, corPec); 
+					}
+				}
+			}
+			else if (strcmp(Jogo,"B")==0)
+			{
+				for(i=0 ; i<2 ; i++)
+				{
+					fscanf(fp,"%d %d\n", &corPec, &numPecas);
+					for(j=0; j<numPecas; j++)
+						BAR_InserePeca(corPec);
+				}
+			}
+			else if (strcmp(Jogo,"F")==0)
+			{
+				for(i=0 ; i<2 ; i++)
+				{
+					fscanf(fp,"%d %d\n", &corPec, &numPecas);
+					for(j=0; j<numPecas; j++)
+						FIM_FinalizarPeca(corPec);
+				}
+			}
+			else if (strcmp(Jogo,"V")==0)
+			{
+				fscanf(fp,"%d\n", &valorPartida);
+				DPT_SetValorPartida(&valorPartida);
+			}
+			else
+			{
+				 fscanf(fp,"%d\n", &corPec);
+				 DPT_SetQuemPodeDobrar(&corPec);
+			}
+		}
+		jogo(corPec);
+	}
+}
+
+void salvarJogo ( char * nomeJogo ){
+	FILE * fp;
+	int i, num;
+	CorPecas  podeDobrar, corPec;
+	fp = fopen(nomeJogo, "w");
+	if ( fp == NULL )
+	{
+		printf("Nao foi possivel salvar o jogo!\n") ;
+	}
+	else
+	{	
+		corPec = podeDobrar = Neutro;
+		fprintf(fp, "T\n");
+		for (i=1 ; i<25 ; i++)
+		{
+			TAB_NumPecasCasa(i, &num);
+			TAB_CorPecasCasa( i,  &corPec );
+			fprintf(fp, "%d %d %d\n", i, num, corPec);
+		}
+		fprintf(fp, "B\n");
+		BAR_NumPecas(Vermelha, &num);
+		fprintf(fp, "%d %d\n",1, num);
+		BAR_NumPecas(Preta, &num);
+		fprintf(fp, "%d %d\n",0, num);
+		
+		fprintf(fp, "F\n");
+		FIM_QuantidadeFinalizada(Vermelha, &num);
+		fprintf(fp, "%d %d\n",1, num);
+		FIM_QuantidadeFinalizada(Preta, &num);
+		fprintf(fp, "%d %d\n",0, num);
+
+		DPT_ValorPartida(&num);
+		fprintf(fp, "V\n%d\n", num);
+		DPT_QuemPodeDobrar(&podeDobrar);
+		if (podeDobrar == Vermelha)
+			fprintf(fp, "D\n%d\n",1);
+		else
+			fprintf(fp, "D\n%d\n",0);
+		fclose(fp);
+	}
+}
+
 void jogo( CorPecas jogadorAtual ){
 	int casaSelecionada, casaFixada, passo = 0, dAtual = 0, ch, i;
+	char nomeJogo[15];
 	int dados[4];
 	for(i = 0; i < 4; i ++){
 		dados[i] = 0;
@@ -249,6 +372,13 @@ void jogo( CorPecas jogadorAtual ){
 				casaSelecionada = casaFixada;
 				passo = 1;
 			}
+		}
+		else if (ch == 115) // S
+		{
+			CLEAR_SCREEN;
+			printf("Insira o nome do jogo para ser salvo (Max de 15 caracteres)..\n");
+			scanf("%s",nomeJogo) ;
+			salvarJogo(nomeJogo);
 		}
 	}
 }

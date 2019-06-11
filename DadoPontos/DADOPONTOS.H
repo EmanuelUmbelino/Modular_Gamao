@@ -14,9 +14,10 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
-*	   	 3    		elu	  	01/05/2019     Revisão das funções
-*	   	 2    		jpk	  	17/04/2019     Criação dos protótipos das funções
-*      1   		  elu	  	17/04/2019     Inicializado projeto
+*		 4		jpk		10/06/2019	   Adição de setters
+*	   	 3    	elu	  	01/05/2019     Revisão das funções
+*	   	 2    	jpk	  	17/04/2019     Criação dos protótipos das funções
+*		 1   	elu	  	17/04/2019     Inicializado projeto
 *
 *  $ED Descrição do módulo
 *			Este módulo contém a estrutura do dado de pontos.
@@ -26,7 +27,7 @@
 *
 ********************************************************************************/
 
-#include "..\Cor\COR.H"
+#include "COR.H"
 #if defined( DPT_OWN )
    #define DPT_EXT
 #else
@@ -132,6 +133,36 @@
 *************************************************************************/
 
 	 DPT_tpCondRet DPT_QuemPodeDobrar ( CorPecas * jogador );
+
+
+/*************************************************************************
+*
+*	$FC Função: DPT Set Quem Pode Dobrar
+*
+*	$EC Descrição: Função que seta o jogador que pode dobrar
+*	os pontos da atual partida
+*
+*	$FV Valores de retorno:
+*		- DPT_CondRetOK
+*		- DPT_CondRetDPTNaoExiste
+*
+*************************************************************************/
+
+	 DPT_tpCondRet DPT_SetQuemPodeDobrar ( CorPecas * jogador );
+
+/*************************************************************************
+*
+*	$FC Função: DPT Set Valor da Partida
+*
+*	$EC Descrição: Função que Seta o atual valor da partida
+*
+*	$FV Valores de retorno:
+*		- DPT_CondRetOK
+*		- DPT_CondRetDPTNaoExiste
+*
+*************************************************************************/
+
+	 DPT_tpCondRet DPT_SetValorPartida ( int * valor ) ;
 
 #undef DPT_EXT
 

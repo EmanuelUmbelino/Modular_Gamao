@@ -45,9 +45,9 @@
 
 #include    "generico.h"
 #include    "lerparm.h"
-#include    "lista/LISTA.H"
+#include    "LISTA.H"
 #include    "cor.h"
-#include    "lista/LISTA.H"
+#include    "LISTA.H"
 #include    "tabuleiro.h"
 
 /* Tabela dos nomes dos comandos de teste específicos */

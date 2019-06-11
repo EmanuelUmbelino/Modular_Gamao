@@ -11,11 +11,12 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data          Observações
-*				5				elu			01/05/2019	   Revisão e reimplementação completa do módulo
-*				4				jpk			01/05/2019	   Finalização parcial do módulo
-*	    	3    		jpk	  	22/04/2019     Finalização parcial do módulo 
-*	    	2   		jpk	  	17/04/2019     Criação dos escopos das funções
-*       1	   	  elu	  	17/04/2019     Inicializado projeto
+*		6		jpk		10/06/2019	   Adição de setters
+*		5		elu		01/05/2019	   Revisão e reimplementação completa do módulo
+*		4		jpk		01/05/2019	   Finalização parcial do módulo
+*	   	3    	jpk	  	22/04/2019     Finalização parcial do módulo 
+*	   	2   	jpk	  	17/04/2019     Criação dos escopos das funções
+*       1	   	elu	  	17/04/2019     Inicializado projeto
 *
 ***************************************************************************/
 
@@ -147,6 +148,37 @@
 		*jogador = dpt->podeDobrar ;
 		return DPT_CondRetOK ;
 	} /* Fim função: DPT Quem Pode Dobrar */
- 
+												 
+/***************************************************************************
+*
+*  Função: DPT Set Quem Pode Dobrar
+*
+****************************************************************************/
+
+	DPT_tpCondRet DPT_SetQuemPodeDobrar ( CorPecas * jogador )
+	{
+		if ( dpt == NULL ) {
+			return DPT_CondRetDPTNaoExiste ;
+		} /* if */
+	   
+		dpt->podeDobrar = *jogador;
+		return DPT_CondRetOK ;
+	}	/* Fim função: DPT Set Quem Pode Dobrar */
+
+/***************************************************************************
+*
+*  Função: DPT Set Valor da Partida
+*
+****************************************************************************/
+
+	DPT_tpCondRet DPT_SetValorPartida ( int * valor ) 
+	{
+		if ( dpt == NULL ) {
+			return DPT_CondRetDPTNaoExiste ;
+		} /* if */
+	   
+		dpt->valor = *valor;
+		return DPT_CondRetOK ;
+	}	/* Fim função: DPT Set Valor da partida */
 
 /********** Fim do módulo de implementação: Módulo Dado de Pontos **********/

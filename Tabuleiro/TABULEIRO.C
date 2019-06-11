@@ -27,8 +27,8 @@
 	#include	<malloc.h>
 	#include 	<stdio.h>
 	#include	<stdlib.h>
-	#include "..\Peca\PECA.H"
-	#include "..\Lista\LISTA.H"
+	#include "PECA.H"
+	#include "LISTA.H"
 	#define TABULEIRO_OWN
 	#include "TABULEIRO.H"
 	#undef TABULEIRO_OWN
