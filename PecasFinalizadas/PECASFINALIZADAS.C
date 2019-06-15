@@ -125,12 +125,12 @@
 			return FIM_CondRetFaltouMemoria ;
 		} /* if */
 		
-		if ( cor == Preta )   // peças pretas
+		if ( cor == Preta )
 		{
 			LIS_InserirElementoAntes( FIM->Pretas, peca ) ;
 			return FIM_CondRetOK ;
 		} /* if */
-		else if ( cor == Vermelha )  // peças vermelhas
+		else if ( cor == Vermelha )
 		{
 			LIS_InserirElementoAntes( FIM->Vermelhas, peca ) ;
 			return FIM_CondRetOK ;
@@ -140,26 +140,26 @@
 
 /***************************************************************************
 *
-*  Função: FIM Quantidades de Peças na Lista de Peças Finalizadas
+*  Função: FIM Numero de Peças na Lista de Peças Finalizadas
 *
 ***************************************************************************/
 
-	FIM_tpCondRet FIM_QuantidadeFinalizada( CorPecas cor, int * QuantidadeFinalizada )
+	FIM_tpCondRet FIM_NumPecas( CorPecas cor, int * QuantidadeFinalizada )
 	{
 		if ( FIM == NULL )
 		{
 			return FIM_CondRetFimNaoExiste ;
 		} /* if */
 		
-		if ( cor == 0 )
+		if ( cor == Preta )
 		{
 			LIS_NumElemenLista( FIM->Pretas, QuantidadeFinalizada ) ;
 		} /* if */
-		else if ( cor == 1 )
+		else if ( cor == Vermelha )
 		{
 			LIS_NumElemenLista( FIM->Vermelhas, QuantidadeFinalizada ) ;
 		} /* else if */
 
 		return FIM_CondRetOK ;
 
-	} /* Fim função: FIM Quantidades de Peças na Lista de Peças Finalizadas */
+	} /* Fim função: FIM Numero de Peças na Lista de Peças Finalizadas */

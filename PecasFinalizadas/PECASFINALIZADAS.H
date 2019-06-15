@@ -98,7 +98,7 @@
 
 /*************************************************************************
 *
-*	$FC Função: FIM Quantidades de Peças na Lista de Peças Finalizadas
+*	$FC Função: FIM Numero de Peças na Lista de Peças Finalizadas
 *
 *  $ED Descrição da função
 *     Conta a quantidade de peças finalizadas da cor fornecida e 
@@ -114,7 +114,7 @@
 *
 *************************************************************************/
 
-	FIM_tpCondRet FIM_QuantidadeFinalizada( CorPecas cor, int * QuantidadeFinalizada );
+	FIM_tpCondRet FIM_NumPecas( CorPecas cor, int * QuantidadeFinalizada );
 
 
 
