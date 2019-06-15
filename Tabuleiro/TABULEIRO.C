@@ -27,8 +27,8 @@
 	#include	<malloc.h>
 	#include 	<stdio.h>
 	#include	<stdlib.h>
-	#include "../peca/PECA.H"
-	#include "../lista/LISTA.H"
+	#include "../Peca/PECA.H"
+	#include "../Lista/LISTA.H"
 	#define TABULEIRO_OWN
 	#include "TABULEIRO.H"
 	#undef TABULEIRO_OWN
@@ -313,7 +313,7 @@
 *
 *	$FC Função: TAB Insere N Peças na Casa
 *
-*  $ED Descrição da função
+*   $ED Descrição da função
 *     Insere n peças da cor fornecida na casa fornecida.
 *	
 *	 $EP Parâmetros:

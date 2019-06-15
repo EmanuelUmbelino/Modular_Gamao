@@ -25,7 +25,7 @@
 *
 ***************************************************************************/
 
-#include "../cor/COR.H"
+#include "..\cor\COR.H"
 #if defined( TABULEIRO_OWN )
    #define TABULEIRO_EXT
 #else
