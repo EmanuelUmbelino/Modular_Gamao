@@ -27,7 +27,7 @@
 *
 ********************************************************************************/
 
-#include "COR.H"
+#include "../cor/COR.H"
 #if defined( DPT_OWN )
    #define DPT_EXT
 #else

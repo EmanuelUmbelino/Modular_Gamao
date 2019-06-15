@@ -23,7 +23,7 @@
 *			Se pode criar e destruir uma BAR, além de poder inserir e retirar peças da BAR.
 *
 ***************************************************************************/
-#include "COR.H"
+#include "../cor/COR.H"
 #if defined( BAR_OWN )
 #define BAR_EXT
 #else

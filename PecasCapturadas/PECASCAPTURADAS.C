@@ -22,9 +22,9 @@
 #include	<malloc.h>
 #include 	<stdio.h>
 #include	<stdlib.h>
-#include "PECA.H"
-#include "LISTA.H"
-#include "PECASCAPTURADAS.H"
+#include "../peca/PECA.H"
+#include "../lista/LISTA.H"
+#include "../pecascapturadas/PECASCAPTURADAS.H"
 #define BAR_OWN
 #undef BAR_OWN
 

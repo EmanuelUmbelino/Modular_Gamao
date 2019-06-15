@@ -4,12 +4,12 @@
 #include <string.h>
 #include <windows.h>
 
-#include "TABULEIRO.H"
-#include "PECASCAPTURADAS.H"
-#include "PECASFINALIZADAS.H"
-#include "DADO.H"
-#include "DADOPONTOS.H"
-#include "COR.H"
+#include "../tabuleiro/TABULEIRO.H"
+#include "../pecascapturadas/PECASCAPTURADAS.H"
+#include "../pecasfinalizadas/PECASFINALIZADAS.H"
+#include "../dado/DADO.H"
+#include "../dadopontos/DADOPONTOS.H"
+#include "../cor/COR.H"
 #define JOGO_OWN
 #include "JOGO.H"
 #undef JOGO_OWN
