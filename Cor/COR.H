@@ -13,8 +13,9 @@
 *        phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data           Observações
-*      1.00    elu	  	01/05/2019     Criado Modulo
+*	Versão		Autores		Data			Observações
+*	2			elu			16/06/2019		Revisão Final
+*	1			elu			01/05/2019		Criado Modulo
 *
 *  $ED Descrição do módulo
 *			Este modulo contém um enum para as cores possíveis das peças e  
@@ -25,9 +26,9 @@
 ***************************************************************************/
 
 #if defined( COR_OWN )
-   #define COR_EXT
+	#define COR_EXT
 #else
-   #define COR_EXT extern
+	#define COR_EXT extern
 #endif
 /***********************************************************************
 *
@@ -35,15 +36,15 @@
 *
 ***********************************************************************/
 
-   typedef enum corPecas{
+	typedef enum corPecas{
 
-         Neutro = -1 ,
+		Neutro = -1 ,
 
-         Preta = 0 ,
+		Preta = 0 ,
 
-         Vermelha = 1
+		Vermelha = 1
 
-   } CorPecas ;
+	} CorPecas ;
 
 #undef COR_EXT
 
