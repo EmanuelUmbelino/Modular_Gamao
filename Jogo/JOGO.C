@@ -219,14 +219,13 @@ void carregarJogo ( char * nomeJogo )
 			else if (strcmp(Jogo,"V")==0)
 			{
 				fscanf(fp,"%d\n", &valorPartida);
-				DPT_SetValorPartida(&valorPartida);
 			}
 			else
 			{
-				 fscanf(fp,"%d\n", &corPec);
-				 DPT_SetQuemPodeDobrar(&corPec);
+				fscanf(fp,"%d\n", &corPec);
 			}
 		}
+		DPT_CarregaDadoPontos(valorPartida,corPec);
 		jogo(corPec);
 	}
 }
