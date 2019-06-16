@@ -34,7 +34,7 @@
 
 #include    "..\GENERICO.H"
 #include    "..\LERPARM.H"
-#include    "..\Dado\DADO.H"
+#include    "DADO.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 

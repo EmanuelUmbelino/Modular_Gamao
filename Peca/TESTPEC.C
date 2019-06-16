@@ -42,7 +42,7 @@
 #include    "..\GENERICO.H"
 #include    "..\LERPARM.H"
 #include    "..\Cor\COR.H"
-#include    "..\Peca\PECA.H"
+#include    "PECA.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
@@ -78,7 +78,7 @@
 
 		PEC_tpCondRet CondRetObtido = PEC_CondRetOK ;
 		PEC_tpCondRet CondRetEsperada = PEC_CondRetFaltouMemoria ;
-			/* inicializa para qualquer coisa */
+			/* inicializa com qualquer coisa */
 
 		CorPecas ValorDadoCor = 0 ;
 		CorPecas ValorEsperadoCor = 0 ;

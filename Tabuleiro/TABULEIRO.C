@@ -36,7 +36,7 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: ARV Descritor do tabuleiro
+*  $TC Tipo de dados: TAB Descritor do tabuleiro
 *
 *
 *  $ED Descrição do tipo

@@ -52,7 +52,7 @@
 #include    "..\LERPARM.H"
 #include    "..\Lista\LISTA.H"
 #include    "..\Cor\COR.H"
-#include    "..\Tabuleiro\TABULEIRO.H"
+#include    "TABULEIRO.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 

@@ -44,7 +44,7 @@
 #include    "..\GENERICO.H"
 #include    "..\LERPARM.H"
 #include    "..\Cor\COR.H"
-#include    "..\DadoPontos\DADOPONTOS.H"
+#include    "DADOPONTOS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
@@ -80,7 +80,7 @@
 
 		DPT_tpCondRet CondRetObtido = DPT_CondRetOK ;
 		DPT_tpCondRet CondRetEsperada = DPT_CondRetFaltouMemoria ;
-			/* inicializa para qualquer coisa */
+			/* inicializa com qualquer coisa */
 
 		CorPecas ValorDadoCor = 0 ;
 		CorPecas ValorEsperadoCor = 0 ;
