@@ -10,10 +10,11 @@
 *        phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data         Observações
-*      3    		elu	  	01/05/2019     Modulo cor, correcoes em funções
-*      2    		elu	  	27/04/2019     Criadas funções de criar, destruir e obter cor
-*      1   			elu	  	17/04/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	4			elu			16/06/2019		Revisão Final
+*	3			elu			01/05/2019		Modulo cor, correcoes em funções
+*	2			elu			27/04/2019		Criadas funções de criar, destruir e obter cor
+*	1			elu			17/04/2019		Inicializado projeto
 *
 ***************************************************************************/
 
@@ -35,9 +36,8 @@
 ***********************************************************************/
 
 	struct peca {
-
-			CorPecas cor ;
-					/* Cor da peça */
+		CorPecas cor ;
+			/* Cor da peça */
 
 	} ;
 
@@ -50,17 +50,14 @@
 
 	PEC_tpCondRet PEC_CriarPeca ( PEC ** peca, CorPecas cor )
 	{
-
-		*peca = ( PEC * ) malloc( sizeof( PEC )) ;
-		if ( *peca == NULL )
-		{
+		*peca = ( PEC * ) malloc( sizeof( PEC ) ) ;
+		if ( *peca == NULL ) {
 			return PEC_CondRetFaltouMemoria ;
 		} /* if */
 
-		(*peca)->cor = cor ;
+		( *peca )->cor = cor ;
 
 		return PEC_CondRetOK ;
-
 	} /* Fim função: PEC Criar Peça */
 
 /***************************************************************************
@@ -70,14 +67,12 @@
 
 	void PEC_DestruirPeca ( PEC * peca )
 	{
-		if ( peca == NULL )
-		{
+		if ( peca == NULL ) {
 			return ;
 		} /* if */
 
 		free( peca ) ;
 		peca = NULL ;
-
 	} /* Fim função: PEC Destruir Peça */
 
 /***************************************************************************
@@ -87,13 +82,12 @@
 
 	PEC_tpCondRet PEC_ObterCor ( PEC * peca, CorPecas * cor ) 
 	{
-		if ( peca == NULL )
-		{
+		if ( peca == NULL ) {
 			return PEC_CondRetPecNaoExiste ;
 		} /* if */
+
 		*cor = peca->cor ;
 		return PEC_CondRetOK ;
-
 	} /* Fim função: PEC Obter Cor */
 	
 
