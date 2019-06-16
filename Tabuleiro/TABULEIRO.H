@@ -9,27 +9,28 @@
 *
 *  Projeto: INF 1301 Jogo Gamão via Terminal
 *  Autores: elu - Emanuel Lima Umbelino
-*        jpk - João Pedro Kalil
-*        phs - Pedro Henrique Soares
+*			jpk - João Pedro Kalil
+*			phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data					Observações
-*	  	 	3    		elu	  	01/05/2019			Implementação de funções e especificações
-*	  	 	2   		jpk	  	24/04/2019			Criação do módulo 
-*      	1    		elu	  	17/04/2019			Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	4			elu			16/06/2019		Revisão Final
+*	3			elu			01/05/2019		Implementação de funções e especificações
+*	2			jpk			24/04/2019		Criação do módulo
+*	1			elu			17/04/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *			Este módulo contém a estrutura do Tabuleiro.
-*			Se pode criar o tabuleiro, além de inserir e retirar uma peça de 
-*			uma casa. Também é possível saber o número e as cores das peças de uma casa.
+*			Se pode criar o tabuleiro, além de inserir e retirar uma peça de uma
+*			casa. Também é possível saber o número e as cores das peças de uma casa.
 *
 ***************************************************************************/
 
 #include "..\Cor\COR.H"
 #if defined( TABULEIRO_OWN )
-   #define TABULEIRO_EXT
+	#define TABULEIRO_EXT
 #else
-   #define TABULEIRO_EXT extern
+	#define TABULEIRO_EXT extern
 #endif
 
 /***********************************************************************
@@ -39,24 +40,24 @@
 *
 ***********************************************************************/
 
-   typedef enum {
+	typedef enum {
 
-         TAB_CondRetOK = 0 ,
-               /* Executou correto */
+		TAB_CondRetOK = 0 ,
+			/* Executou correto */
 
-         TAB_CondRetTabNaoExiste = 1 ,
-               /* Tabuleiro não existe */
+		TAB_CondRetTabNaoExiste = 1 ,
+			/* Tabuleiro não existe */
 
-         TAB_CondRetFaltouMemoria = 2 ,
-               /* Faltou memória ao alocar dados */
+		TAB_CondRetFaltouMemoria = 2 ,
+			/* Faltou memória ao alocar dados */
 
-         TAB_CondRetCasaNaoExiste = 3 ,
-               /* Casa fornecida não existe */
+		TAB_CondRetCasaNaoExiste = 3 ,
+			/* Casa fornecida não existe */
 
-         TAB_CondRetCasaVazia = 4 ,
-               /* A casa está vazia*/
+		TAB_CondRetCasaVazia = 4 ,
+			/* A casa está vazia*/
 
-   } TAB_tpCondRet ;
+	} TAB_tpCondRet ;
 
 
 /***********************************************************************
@@ -74,7 +75,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( void ) ;
+	TAB_tpCondRet TAB_CriarTabuleiro( void ) ;
 
 
 /*************************************************************************
@@ -87,7 +88,7 @@
 *
 *************************************************************************/
 
-   void TAB_DestruirTabuleiro( void ) ;
+	void TAB_DestruirTabuleiro( void ) ;
 
 
 /*************************************************************************
@@ -96,7 +97,7 @@
 *
 *  $ED Descrição da função
 *     Insere a peça da cor fornecida na casa fornecida.
-*	
+*
 *	$EP Parâmetros:
 *     $P nCasa - é o número da casa escolhida para inserir
 *     $P cor - é a cor da peça a ser inserida
@@ -112,7 +113,7 @@
 *
 *************************************************************************/
 
-   TAB_tpCondRet TAB_InserePecaCasa( int nCasa, CorPecas cor ) ;
+	TAB_tpCondRet TAB_InserePecaCasa( int nCasa, CorPecas cor ) ;
 
 
 /*************************************************************************
@@ -122,7 +123,7 @@
 *  $ED Descrição da função
 *     Remove a peça da casa fornecida.
 *     Faz nada se casa estiver vazia.
-*	
+*
 *	$EP Parâmetros:
 *     $P nCasa - é o número da casa escolhida para inserir
 *     $P cor - é a cor da peça a ser inserida
@@ -140,10 +141,10 @@
 
 /*************************************************************************
 *
-*	$FC Função: TAB Num Peças da Casa
+*	$FC Função: TAB Número de Peças da Casa
 *
 *  $EP Parâmetros
-*     $P casa - é o número da casa escolhida para ver o número de peças
+*     $P nCasa - é o número da casa escolhida para ver o número de peças
 *     $P numPecas - É o parámetro que receberá o número de peças
 *                    da casa escolhida.
 *                    Este parámetro é passado por referência.
@@ -160,11 +161,11 @@
 
 /*************************************************************************
 *
-*	$FC Função: TAB Cor Peças da Casa
+*	$FC Função: TAB Cor das Peças da Casa
 *
 *  $EP Parâmetros
-*     $P casa - é o número da casa escolhida para ver a cor das peças
-*     $P numPecas - É o parámetro que receberá a cor das peças
+*     $P nCasa - é o número da casa escolhida para ver a cor das peças
+*     $P cor - É o parámetro que receberá a cor das peças
 *                    da casa escolhida.
 *                    Este parámetro é passado por referência.
 *
