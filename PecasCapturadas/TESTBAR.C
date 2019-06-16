@@ -84,19 +84,10 @@
 		BAR_tpCondRet CondRetEsperada = BAR_CondRetListaVazia ;
 			/* inicializa com qualquer coisa */
 
-		CorPecas ValorRecebidoCor = Neutro ;
 		CorPecas ValorDadoCor = Neutro ;
-		CorPecas ValorEsperadoCor = Neutro ;
 		int ValorDadoInt = 0 ;
 		int ValorRecebidoInt = 0 ;
 		int ValorEsperadoInt = 0 ;
-
-
-		// CorPecas ValorRecebidoCor = Neutro ;
-		// int ValorRecebido = 0 ;
-		// int ValorEsperadoInt = 0 ;
-		// int ValorObtido = 0 ;
-		// int * NumPecas = NULL;
 
 		int NumLidos = -1 ;
 
