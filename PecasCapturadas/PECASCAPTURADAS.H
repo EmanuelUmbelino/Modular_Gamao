@@ -1,10 +1,10 @@
-#if ! defined( BAR_ )
-#define BAR_
+#if ! defined( PECASCAPTURADAS_ )
+#define PECASCAPTURADAS_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: Módulo BAR
+*  $MCD Módulo de definição: Módulo Peças Capturadas
 *
-*  Arquivo gerado:              BAR.H
+*  Arquivo gerado:              PECASCAPTURADAS.H
 *  Letras identificadoras:      BAR
 *
 *  Projeto: INF 1301 Jogo Gamão via Terminal
@@ -13,38 +13,48 @@
 *			phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data           Observações
-*      2    	jpk	  	04/06/2019     Alguns ajustes em comentários
-*      1    	jpk	  	28/05/2019     Criação do Módulo
+*	Versão		Autores		Data			Observações
+*	3			elu			16/06/2019		Revisão Final
+*	2			jpk			04/06/2019		Alguns ajustes em comentários
+*	1			jpk			28/05/2019		Criação do Módulo
 *
 *  $ED Descrição do módulo
-*			Este módulo contém o tipo abstrato de dados da estrutura Peças capturadas(BAR)
-*			que é uma lista duplamente encadeada  genérica com cabeça.
-*			Se pode criar e destruir uma BAR, além de poder inserir e retirar peças da BAR.
+*			Este módulo contém a estrutura Peças Capturadas, que contém as peças capturadas
+*			pretas e vermelhas.
+*			Se pode criar e destruir a BAR, além de poder inserir e retirar peças
+*			de uma das barras
 *
 ***************************************************************************/
+
 #include "..\Cor\COR.H"
-#if defined( BAR_OWN )
-#define BAR_EXT
+#if defined( PECASCAPTURADAS_OWN )
+	#define PECASCAPTURADAS_EXT
 #else
-#define BAR_EXT extern
+	#define PECASCAPTURADAS_EXT extern
 #endif
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: BAR Condições de retorno
+*
+*
+***********************************************************************/
 
 	typedef enum {
 
-		BAR_CondRetOK = 0,
-		/* Executou correto */
+		BAR_CondRetOK = 0 ,
+			/* Executou correto */
 
-		BAR_CondRetBarNaoExiste = 1,
-		/* BAR não existe */
+		BAR_CondRetBarNaoExiste = 1 ,
+			/* BAR não existe */
 
-		BAR_CondRetFaltouMemoria = 2,
-		/* Faltou memória ao alocar dados */
+		BAR_CondRetFaltouMemoria = 2 ,
+			/* Faltou memória ao alocar dados */
 
-		BAR_CondRetListaVazia = 3,
-		/* A lista está vazia*/
+		BAR_CondRetListaVazia = 3 ,
+			/* A lista está vazia*/
 
-	} BAR_tpCondRet;
+	} BAR_tpCondRet ;
 
 
 /***********************************************************************
@@ -52,8 +62,8 @@
 *	$FC Função: BAR Criar Barra
 *
 *  $ED Descrição da função
-*     Cria a barra de peças que podem ser capturadas durante 
-*	  o jogo de gamão.
+*     Cria a barra de peças, que contém a barra preta e vermelha, para as
+*     peças capturadas no jogo.
 *     Caso já exista uma Barra, esta será destruída.
 *
 *	$FV Valores de retorno:
@@ -62,7 +72,7 @@
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_CriarBarra(void);
+	BAR_tpCondRet BAR_CriarBarra( void ) ;
 
 
 /*************************************************************************
@@ -76,7 +86,7 @@
 *
 *************************************************************************/
 
-	void BAR_DestruirBarra(void);
+	void BAR_DestruirBarra( void ) ;
 
 /*************************************************************************
 *
@@ -92,11 +102,10 @@
 *		- BAR_CondRetOK
 *		- BAR_CondRetBarNaoExiste
 *		- BAR_CondRetFaltouMemoria
-*		- BAR_CondRetListaNaoExiste
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_InserePeca( CorPecas cor );
+	BAR_tpCondRet BAR_InserePeca( CorPecas cor ) ;
 
 
 /*************************************************************************
@@ -117,18 +126,18 @@
 *
 *************************************************************************/
 
-	BAR_tpCondRet BAR_RemovePeca( CorPecas cor );
+	BAR_tpCondRet BAR_RemovePeca( CorPecas cor ) ;
 
 /*************************************************************************
 *
-*	$FC Função: BAR Número de peças das filas que tem na barra
+*	$FC Função: BAR Número de peças da barra
 *
 *  $ED Descrição da função
-*     Conta o número de peças de cada lista da barra
+*     Pega o número de peças da barra da cor escolhida.
 *
 *	$EP Parâmetros:
-*     $P numPecas - é onde o número de pecas de cada casa será
-*	  retornado.
+*     $P cor - É a cor da barra escolhida para ver o número de peças
+*     $P numPecas - é o parámetro que receberá o numero de peças por referência
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
@@ -138,6 +147,9 @@
 
 	BAR_tpCondRet BAR_NumPecas( CorPecas cor, int * numPecas );
 
-#undef BAR_EXT
+#undef PECASCAPTURADAS_EXT
+
+/********** Fim do módulo de definição: Módulo Peças Capturadas **********/
+
 #else
 #endif
