@@ -13,7 +13,7 @@
 *	Versão		Autores		Data			Observações
 *	3			elu			16/06/2019		Revisão Final
 *	2			elu			02/05/2019		Feita função de jogar dado
-*	1			elu			18/04/2019		Início do desenvolvimento
+*	1			phs			18/04/2019		Início do desenvolvimento
 *
 ***************************************************************************/
 
