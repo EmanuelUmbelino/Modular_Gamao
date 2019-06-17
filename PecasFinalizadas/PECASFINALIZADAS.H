@@ -14,7 +14,8 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data           Observações
-*      1    	phs	  	29/05/2019     Criação do Módulo
+*	   2		phs		16/06/2019	   Adição das assertivas estruturais
+*      1    	phs	  	29/05/2019     Criação do módulo
 *
 *  $ED Descrição do módulo
 *			Este módulo contém o tipo abstrato de dados da estrutura Peças Finalizadas(FIM)
@@ -62,7 +63,6 @@
 *************************************************************************/
 
 	FIM_tpCondRet FIM_CriarFinalizadas(void);
-
 
 /*************************************************************************
 *
