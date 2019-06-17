@@ -47,7 +47,7 @@
 
 /*****  Dados encapsulados no módulo  *****/
 
-	static tpBarra* bar = NULL ;
+	static tpBarra * bar = NULL ;
 		/* Ponteiro para a barra de peças capturadas */
 		
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -59,9 +59,6 @@
 
 	BAR_tpCondRet BAR_CriarBarra( void )
 	{
-		LIS_tppLista* casa = NULL ;
-		int i ;
-
 		if ( bar != NULL ) {
 			BAR_DestruirBarra( ) ;
 		} /* if */
@@ -71,8 +68,8 @@
 			return BAR_CondRetFaltouMemoria ;
 		} /* if */
 		
-		( bar )->Vermelhas = LIS_CriarLista(PEC_DestruirPeca) ;
-		( bar )->Pretas = LIS_CriarLista(PEC_DestruirPeca) ;
+		( bar )->Vermelhas = LIS_CriarLista( PEC_DestruirPeca ) ;
+		( bar )->Pretas = LIS_CriarLista( PEC_DestruirPeca ) ;
 		if ( ( bar )->Vermelhas == NULL || ( bar )->Pretas == NULL ) {
 			return BAR_CondRetFaltouMemoria ;
 		} /* if */
@@ -87,10 +84,7 @@
 
 	void BAR_DestruirBarra( void )
 	{
-		LIS_tppLista * capturadas ;
-		int i, numCasas ;
-
-		if (bar == NULL) {
+		if ( bar == NULL ) {
 			return ;
 		} /* if */
 
@@ -129,7 +123,7 @@
 		} /* if */
 		else {
 			cond = LIS_InserirElementoAntes( ( bar )->Vermelhas, peca ) ;
-		} /* else if */
+		} /* else */
 
 		if ( cond == LIS_CondRetFaltouMemoria ) {
 			return BAR_CondRetFaltouMemoria ;
@@ -146,7 +140,7 @@
 
 	BAR_tpCondRet BAR_RemovePeca( CorPecas cor )
 	{
-		int cond = 0;
+		LIS_tpCondRet cond;
 		
 		if ( bar == NULL ) {
 			return BAR_CondRetBarNaoExiste ;
@@ -155,9 +149,9 @@
 		if ( cor == Preta ) {
 			cond = LIS_ExcluirElemento( ( bar )->Pretas ) ;
 		} /* if */
-		else if ( cor == Vermelha ) {
+		else {
 			cond = LIS_ExcluirElemento( ( bar )->Vermelhas ) ;
-		} /* else if */
+		} /* else */
 		
 		if ( cond == LIS_CondRetListaVazia ) {
 			return BAR_CondRetListaVazia ;
@@ -178,19 +172,13 @@
 		} /* if */
 
 		if ( cor == Vermelha ) {
-			if ( bar->Vermelhas == NULL ) {
-				return BAR_CondRetListaVazia ;
-			} /* if */
 			LIS_NumElemenLista( bar->Vermelhas, numPecas ) ;
 		} /* if */
 		else {
-			if ( bar->Pretas == NULL ) {
-				return BAR_CondRetListaVazia ;
-			} /* if */
 			LIS_NumElemenLista( bar->Pretas, numPecas ) ;
 		} /* else */
 
 		return BAR_CondRetOK;
 	} /* Fim função: BAR Numero de peças da barra */
 
-/********** Fim do módulo de implementação: Módulo Tabuleiro **********/
+/********** Fim do módulo de implementação: Módulo Peças Capturadas **********/

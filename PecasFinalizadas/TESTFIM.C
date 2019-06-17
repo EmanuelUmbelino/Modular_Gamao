@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo de teste específico
+*  $MCI Módulo de implementação: Módulo de teste específico para Peças Finalizadas
 *
 *  Arquivo gerado:              TESTFIM.C
 *  Letras identificadoras:      TFIM
@@ -10,24 +10,28 @@
 *           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*    Versão	  Autores		 	 Data        Observações
-*      1		phs	  	29/05/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	2			elu			17/06/2019		Revisão Final
+*	1			phs			29/05/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo contém as funções específicas para o teste do
-*     módulo lista de peças finalizadas. Ilustra como redigir um interpretador 
+*     módulo peças finalizadas. Ilustra como redigir um interpretador 
 *     de comandos de teste específicos utilizando o arcabouço de teste para C.
 *
 *  $EIU Interface com o usuário pessoa
-*     Comandos de teste específicos para testar o módulo Lista de Peças Finalizadas:
+*     Comandos de teste específicos para testar o módulo Peças Finalizadas:
 *
-*     "=criar  <Int>" - chama a função FIM_CriarFinalizadas( )
+*     "=criar"        - chama a função FIM_CriarFinalizadas( )
+*
 *     "=insere <Int>"
 *                   - chama a função FIM_FinalizarPeca( <Int> )
 *                     Obs. notação: <Int>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
-*     "=obternumpec <Int> <*Int>"
-*                   - chama a função FIM_QuantidadeFinalizada( <Int> , <*Int> )
+*
+*     "=obternumpec <CorPecas> <*Int>"
+*                   - chama a função FIM_QuantidadeFinalizada( <CorPecas> , <*Int> )
+*
 *     "=destruir"   - chama a função FIM_DestruirFinalizadas( )
 *
 ***************************************************************************/
@@ -35,13 +39,12 @@
 #include    <string.h>
 #include    <stdio.h>
 
-#include    "../TST_ESPC.H"
+#include    "..\TST_ESPC.H"
 
-#include    "../GENERICO.H"
-#include    "../LERPARM.H"
-#include    "../Lista/LISTA.H"
-#include    "../Cor/COR.H"
-#include    "../Peca/PECA.H"
+#include    "..\GENERICO.H"
+#include    "..\LERPARM.H"
+#include    "..\Lista\LISTA.H"
+#include    "..\Cor\COR.H"
 #include    "PECASFINALIZADAS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
@@ -56,11 +59,11 @@
 
 /***********************************************************************
 *
-*  $FC Função: FIM Efetuar operações de teste específicas para tabuleiro
+*  $FC Função: FIM Efetuar operações de teste específicas para pecas finalizadas
 *
 *  $ED Descrição da função
 *     Efetua os diversos comandos de teste específicos para o módulo
-*     tabuleiro ir sendo testado.
+*     pecas finalizadas ir sendo testado.
 *
 *  $EP Parâmetros
 *     $P ComandoTeste - String contendo o comando
@@ -73,15 +76,15 @@
 	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	{
 
-		FIM_tpCondRet CondRetObtido   = FIM_CondRetOK ;
-		FIM_tpCondRet CondRetEsperada ;
-					/* inicializa para qualquer operação de teste */
+		FIM_tpCondRet CondRetObtido = FIM_CondRetOK ;
+		FIM_tpCondRet CondRetEsperada = FIM_CondRetFimNaoExiste;
+			/* inicializa com qualquer coisa */
 
-		CorPecas ValorRecebidoCor	= Neutro ;
-		CorPecas ValorDadoCor		= Neutro ;
-		int ValorEsperadoInt		= 0 ;
-		int ValorObtidoInt			= 0 ;
-		int  NumLidos				= -1 ;
+		CorPecas ValorDadoCor = Neutro ;
+		int ValorEsperadoInt = 0 ;
+		int ValorObtidoInt = 0 ;
+
+		int  NumLidos = -1 ;
 
 		TST_tpCondRet Ret ;
 
@@ -100,7 +103,7 @@
 				CondRetObtido = FIM_CriarFinalizadas( ) ;
 
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-												"Retorno errado ao criar o tabuleiro." ) ;
+												"Retorno errado ao criar a lista." ) ;
 
 			} /* fim ativa: Testar FIM Criar Lista de Peças Finalizadas */
 
@@ -123,7 +126,7 @@
 
 			} /* fim ativa: Testar FIM Insere Peça na Lista de Peças Finalizadas */
 
-		/* Testar FIM Obtem Quantidade de Peças Finalizadas */
+		/* Testar FIM Numero de Peças na Lista de Peças Finalizadas */
 
 			else if ( strcmp( ComandoTeste , OBTER_NUM_CMD ) == 0 )
 			{
@@ -135,7 +138,7 @@
 					return TST_CondRetParm ;
 				} /* if */
 
-				CondRetObtido = FIM_QuantidadeFinalizada( ValorDadoCor , &ValorObtidoInt ) ;
+				CondRetObtido = FIM_NumPecas( ValorDadoCor , &ValorObtidoInt ) ;
 
 				Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
 												"Retorno errado ao contar numero de pecas finalizadas." ) ;
@@ -149,7 +152,7 @@
 												"Quantidade de pecas finalizadas está errada." ) ;
 
 
-			} /* fim ativa: Testar FIM Obtem Quantidade de Peças Finalizadas */
+			} /* fim ativa: Testar FIM Numero de Peças na Lista de Peças Finalizadas */
 
 
 		/* Testar FIM Destruir Lista de Peças Finalizadas */
@@ -167,5 +170,5 @@
 
 	} /* Fim função: TFIM Efetuar operações de teste específicas para lista de peças finalizadas */
 
-/********** Fim do módulo de implementação: Módulo de teste específico **********/
+/********** Fim do módulo de implementação: Módulo de teste específico para Peças Finalizadas **********/
 

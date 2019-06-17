@@ -127,9 +127,9 @@
 				CondRetObtido = BAR_InserePeca( ValorDadoCor ) ;
 
 				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-												"Retorno errado ao inserir peça na casa dada." ) ;
+												"Retorno errado ao inserir peça da cor dada." ) ;
 
-			} /* fim ativa: Testar BAR Insere Peça na Lista */
+			} /* fim ativa: Testar BAR Insere Peça na Barra */
 
 		/* Testar BAR Numero de Peças na Lista */
 

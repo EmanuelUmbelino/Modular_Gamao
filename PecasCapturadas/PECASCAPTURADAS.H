@@ -22,7 +22,8 @@
 *			Este módulo contém a estrutura Peças Capturadas, que contém as peças capturadas
 *			pretas e vermelhas.
 *			Se pode criar e destruir a BAR, além de poder inserir e retirar peças
-*			de uma das barras
+*			de uma das barras. Por fim também é possível contar a quantidade de peças 
+*			em cada barra.
 *
 ***************************************************************************/
 
@@ -82,9 +83,7 @@
 *  $ED Descrição da função
 *     Remove e destroi as peças que foram capturadas e a Barra de 
 *	  peças capturadas.
-*     Faz nada caso o tabuleiro corrente não exista.
-*  $FV Valores de retorno:
-*	- BAR_CondRetBarNaoExiste
+*     Faz nada caso a barra corrente não exista.
 *
 *************************************************************************/
 
