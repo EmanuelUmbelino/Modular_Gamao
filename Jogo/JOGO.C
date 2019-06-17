@@ -75,58 +75,58 @@
 	{
 		cores[Preta] = PRETO;
 		cores[Vermelha] = VERMELHO;
-		TAB_CriarTabuleiro();
-		FIM_CriarFinalizadas();
-		DPT_CriarDadoPontos();
-		BAR_CriarBarra();
 		CLEAR_SCREEN;
 		menuInicial();
 
 	} /* Fim função: JOG Iniciar Jogo */
 
-void menuInicial() {
-	int ch1, ch2, opcaoSelecionada = 0;
-	char nomeJogo[15];
-	while(1){
-		printf("\n      G A M A O \n\n  ");
-		if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
-		else{ printf(" "); }
-		printf(" Novo Jogo\033[0m\n  ");
-		if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
-		else{ printf(" "); }
-		printf(" Carregar Jogo\033[0m\n  ");
-		if(opcaoSelecionada == 2) { printf("\033%s>",PRIMARIO); }
-		else{ printf(" "); }
-		printf(" Sair\033[0m\n\n\n");
-		ch1 = getch();
-		ch2 = 0;
-		CLEAR_SCREEN;
-		if (ch1 == 0xE0) { // a scroll key was pressed
-			ch2 = getch();
-			// determine what it was
-			switch(ch2)
-			{
-				case 72: opcaoSelecionada -= 1; break;
-				case 80: opcaoSelecionada += 1; break;
-			};
-			if(opcaoSelecionada > 2){ opcaoSelecionada = 0 ; }
-			else if(opcaoSelecionada < 0){ opcaoSelecionada = 2 ; }
+	void menuInicial() {
+		int ch1, ch2, opcaoSelecionada = 0;
+		char nomeJogo[15];
+		while(1){
+			printf("\n      G A M A O \n\n  ");
+			if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
+			else{ printf(" "); }
+			printf(" Novo Jogo\033[0m\n  ");
+			if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
+			else{ printf(" "); }
+			printf(" Carregar Jogo\033[0m\n  ");
+			if(opcaoSelecionada == 2) { printf("\033%s>",PRIMARIO); }
+			else{ printf(" "); }
+			printf(" Sair\033[0m\n\n\n");
+			ch1 = getch();
+			ch2 = 0;
+			CLEAR_SCREEN;
+			if (ch1 == 0xE0) { // a scroll key was pressed
+				ch2 = getch();
+				// determine what it was
+				switch(ch2)
+				{
+					case 72: opcaoSelecionada -= 1; break;
+					case 80: opcaoSelecionada += 1; break;
+				};
+				if(opcaoSelecionada > 2){ opcaoSelecionada = 0 ; }
+				else if(opcaoSelecionada < 0){ opcaoSelecionada = 2 ; }
+			}
+			else if(ch1 == 13){
+				break;
+			}
 		}
-		else if(ch1 == 13){
-			break;
+		if(opcaoSelecionada == 0){
+			TAB_CriarTabuleiro();
+			FIM_CriarFinalizadas();
+			DPT_CriarDadoPontos();
+			BAR_CriarBarra();
+			novoJogo();
+		}
+		else if (opcaoSelecionada == 1)
+		{
+			CLEAR_SCREEN;
+			printf("Insira o nome do jogo que deseja carregar.\n");
+			scanf("%s",nomeJogo);
+			carregarJogo(nomeJogo);
 		}
 	}
-	if(opcaoSelecionada == 0){
-		novoJogo();
-	}
-	else if (opcaoSelecionada == 1)
-	{
-		CLEAR_SCREEN;
-		printf("Insira o nome do jogo que deseja carregar.\n");
-		scanf("%s",nomeJogo);
-		carregarJogo(nomeJogo);
-	}
-}
 
 void novoJogo(){
 	int dados[2];
@@ -139,7 +139,8 @@ void novoJogo(){
 	printf("\n Pressione qualquer tecla para sortear quem comeca\n\n");
 	while(1){
 		getch();
-		DAD_JogarDado(&dados[0]);DAD_JogarDado(&dados[1]);
+		DAD_JogarDado(&dados[0]);
+		DAD_JogarDado(&dados[1]);
 		CLEAR_SCREEN;
 		printf("\n Sortear os 2 dados pra ver quem comeca\n");
 		printf("\n \033%sVERMELHO\033[0m:  %d",cores[Vermelha],dados[0]);
@@ -174,7 +175,9 @@ void carregarJogo ( char * nomeJogo )
 	if (fp == NULL)
 	{
 		CLEAR_SCREEN;
-		printf("Nao foi possivel carregar o jogo %s!\n",nomeJogo);
+		printf(" Nao foi possivel carregar o jogo %s!\n",nomeJogo);
+		printf("\n\n Pressione qualquer tecla para voltar ao menu\n\n") ;
+		getch() ;
 		CLEAR_SCREEN;
 		menuInicial();
 	}
@@ -275,6 +278,7 @@ void salvarJogo ( char * nomeJogo ){
 
 void jogo( CorPecas jogadorAtual ){
 	int casaSelecionada, casaFixada, dAtual = 0, ch, i, valorPartida;
+	int ch1, ch2, opcaoSelecionada = 0;
 	CorPecas podeDobrar;
 	Passo passo = JogarDado;
 	char nomeJogo[15];
@@ -414,9 +418,51 @@ void jogo( CorPecas jogadorAtual ){
 		{
 			if (jogadorAtual == podeDobrar || podeDobrar == Neutro)
 			{
-				DPT_DobraPontos(jogadorAtual);
-				DPT_QuemPodeDobrar(&podeDobrar);
-				DPT_ValorPartida(&valorPartida);
+				CLEAR_SCREEN;
+
+				while(1){
+					if ( jogadorAtual == Vermelha )
+					{
+						printf("O jogador \033%VERMELHO\033[0m te desafiou a dobrar os pontos\n", cores[Vermelha]);
+					}
+					else if ( jogadorAtual == Preta )
+					{
+						printf("O jogador \033%sVERDE\033[0m te desafiou a dobrar os pontos\n", cores[Preta]);
+					}
+					
+					if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
+					else{ printf(" "); }
+					printf(" Aceitar\033[0m\n");
+					if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
+					else{ printf(" "); }
+					printf(" Recusar\033[0m\n");
+					ch1 = getch();
+					ch2 = 0;
+					CLEAR_SCREEN;
+					if (ch1 == 0xE0) {
+						ch2 = getch();
+						switch (ch2)
+						{
+							case 72: opcaoSelecionada -= 1; break;
+							case 80: opcaoSelecionada += 1; break;
+						};
+						if(opcaoSelecionada > 1){ opcaoSelecionada = 0 ; }
+						else if(opcaoSelecionada < 0){ opcaoSelecionada = 1 ; }
+					}
+					else if (ch1 == 13)
+					{
+						break;
+					}
+				}
+				if (opcaoSelecionada == 0)
+				{
+					DPT_DobraPontos(jogadorAtual);
+					DPT_QuemPodeDobrar(&podeDobrar);
+					DPT_ValorPartida(&valorPartida);
+				} else if (opcaoSelecionada == 1)
+				{
+					menuInicial();
+				}
 			}
 			else
 			{
@@ -553,7 +599,8 @@ void imprimirJogo( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, i
 			// Se tiver peça na casa, ve a cor da peça
 			TAB_CorPecasCasa(i+1,&coresPecasCasas[i]);
 		}
-	} 
+	}
+
 	BAR_NumPecas (Preta, &qtdPecasBarras[0]) ;
 	BAR_NumPecas (Vermelha, &qtdPecasBarras[1]) ;
 	FIM_NumPecas (Preta, &qtdPecasFinalizadas[0]) ;
@@ -642,7 +689,7 @@ void imprimirJogo( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, i
 } /* Fim função: JOG Imprimir Jogo */
 
 void imprimeResto( int totalCasa, CorPecas cor ) {
-	if(totalCasa-4 > 9){
+	if( totalCasa - 4 > 9){
 		printf("\b");
 	}
 	if(totalCasa > 5){
@@ -697,19 +744,19 @@ void imprimeSetaSelecao( int numeroCasa, CorPecas jogadorAtual, int casaSelecion
 		if(numeroCasa < 13){
 			printf("\033%s\\/\033[0m ",PRIMARIO);
 		} else {
-      printf("\033%s/\\\033[0m ",PRIMARIO);
+      		printf("\033%s/\\\033[0m ",PRIMARIO);
 		}
 	} else if(numeroCasa == casaFixada){
 		if(numeroCasa < 13){
 			printf("\033%s\\/\033[0m ",TERCIARIO);
 		} else {
-      printf("\033%s/\\\033[0m ",TERCIARIO);
+      		printf("\033%s/\\\033[0m ",TERCIARIO);
 		}
 	} else if(temDadoNessaCasa(numeroCasa, jogadorAtual, casaFixada, dados) == 1){
 		if(numeroCasa < 13){
 			printf("\033%s\\/\033[0m ",SECUNDARIO);
 		} else {
-      printf("\033%s/\\\033[0m ",SECUNDARIO);
+      		printf("\033%s/\\\033[0m ",SECUNDARIO);
 		}
 	} else{
 		printf("   ");
