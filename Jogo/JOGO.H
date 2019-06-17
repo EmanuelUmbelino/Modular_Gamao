@@ -14,6 +14,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão   Autores	  Data					Observações
+*        4        phs      17/06/2019        Adição de telas de vitória e de opções de aceitar e recusar dobras
 *	  	 	3    		elu	  	04/06/2019			
 *	  	 	2   		elu	  	03/06/2019			Melhorado impressão do jogo
 *      	1    		elu	  	03/06/2019			Criação do módulo 

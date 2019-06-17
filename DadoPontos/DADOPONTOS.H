@@ -13,11 +13,12 @@
 *			phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data           Observações
-*		 4		jpk		10/06/2019	   Adição de setters
-*	   	 3    	elu	  	01/05/2019     Revisão das funções
-*	   	 2    	jpk	  	17/04/2019     Criação dos protótipos das funções
-*		 1   	elu	  	17/04/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	5			elu			16/06/2019		Revisão Final
+*	4			jpk			10/06/2019		Adição de setters
+*	3			elu			01/05/2019		Revisão das funções
+*	2			jpk			17/04/2019		Criação dos protótipos das funções
+*	1			elu			17/04/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *			Este módulo contém a estrutura do dado de pontos.
@@ -41,21 +42,21 @@
 *
 *************************************************************************/
 
-   typedef enum {
+	typedef enum {
 
-         DPT_CondRetOK = 0 ,
-               /* Executou correto */
+		DPT_CondRetOK = 0 ,
+			/* Executou correto */
 
-         DPT_NaoPodeDobrar = 1 ,
-               /* Jogador escolhido nao pode dobrar */
+		DPT_NaoPodeDobrar = 1 ,
+			/* Jogador escolhido nao pode dobrar */
 
-         DPT_CondRetFaltouMemoria = 2 ,
-               /* Faltou memória ao alocar dados */
+		DPT_CondRetFaltouMemoria = 2 ,
+			/* Faltou memória ao alocar dados */
 
-         DPT_CondRetDPTNaoExiste = 3 ,
-               /* DPT não existe */
+		DPT_CondRetDPTNaoExiste = 3 ,
+			/* DPT não existe */
 
-   } DPT_tpCondRet ;
+	} DPT_tpCondRet ;
 
 
 /*************************************************************************
@@ -71,7 +72,7 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_CriarDadoPontos ( void ) ;
+	DPT_tpCondRet DPT_CriarDadoPontos ( void ) ;
 
 
 /*************************************************************************
@@ -81,8 +82,11 @@
 *	$EC Descrição: Função que, ao executada, dobra os pontos
 *	da partida em andamento. 
 *
-* $EED Assertivas estruturais: Quando um jogador dobra os pontos, ele não 
-* pode fazer uma outra dobra de pontos até que o outro jogador tenha feito.
+*	$EED Assertivas estruturais: Quando um jogador dobra os pontos, ele não 
+*	pode fazer uma outra dobra de pontos até que o outro jogador tenha feito.
+*
+*	$EP Parâmetros:
+*     $P jogador - é a cor do jogador que efetuará a dobra
 *
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
@@ -91,7 +95,7 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_DobraPontos ( CorPecas jogador ) ;
+	DPT_tpCondRet DPT_DobraPontos ( CorPecas jogador ) ;
 
 
 /*************************************************************************
@@ -102,14 +106,15 @@
 *
 *************************************************************************/
 
-	 void DPT_DestruirDadoPontos ( void ) ;
+	void DPT_DestruirDadoPontos ( void ) ;
 
 
 /*************************************************************************
 *
 *	$FC Função: DPT Valor da Partida
 *
-*	$EC Descrição: Função que exibe o atual valor da partida
+*	$EP Parâmetros:
+*     $P valor - é o valor da partida passado por referência
 *
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
@@ -117,14 +122,15 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_ValorPartida ( int * valor ) ;
+	DPT_tpCondRet DPT_ValorPartida ( int * valor ) ;
 
 /*************************************************************************
 *
 *	$FC Função: DPT Quem Pode Dobrar
 *
-*	$EC Descrição: Função que exibe o jogador que pode dobrar
-*	os pontos da atual partida
+*	$EP Parâmetros:
+*     $P jogador - é a cor do jogador que pode efetuar uma dobra
+*                    passado por referência
 *
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
@@ -132,29 +138,16 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_QuemPodeDobrar ( CorPecas * jogador );
+	DPT_tpCondRet DPT_QuemPodeDobrar ( CorPecas * jogador ) ;
 
 
 /*************************************************************************
 *
-*	$FC Função: DPT Set Quem Pode Dobrar
+*	$FC Função: DPT Carrega Dado Pontos
 *
-*	$EC Descrição: Função que seta o jogador que pode dobrar
-*	os pontos da atual partida
-*
-*	$FV Valores de retorno:
-*		- DPT_CondRetOK
-*		- DPT_CondRetDPTNaoExiste
-*
-*************************************************************************/
-
-	 DPT_tpCondRet DPT_SetQuemPodeDobrar ( CorPecas * jogador );
-
-/*************************************************************************
-*
-*	$FC Função: DPT Set Valor da Partida
-*
-*	$EC Descrição: Função que Seta o atual valor da partida
+*  $EP Parâmetros
+*     $P jogador - cor do jogador atual
+*     $P valor - valor atual da partida
 *
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
@@ -162,7 +155,7 @@
 *
 *************************************************************************/
 
-	 DPT_tpCondRet DPT_SetValorPartida ( int * valor ) ;
+	DPT_tpCondRet DPT_CarregaDadoPontos ( CorPecas jogador, int valor ) ;
 
 #undef DPT_EXT
 

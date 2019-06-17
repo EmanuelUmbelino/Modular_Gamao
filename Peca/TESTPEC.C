@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo de teste específico
+*  $MCI Módulo de implementação: Módulo de teste específico para peça
 *
 *  Arquivo gerado:              TESTPEC.C
 *  Letras identificadoras:      TPEC
@@ -10,9 +10,10 @@
 *           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*    Versão	  Autores		 	 Data        Observações
-*      2				elu	  	01/05/2019     Criados casos de teste
-*      1				elu	  	01/05/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	3			elu			16/06/2019		Revisão Final
+*	2			elu			01/05/2019		Criados casos de teste
+*	1			elu			01/05/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo contém as funções específicas para o teste do
@@ -22,10 +23,13 @@
 *  $EIU Interface com o usuário pessoa
 *     Comandos de teste específicos para testar o módulo peça:
 *
-*     "=criar <CorPecas>"        - chama a função PEC_CriarPeca( pecaRetornada , <CorPecas> )
+*     "=criar <CorPecas>"        
+*                   - chama a função PEC_CriarPeca( pecaRetornada , <CorPecas> )
 *                     Obs. notação: <CorPecas>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
+*
 *     "=obtercor"   - chama a função PEC_ObterCor( pecaAtual , corRetornada )
+*
 *     "=destruir"   - chama a função PEC_DestruirPeca( pecaAtual )
 *
 ***************************************************************************/
@@ -33,12 +37,12 @@
 #include    <string.h>
 #include    <stdio.h>
 
-#include    "TST_ESPC.H"
+#include    "..\TST_ESPC.H"
 
-#include    "generico.h"
-#include    "lerparm.h"
-#include    "cor.h"
-#include    "peca.h"
+#include    "..\GENERICO.H"
+#include    "..\LERPARM.H"
+#include    "..\Cor\COR.H"
+#include    "PECA.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
@@ -72,11 +76,12 @@
 	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	{
 
-		PEC_tpCondRet CondRetObtido   = PEC_CondRetOK ;
+		PEC_tpCondRet CondRetObtido = PEC_CondRetOK ;
 		PEC_tpCondRet CondRetEsperada = PEC_CondRetFaltouMemoria ;
-												  /* inicializa para qualquer coisa */
-		CorPecas ValorDadoCor			= 0 ;
-		CorPecas ValorEsperadoCor	= 0 ;
+			/* inicializa com qualquer coisa */
+
+		CorPecas ValorDadoCor = 0 ;
+		CorPecas ValorEsperadoCor = 0 ;
 
 		int  NumLidos = -1 ;
 
@@ -144,5 +149,5 @@
 
 	} /* Fim função: TPEC Efetuar operações de teste específicas para peça */
 
-/********** Fim do módulo de implementação: Módulo de teste específico **********/
+/********** Fim do módulo de implementação: Módulo de teste específico para peça **********/
 

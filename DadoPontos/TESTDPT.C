@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo de teste específico
+*  $MCI Módulo de implementação: Módulo de teste específico para dado de pontos
 *
 *  Arquivo gerado:              TESTDPT.C
 *  Letras identificadoras:      TDPT
@@ -10,9 +10,10 @@
 *           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*    Versão	  Autores		 	 Data        Observações
-*      2				elu	  	01/05/2019     Criados casos de teste
-*      1				elu	  	01/05/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	3			elu			16/06/2019		Revisão Final
+*	2			elu			01/05/2019		Criados casos de teste
+*	1			elu			01/05/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo contém as funções específicas para o teste do
@@ -23,11 +24,14 @@
 *     Comandos de teste específicos para testar o módulo dado de pontos:
 *
 *     "=criar"        - chama a função DPT_CriarDadoPontos(  )
-*     "=dobra <CorJogador> "   - chama a função DPT_DobraPontos( <CorJogador> )
-*                     Obs. notação: <CorJogador>  é o valor do parâmetro
+*     "=dobra <CorPecas> "
+*                     - chama a função DPT_DobraPontos( <CorPecas> )
+*                     Obs. notação: <CorPecas>  é o valor do parâmetro
 *                     que se encontra no comando de teste.
 *     "=obtervalor"   - chama a função DPT_ValorPartida( valorRetornado )
 *     "=atual"   - chama a função DPT_QuemPodeDobrar( corRetornada )
+*     "=carrega <CorPecas> <Int>"
+*                     - chama a função DPT_CarregaDadoPontos( <CorPecas>, <Int> )
 *     "=destruir"   - chama a função DPT_DestruirDadoPontos( )
 *
 ***************************************************************************/
@@ -35,12 +39,12 @@
 #include    <string.h>
 #include    <stdio.h>
 
-#include    "TST_ESPC.H"
+#include    "..\TST_ESPC.H"
 
-#include    "generico.h"
-#include    "lerparm.h"
-#include    "cor.h"
-#include    "dadopontos.h"
+#include    "..\GENERICO.H"
+#include    "..\LERPARM.H"
+#include    "..\Cor\COR.H"
+#include    "DADOPONTOS.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
@@ -48,6 +52,7 @@
 #define     DOBRA_DPT_CMD       "=dobra"
 #define     OBTER_VALOR_CMD       "=obtervalor"
 #define     JOGADOR_ATUAL_CMD       "=atual"
+#define     CARREGA_DPT_CMD       "=carrega"
 #define     DESTROI_CMD         "=destruir"
 
 
@@ -73,11 +78,13 @@
 	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	{
 
-		DPT_tpCondRet CondRetObtido   = DPT_CondRetOK ;
+		DPT_tpCondRet CondRetObtido = DPT_CondRetOK ;
 		DPT_tpCondRet CondRetEsperada = DPT_CondRetFaltouMemoria ;
-												  /* inicializa para qualquer coisa */
-		CorPecas ValorDadoCor			= 0 ;
-		CorPecas ValorEsperadoCor	= 0 ;
+			/* inicializa com qualquer coisa */
+
+		CorPecas ValorDadoCor = 0 ;
+		CorPecas ValorEsperadoCor = 0 ;
+		int ValorDado = 0;
 		int ValorEsperado = 0;
 		int ValorObtido = 0 ;
 
@@ -177,6 +184,24 @@
 
 			} /* fim ativa: Testar DPT Quem Pode Dobrar */
 
+		/* Testar DPT Carrega Dado Pontos */
+
+			else if ( strcmp( ComandoTeste , CARREGA_DPT_CMD ) == 0 )
+			{
+
+				NumLidos = LER_LerParametros( "iii" ,
+										 &ValorDadoCor , &ValorDado , &CondRetEsperada ) ;
+				if ( NumLidos != 3 )
+				{
+					return TST_CondRetParm ;
+				} /* if */
+
+				CondRetObtido = DPT_CarregaDadoPontos( ValorDadoCor , ValorDado ) ;
+
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+												"Retorno errado ao carregar dado de pontos." ) ;
+
+			} /* fim ativa: Testar DPT Carrega Dado Pontos */
 
 		/* Testar DPT Destruir dado de pontos */
 
@@ -193,5 +218,5 @@
 
 	} /* Fim função: TDPT Efetuar operações de teste específicas para dado de pontos */
 
-/********** Fim do módulo de implementação: Módulo de teste específico **********/
+/********** Fim do módulo de implementação: Módulo de teste específico para dado de pontos **********/
 

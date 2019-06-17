@@ -10,13 +10,14 @@
 *			phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*     Versão   Autores	  Data          Observações
-*		6		jpk		10/06/2019	   Adição de setters
-*		5		elu		01/05/2019	   Revisão e reimplementação completa do módulo
-*		4		jpk		01/05/2019	   Finalização parcial do módulo
-*	   	3    	jpk	  	22/04/2019     Finalização parcial do módulo 
-*	   	2   	jpk	  	17/04/2019     Criação dos escopos das funções
-*       1	   	elu	  	17/04/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	7			elu			16/06/2019		Revisão Final
+*	6			jpk			10/06/2019		Adição de setters
+*	5			elu			01/05/2019		Revisão e reimplementação completa do módulo
+*	4			jpk			01/05/2019		Finalização parcial do módulo
+*	3			jpk			22/04/2019		Finalização parcial do módulo 
+*	2			jpk			17/04/2019		Criação dos escopos das funções
+*	1			elu			17/04/2019		Inicializado projeto
 *
 ***************************************************************************/
 
@@ -26,7 +27,6 @@
 	#define DPT_OWN
 	#include "DADOPONTOS.H"
 	#undef DPT_OWN
-
 
 /***********************************************************************
 *
@@ -42,18 +42,20 @@
 	{
 		int valor;
 			/* Valor da partida atual */
+
 		CorPecas podeDobrar;
 			/*	Cor do jogador que pode Dobrar 
 			*
 			*$EED Assertivas estruturais
-			*   Começa com NULL, os dois podem dobrar
-			*   Depois vai revezando entre os jogadores */
+			*   Começa com Neutro, os dois podem dobrar
+			*   Após a primeira dobra, vai revezando entre os jogadores */
+
 	} tpDadoPontos ;
 
 /*****  Dados encapsulados no módulo  *****/
 
-		static tpDadoPontos * dpt = NULL ;
-				/* Ponteiro para o dado de pontos */
+	static tpDadoPontos * dpt = NULL ;
+		/* Ponteiro para o dado de pontos */
 
 
 /******  Código das funções exportadas pelo módulo  ******/
@@ -65,7 +67,7 @@
 	
 	DPT_tpCondRet DPT_CriarDadoPontos( void )
 	{
-		dpt = ( tpDadoPontos* ) malloc ( sizeof( tpDadoPontos ) ) ;
+		dpt = ( tpDadoPontos* ) malloc( sizeof( tpDadoPontos ) ) ;
 
 		if ( dpt == NULL ) {
 			return DPT_CondRetFaltouMemoria ;
@@ -84,12 +86,11 @@
 
 	void DPT_DestruirDadoPontos ( void )
 	{
-		if ( dpt == NULL )
-		{
+		if ( dpt == NULL ) {
 			return ;
 		} /* if */
 
-		free(dpt) ;
+		free( dpt ) ;
 		dpt = NULL ;
 
 	} /* Fim função: DPT Detruir Dado de Pontos */
@@ -112,15 +113,13 @@
 		dpt->valor *= 2 ;
 		dpt->podeDobrar = !jogador ;
 		return DPT_CondRetOK ;
-	
 	} /* Fim função: DPT Dobra Pontos da Partida */
 
 
 /***************************************************************************
 *
 *  Função: DPT Valor da Partida
-*
-****************************************************************************/
+*  ****/
 
 	DPT_tpCondRet DPT_ValorPartida ( int * valor )
 	{
@@ -136,8 +135,7 @@
 /***************************************************************************
 *
 *  Função: DPT Quem Pode Dobrar
-*
-****************************************************************************/
+*  ****/
 
 	DPT_tpCondRet DPT_QuemPodeDobrar ( CorPecas * jogador )
 	{
@@ -151,34 +149,19 @@
 												 
 /***************************************************************************
 *
-*  Função: DPT Set Quem Pode Dobrar
-*
-****************************************************************************/
+*  Função: DPT Carrega Dado Pontos
+*  ****/
 
-	DPT_tpCondRet DPT_SetQuemPodeDobrar ( CorPecas * jogador )
+	DPT_tpCondRet DPT_CarregaDadoPontos ( CorPecas jogador, int valor )
 	{
 		if ( dpt == NULL ) {
 			return DPT_CondRetDPTNaoExiste ;
 		} /* if */
 	   
-		dpt->podeDobrar = *jogador;
+		dpt->podeDobrar = jogador;
+		dpt->valor = valor;
 		return DPT_CondRetOK ;
-	}	/* Fim função: DPT Set Quem Pode Dobrar */
+	}	/* Fim função: DPT Carrega Dado Pontos */
 
-/***************************************************************************
-*
-*  Função: DPT Set Valor da Partida
-*
-****************************************************************************/
-
-	DPT_tpCondRet DPT_SetValorPartida ( int * valor ) 
-	{
-		if ( dpt == NULL ) {
-			return DPT_CondRetDPTNaoExiste ;
-		} /* if */
-	   
-		dpt->valor = *valor;
-		return DPT_CondRetOK ;
-	}	/* Fim função: DPT Set Valor da partida */
 
 /********** Fim do módulo de implementação: Módulo Dado de Pontos **********/

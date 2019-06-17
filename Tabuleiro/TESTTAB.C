@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo de teste específico
+*  $MCI Módulo de implementação: Módulo de teste específico para tabuleiro
 *
 *  Arquivo gerado:              TESTTAB.C
 *  Letras identificadoras:      TTAB
@@ -10,9 +10,10 @@
 *           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*    Versão	  Autores		 	 Data        Observações
-*      2				elu	  	01/05/2019     Criados casos de teste
-*      1				elu	  	01/05/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	3			elu			16/06/2019		Revisão Final
+*	2			elu			01/05/2019		Criados casos de teste
+*	1			elu			01/05/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo contém as funções específicas para o teste do
@@ -23,6 +24,7 @@
 *     Comandos de teste específicos para testar o módulo tabuleiro:
 *
 *     "=criar"        - chama a função TAB_CriarTabuleiro( )
+*
 *     "=insere <Int> <Int>"
 *                   - chama a função TAB_InserePecaCasa( <Int> , <Int> )
 *                     Obs. notação: <Int>  é o valor do parâmetro
@@ -30,10 +32,13 @@
 *
 *     "=remove <Int>"
 *                   - chama a função TAB_RemovePecaCasa( <Int> )
+*
 *     "=obternum <Int> <*Int>"
 *                   - chama a função TAB_NumPecasCasa( <Int> , <*Int> )
+*
 *     "=obtercor <Int> <*CorPecas>"
 *                   - chama a função TAB_CorPecasCasa( <Int> , <*CorPecas> )
+*
 *     "=destruir"   - chama a função TAB_DestruirTabuleiro( )
 *
 ***************************************************************************/
@@ -41,14 +46,13 @@
 #include    <string.h>
 #include    <stdio.h>
 
-#include    "TST_ESPC.H"
+#include    "..\TST_ESPC.H"
 
-#include    "generico.h"
-#include    "lerparm.h"
-#include    "LISTA.H"
-#include    "cor.h"
-#include    "LISTA.H"
-#include    "tabuleiro.h"
+#include    "..\GENERICO.H"
+#include    "..\LERPARM.H"
+#include    "..\Lista\LISTA.H"
+#include    "..\Cor\COR.H"
+#include    "TABULEIRO.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
@@ -81,16 +85,16 @@
 	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	{
 
-		TAB_tpCondRet CondRetObtido   = TAB_CondRetOK ;
+		TAB_tpCondRet CondRetObtido = TAB_CondRetOK ;
 		TAB_tpCondRet CondRetEsperada = TAB_CondRetCasaVazia ;
-												  /* inicializa para qualquer coisa */
+			/* Inicializa com qualquer valor */
 
-		CorPecas ValorRecebidoCor	= Neutro ;
-		CorPecas ValorDadoCor			= Neutro ;
-		CorPecas ValorEsperadoCor	= Neutro ;
-		int ValorDadoInt					= 0 ;
-		int ValorRecebidoInt			= 0 ;
-		int ValorEsperadoInt			= 0 ;
+		CorPecas ValorRecebidoCor = Neutro ;
+		CorPecas ValorDadoCor = Neutro ;
+		CorPecas ValorEsperadoCor = Neutro ;
+		int ValorDadoInt = 0 ;
+		int ValorRecebidoInt = 0 ;
+		int ValorEsperadoInt = 0 ;
 
 		int  NumLidos = -1 ;
 
@@ -153,7 +157,7 @@
 
 			} /* fim ativa: Testar TAB Remove Peça na Casa */
 
-		/* Testar TAB Num Peças da Casa */
+		/* Testar TAB Número de Peças da Casa */
 
 			else if ( strcmp( ComandoTeste , OBTER_NUM_CMD ) == 0 )
 			{
@@ -178,9 +182,9 @@
 				return TST_CompararInt( ValorEsperadoInt , ValorRecebidoInt ,
 												 "Quantidade de peças na casa está errada." ) ;
 
-			} /* fim ativa: Testar TAB Num Peças da Casa */
+			} /* fim ativa: Testar TAB Número de Peças da Casa */
 
-		/* Testar TAB Cor Peças da Casa */
+		/* Testar TAB Cor das Peças da Casa */
 
 			else if ( strcmp( ComandoTeste , OBTER_COR_CMD ) == 0 )
 			{
@@ -205,7 +209,7 @@
 				return TST_CompararInt( ValorEsperadoCor , ValorRecebidoCor ,
 												 "Cor das peças na casa está errada." ) ;
 
-			} /* fim ativa: Testar TAB Cor Peças da Casa */
+			} /* fim ativa: Testar TAB Cor das Peças da Casa */
 
 
 		/* Testar TAB Destruir Tabuleiro */
@@ -223,5 +227,5 @@
 
 	} /* Fim função: TTAB Efetuar operações de teste específicas para tabuleiro */
 
-/********** Fim do módulo de implementação: Módulo de teste específico **********/
+/********** Fim do módulo de implementação: Módulo de teste específico para tabuleiro **********/
 

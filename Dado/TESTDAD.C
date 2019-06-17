@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo de teste específico
+*  $MCI Módulo de implementação: Módulo de teste específico para dado
 *
 *  Arquivo gerado:              TESTDAD.C
 *  Letras identificadoras:      TDAD
@@ -10,9 +10,10 @@
 *           phs - Pedro Henrique Soares
 *
 *  $HA Histórico de evolução:
-*    Versão	  Autores		 	 Data        Observações
-*      2				elu	  	02/05/2019     Criados casos de teste
-*      1				elu	  	02/05/2019     Inicializado projeto
+*	Versão		Autores		Data			Observações
+*	3			elu			16/06/2019		Revisão Final
+*	2			elu			02/05/2019		Criados casos de teste
+*	1			elu			02/05/2019		Inicializado projeto
 *
 *  $ED Descrição do módulo
 *     Este módulo contém as funções específicas para o teste do
@@ -29,11 +30,11 @@
 #include    <string.h>
 #include    <stdio.h>
 
-#include    "TST_ESPC.H"
+#include    "..\TST_ESPC.H"
 
-#include    "generico.h"
-#include    "lerparm.h"
-#include    "dado.h"
+#include    "..\GENERICO.H"
+#include    "..\LERPARM.H"
+#include    "DADO.H"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
@@ -61,32 +62,17 @@
 
 	TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
 	{
-
-		DAD_tpCondRet CondRetObtido   = DAD_CondRetOK ;
-		DAD_tpCondRet CondRetEsperada = DAD_CondRetOK ;
-												  /* inicializa para qualquer coisa */
 		int ValorObtido = 0 ;
-
-		int  NumLidos = -1 ;
-
-		TST_tpCondRet Ret ;
 
 		/* Testar DAD Jogar Dado */
 
 			if ( strcmp( ComandoTeste , JOGAR_DAD_CMD ) == 0 )
 			{
 
-				NumLidos = LER_LerParametros( "i" ,
-										 &CondRetEsperada ) ;
-				if ( NumLidos != 1 )
-				{
-					return TST_CondRetParm ;
-				} /* if */
-
-				CondRetObtido = DAD_JogarDado( &ValorObtido ) ;
+				DAD_JogarDado( &ValorObtido ) ;
 				printf( "\n Resultado: %d", ValorObtido ) ;
-				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-												"Retorno errado ao jogar dado." ) ;
+
+				return TST_CondRetOK ;
 
 			} /* fim ativa: Testar DAD Jogar Dado */
 
@@ -94,5 +80,5 @@
 
 	} /* Fim função: TDAD Efetuar operações de teste específicas para dado */
 
-/********** Fim do módulo de implementação: Módulo de teste específico **********/
+/********** Fim do módulo de implementação: Módulo de teste específico para dado **********/
 

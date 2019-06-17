@@ -66,6 +66,8 @@
 
 	static void carregarJogo ( char * nomeJogo ) ; 
 
+	static void imprimeVitoria (CorPecas jogadorVencedor, int valorPartida) ;
+
 /***************************************************************************
 *
 *  Função: JOG Iniciar Jogo
@@ -84,15 +86,24 @@
 		int ch1, ch2, opcaoSelecionada = 0;
 		char nomeJogo[15];
 		while(1){
-			printf("\n      G A M A O \n\n  ");
-			if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
-			else{ printf(" "); }
+			
+			puts("   _____              __  __               ____  ");
+			puts("  / ____|     /\\     |  \\/  |     /\\      / __ \\ ");
+			puts(" | |  __     /  \\    | \\  / |    /  \\    | |  | |");
+			puts(" | | |_ |   / /\\ \\   | |\\/| |   / /\\ \\   | |  | |");
+			puts(" | |__| |  / ____ \\  | |  | |  / ____ \\  | |__| |");
+			puts("  \\_____| /_/    \\_\\ |_|  |_| /_/    \\_\\  \\____/ ");
+
+			puts("");
+
+			if(opcaoSelecionada == 0) { printf("\t\t\033%s>",PRIMARIO); }
+			else{ printf("\t\t"); }
 			printf(" Novo Jogo\033[0m\n  ");
-			if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
-			else{ printf(" "); }
+			if(opcaoSelecionada == 1) { printf("\t\t\033%s>",PRIMARIO); }
+			else{ printf("\t\t"); }
 			printf(" Carregar Jogo\033[0m\n  ");
-			if(opcaoSelecionada == 2) { printf("\033%s>",PRIMARIO); }
-			else{ printf(" "); }
+			if(opcaoSelecionada == 2) { printf("\t\t\033%s>",PRIMARIO); }
+			else{ printf("\t\t"); }
 			printf(" Sair\033[0m\n\n\n");
 			ch1 = getch();
 			ch2 = 0;
@@ -171,6 +182,11 @@ void carregarJogo ( char * nomeJogo )
 	CorPecas corPec = Neutro;
 	char Jogo[1];
 	
+	TAB_CriarTabuleiro();
+	FIM_CriarFinalizadas();
+	DPT_CriarDadoPontos();
+	BAR_CriarBarra();
+
 	fp = fopen(nomeJogo, "r");
 	if (fp == NULL)
 	{
@@ -222,14 +238,13 @@ void carregarJogo ( char * nomeJogo )
 			else if (strcmp(Jogo,"V")==0)
 			{
 				fscanf(fp,"%d\n", &valorPartida);
-				DPT_SetValorPartida(&valorPartida);
 			}
 			else
 			{
-				 fscanf(fp,"%d\n", &corPec);
-				 DPT_SetQuemPodeDobrar(&corPec);
+				fscanf(fp,"%d\n", &corPec);
 			}
 		}
+		DPT_CarregaDadoPontos(corPec, valorPartida);
 		jogo(corPec);
 	}
 }
@@ -306,8 +321,10 @@ void jogo( CorPecas jogadorAtual ){
 				printf(" %d ",dados[i]);
 			}
 		}
+
 		if(passo == JogarDado){
 			printf("\nEspaco - jogar dados");
+			printf("\nD - Dobrar pontos");
 		}
 		else if(passo == EscolherPeca){
 			printf("\nZ - proxima peca");
@@ -318,12 +335,13 @@ void jogo( CorPecas jogadorAtual ){
 			printf("\nEspaco - confirmar jogada");
 			printf("\nEsc - voltar para selecao de peca");
 		}
-
-		printf("\nD - Dobrar pontos");
+	
 		printf("\nS - Salvar jogo");
+		
 		if(passo != EscolherDado) {
 			printf("\nEsc - Fechar jogo");
 		}
+		
 		ch = getch();
 		if(ch == 'z') { // Z
 			if(passo == EscolherPeca){
@@ -416,59 +434,63 @@ void jogo( CorPecas jogadorAtual ){
 		}
 		else if (ch == 'd')
 		{
-			if (jogadorAtual == podeDobrar || podeDobrar == Neutro)
-			{
-				CLEAR_SCREEN;
-
-				while(1){
-					if ( jogadorAtual == Vermelha )
-					{
-						printf("O jogador \033%VERMELHO\033[0m te desafiou a dobrar os pontos\n", cores[Vermelha]);
-					}
-					else if ( jogadorAtual == Preta )
-					{
-						printf("O jogador \033%sVERDE\033[0m te desafiou a dobrar os pontos\n", cores[Preta]);
-					}
-					
-					if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
-					else{ printf(" "); }
-					printf(" Aceitar\033[0m\n");
-					if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
-					else{ printf(" "); }
-					printf(" Recusar\033[0m\n");
-					ch1 = getch();
-					ch2 = 0;
+			if( passo == JogarDado ){
+				if (jogadorAtual == podeDobrar || podeDobrar == Neutro)
+				{
 					CLEAR_SCREEN;
-					if (ch1 == 0xE0) {
-						ch2 = getch();
-						switch (ch2)
+
+					while(1){
+						if ( jogadorAtual == Vermelha )
 						{
-							case 72: opcaoSelecionada -= 1; break;
-							case 80: opcaoSelecionada += 1; break;
-						};
-						if(opcaoSelecionada > 1){ opcaoSelecionada = 0 ; }
-						else if(opcaoSelecionada < 0){ opcaoSelecionada = 1 ; }
+							printf("O jogador \033%sVERMELHO\033[0m te desafiou a dobrar os pontos\n", cores[Vermelha]);
+						}
+						else if ( jogadorAtual == Preta )
+						{
+							printf("O jogador \033%sVERDE\033[0m te desafiou a dobrar os pontos\n", cores[Preta]);
+						}
+						
+						if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
+						else{ printf(" "); }
+						printf(" Aceitar\033[0m\n");
+						if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
+						else{ printf(" "); }
+						printf(" Recusar\033[0m\n");
+						ch1 = getch();
+						ch2 = 0;
+						CLEAR_SCREEN;
+						if (ch1 == 0xE0) {
+							ch2 = getch();
+							switch (ch2)
+							{
+								case 72: opcaoSelecionada -= 1; break;
+								case 80: opcaoSelecionada += 1; break;
+							};
+							if(opcaoSelecionada > 1){ opcaoSelecionada = 0 ; }
+							else if(opcaoSelecionada < 0){ opcaoSelecionada = 1 ; }
+						}
+						else if (ch1 == 13)
+						{
+							break;
+						}
 					}
-					else if (ch1 == 13)
+					if (opcaoSelecionada == 0)
 					{
-						break;
+						DPT_DobraPontos(jogadorAtual);
+						DPT_QuemPodeDobrar(&podeDobrar);
+						DPT_ValorPartida(&valorPartida);
+					} else if (opcaoSelecionada == 1)
+					{
+						DPT_ValorPartida(&valorPartida);
+						imprimeVitoria(jogadorAtual, valorPartida);
+						menuInicial();
 					}
 				}
-				if (opcaoSelecionada == 0)
+				else
 				{
-					DPT_DobraPontos(jogadorAtual);
-					DPT_QuemPodeDobrar(&podeDobrar);
-					DPT_ValorPartida(&valorPartida);
-				} else if (opcaoSelecionada == 1)
-				{
-					menuInicial();
+					CLEAR_SCREEN;
+					printf("Voce nao pode dobrar os pontos dessa partida.\nPressione qualquer tecla para continuar...\n");
+					getch();
 				}
-			}
-			else
-			{
-				CLEAR_SCREEN;
-				printf("Voce nao pode dobrar os pontos dessa partida.\nPressione qualquer tecla para continuar...\n");
-				getch();
 			}
 		}
 		else if (ch == 'p')
@@ -488,14 +510,17 @@ void jogo( CorPecas jogadorAtual ){
 }
 
 int movimentar ( int posInicio, int posFinal, CorPecas jogadorAtual ) {
-	int numPecasFinal;
-	CorPecas corFinal; 
+	int numPecasFinal, numPecasFinalizadas, valorPartida;
+	CorPecas corFinal;
+
 	if(jogadorAtual == Vermelha && posFinal < 1 && !podeFinalizar(jogadorAtual)){
 		return 0;
 	}
+	
 	if(jogadorAtual == Preta && posFinal > 24 && !podeFinalizar(jogadorAtual)){
 		return 0;
 	}
+	
 	if(posFinal >= 1 && posFinal <= 24){
 		TAB_NumPecasCasa(posFinal,&numPecasFinal);
 		if(numPecasFinal > 0){
@@ -511,7 +536,15 @@ int movimentar ( int posInicio, int posFinal, CorPecas jogadorAtual ) {
 		TAB_InserePecaCasa(posFinal,jogadorAtual);
 	}
 	else {
-		FIM_FinalizarPeca(jogadorAtual) ;
+		FIM_FinalizarPeca( jogadorAtual ) ;
+		FIM_NumPecas( jogadorAtual , &numPecasFinalizadas ) ;
+		if ( numPecasFinalizadas == 15 )
+		{
+			DPT_ValorPartida(&valorPartida);
+			imprimeVitoria( jogadorAtual, valorPartida ) ;
+			menuInicial();
+
+		}
 	}
 	if(posInicio < 1 || posInicio > 24){
 		BAR_RemovePeca(jogadorAtual);
@@ -642,7 +675,7 @@ void imprimirJogo( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, i
 			printf(" ");
 		}
 		printf("|    ");
-		imprimePeca(qtdPecasFinalizadas[0],Vermelha,f);
+		imprimePeca(qtdPecasFinalizadas[0],Preta,f);
 		printf("\n");
 	}
 
@@ -664,7 +697,7 @@ void imprimirJogo( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, i
 			printf(" ");
 		}
 		printf("|    ");
-		imprimePeca(qtdPecasFinalizadas[1],Preta,f);
+		imprimePeca(qtdPecasFinalizadas[1],Vermelha,f);
 		printf("\n");
 	}
 	printf("|-------------------| |-------------------|\n");
@@ -761,4 +794,36 @@ void imprimeSetaSelecao( int numeroCasa, CorPecas jogadorAtual, int casaSelecion
 	} else{
 		printf("   ");
 	}
+}
+
+void imprimeVitoria (CorPecas jogadorVencedor, int valorPartida)
+{
+	CLEAR_SCREEN;
+	printf("\033%s", cores[jogadorVencedor]);
+
+	if ( jogadorVencedor == Preta )
+	{
+		puts("  __      __                    _           __      __                                     ");
+		puts("  \\ \\    / /                   | |          \\ \\    / /                                     ");
+		puts("   \\ \\  / /    ___   _ __    __| |   ___     \\ \\  / /    ___   _ __     ___    ___   _   _ ");
+		puts("    \\ \\/ /    / _ \\ | '__|  / _` |  / _ \\     \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |");
+		puts("     \\  /    |  __/ | |    | (_| | |  __/      \\  /    |  __/ | | | | | (__  |  __/ | |_| |");
+		puts("      \\/      \\___| |_|     \\__,_|  \\___|       \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|");													
+	}
+	else if ( jogadorVencedor == Vermelha )
+	{
+		puts("  __      __                                   _   _                __      __                                     ");
+		puts("  \\ \\    / /                                  | | | |               \\ \\    / /                                     ");
+		puts("   \\ \\  / /    ___   _ __   _ __ ___     ___  | | | |__     ___      \\ \\  / /    ___   _ __     ___    ___   _   _ ");
+		puts("    \\ \\/ /    / _ \\ | '__| | '_ ` _ \\   / _ \\ | | | '_ \\   / _ \\      \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |");
+		puts("     \\  /    |  __/ | |    | | | | | | |  __/ | | | | | | | (_) |      \\  /    |  __/ | | | | | (__  |  __/ | |_| |");
+		puts("      \\/      \\___| |_|    |_| |_| |_|  \\___| |_| |_| |_|  \\___/        \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|");
+                                                                                                
+	}
+
+	printf("\n\t\t\t\tTotal de pontos obtidos na partida: %d\n\n", valorPartida);
+	printf("\n\n\033[0m  \tPressione qualquer tecla para voltar ao menu...\n\n") ;
+
+	getch() ;
+	CLEAR_SCREEN;
 }
