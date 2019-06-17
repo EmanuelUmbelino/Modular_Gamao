@@ -146,7 +146,7 @@
 
 	BAR_tpCondRet BAR_RemovePeca( CorPecas cor )
 	{
-		int cond ;
+		int cond = 0;
 		
 		if ( bar == NULL ) {
 			return BAR_CondRetBarNaoExiste ;

@@ -83,6 +83,8 @@
 *     Remove e destroi as peças que foram capturadas e a Barra de 
 *	  peças capturadas.
 *     Faz nada caso o tabuleiro corrente não exista.
+*  $FV Valores de retorno:
+*	- BAR_CondRetBarNaoExiste
 *
 *************************************************************************/
 
