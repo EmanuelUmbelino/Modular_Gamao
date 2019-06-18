@@ -36,6 +36,9 @@
 *  $ED Descrição da função
 *     Sorteia um valor de 1 a 6 e retorna por referência.
 *
+*  $EAE Assertivas de entradas esperadas
+*	 
+*
 *  $EP Parâmetros
 *     $P valor - É o parámetro que receberá o valor do dado por referência
 *
