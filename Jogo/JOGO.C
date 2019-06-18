@@ -23,7 +23,7 @@
 #define VERMELHO "[1;31m"
 #define PRETO "[1;32m"
 #define PRIMARIO "[1;36m"
-#define SECUNDARIO "[1;34m"
+#define SECUNDARIO "[0;34m"
 #define TERCIARIO "[1;33m"
 
 	static char *cores[2];
@@ -75,16 +75,16 @@
 
 	void JOG_IniciarJogo( void ) 
 	{
-		cores[Preta] = PRETO;
-		cores[Vermelha] = VERMELHO;
-		CLEAR_SCREEN;
-		menuInicial();
+		cores[Preta] = PRETO ;
+		cores[Vermelha] = VERMELHO ;
+		CLEAR_SCREEN ;
+		menuInicial() ;
 
 	} /* Fim função: JOG Iniciar Jogo */
 
 	void menuInicial() {
-		int ch1, ch2, opcaoSelecionada = 0;
-		char nomeJogo[15];
+		int ch1, ch2, opcaoSelecionada = 0 ;
+		char nomeJogo[15] ;
 		while(1){
 			
 			puts("   _____              __  __               ____  ");
@@ -94,17 +94,16 @@
 			puts(" | |__| |  / ____ \\  | |  | |  / ____ \\  | |__| |");
 			puts("  \\_____| /_/    \\_\\ |_|  |_| /_/    \\_\\  \\____/ ");
 
-			puts("");
-
-			if(opcaoSelecionada == 0) { printf("\t\t\033%s>",PRIMARIO); }
-			else{ printf("\t\t"); }
-			printf(" Novo Jogo\033[0m\n  ");
-			if(opcaoSelecionada == 1) { printf("\t\t\033%s>",PRIMARIO); }
-			else{ printf("\t\t"); }
-			printf(" Carregar Jogo\033[0m\n  ");
-			if(opcaoSelecionada == 2) { printf("\t\t\033%s>",PRIMARIO); }
-			else{ printf("\t\t"); }
+			printf("\n\n\t\t");
+			if(opcaoSelecionada == 0) { printf("\033%s>",PRIMARIO); }
+			printf(" Novo Jogo\033[0m");
+			printf("\n\n\t\t");
+			if(opcaoSelecionada == 1) { printf("\033%s>",PRIMARIO); }
+			printf(" Carregar Jogo\033[0m");
+			printf("\n\n\t\t");
+			if(opcaoSelecionada == 2) { printf("\033%s>",PRIMARIO); }
 			printf(" Sair\033[0m\n\n\n");
+			printf("\n\n\t\t");
 			ch1 = getch();
 			ch2 = 0;
 			CLEAR_SCREEN;
@@ -302,7 +301,11 @@ void jogo( CorPecas jogadorAtual ){
 		dados[i] = 0;
 	}
 	DPT_ValorPartida(&valorPartida);
-	casaSelecionada = proxCasaDeCor( 0, jogadorAtual );
+	if(jogadorAtual == Vermelha) {
+		casaSelecionada = antCasaDeCor( 0, jogadorAtual );
+	} else {
+		casaSelecionada = proxCasaDeCor( 0, jogadorAtual );
+	}
 	casaFixada = casaSelecionada;
 	podeDobrar = Neutro;
 	while(1){
@@ -358,6 +361,21 @@ void jogo( CorPecas jogadorAtual ){
 				}
 			}
 		}
+		else if(ch == 'x') { // X
+			if(passo == EscolherPeca){
+				casaSelecionada = antCasaDeCor( casaSelecionada, jogadorAtual );
+				casaFixada = casaSelecionada;
+			} 
+			else if(passo == EscolherDado) {
+				dAtual = antDado (dados, dAtual);
+
+				if(jogadorAtual == Vermelha) {
+					casaSelecionada = casaFixada - dados[dAtual];
+				} else {
+					casaSelecionada = casaFixada + dados[dAtual];
+				}
+			}
+		}
 		else if(ch == 32){ // Espaco
 			if(passo == JogarDado) {
 				DAD_JogarDado(&dados[0]) ; 
@@ -399,7 +417,11 @@ void jogo( CorPecas jogadorAtual ){
 					else {
 						passo = EscolherPeca;
 					}
-					casaSelecionada = proxCasaDeCor( 0, jogadorAtual );
+					if(jogadorAtual == Vermelha) {
+						casaSelecionada = antCasaDeCor( 0, jogadorAtual );
+					} else {
+						casaSelecionada = proxCasaDeCor( 0, jogadorAtual );
+					}
 					casaFixada = casaSelecionada;
 				}
 			}
@@ -586,6 +608,50 @@ int proxDado (int *dados, int dAtual) {
 		}
 	} while(dados[dAtual] == 0 && i < 4);
 	return dAtual ;
+}
+
+int antDado (int *dados, int dAtual) {
+	int i = 0;
+	do {
+		dAtual --;
+		i++;
+		if(dAtual < 0){
+			dAtual = 3;
+		}
+	} while(dados[dAtual] == 0 && i < 4);
+	return dAtual ;
+}
+
+int antCasaDeCor ( int casaSelecionada, CorPecas cor ){
+	int i, qtdPecasCasas, bar;
+	CorPecas coresPecasCasa;
+	BAR_NumPecas (cor, &bar) ;
+	if ( bar > 0 ) {
+		if ( cor == Vermelha )
+			return 25 ;
+		else 
+			return 0 ;
+	}
+	for(i = casaSelecionada-1; i > 0; i--){
+		TAB_NumPecasCasa(i,&qtdPecasCasas);
+		if(qtdPecasCasas > 0){
+			// Se tiver peça na casa, ve a cor da peça
+			TAB_CorPecasCasa(i,&coresPecasCasa);
+			if(coresPecasCasa == cor){
+				return i;
+			}
+		}
+	}
+	for(i = 24; i >= casaSelecionada; i--){
+		TAB_NumPecasCasa(i,&qtdPecasCasas);
+		if(qtdPecasCasas > 0){
+			// Se tiver peça na casa, ve a cor da peça
+			TAB_CorPecasCasa(i,&coresPecasCasa);
+			if(coresPecasCasa == cor){
+				return i;
+			}
+		}
+	} 
 }
 
 int proxCasaDeCor ( int casaSelecionada, CorPecas cor ){
