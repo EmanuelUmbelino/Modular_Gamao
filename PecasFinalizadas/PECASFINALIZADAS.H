@@ -63,6 +63,13 @@
 *	  o jogo de gamão.
 *     Caso já exista uma lista de peças finalizadas, esta será destruída.
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir uma variável para guardar um ponteiro para a 
+*		  lista de PECASFINALIZADAS
+*
+*  $ESE Assertivas de saída esperadas*
+*		- Ponteiro apontando para lista de peças finalizadas
+*
 *	$FV Valores de retorno:
 *		- FIM_CondRetOK
 *		- FIM_CondRetFaltouMemoria
@@ -80,6 +87,14 @@
 *	  peças finalizadas.
 *     Faz nada caso o lista corrente não exista.
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para lista de pecas 
+*		  finalizadas não nulo
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro liberado 
+*
+*
 *************************************************************************/
 
 	void FIM_DestruirFinalizadas( void ) ;
@@ -93,6 +108,15 @@
 *
 *	$EP Parâmetros:
 *     $P cor - é a cor da peça a ser inserida
+*
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para lista de peças finalizadas 
+*		- Existir a cor que é passada como parâmetro
+*
+*  $ESE Assertivas de saída esperadas
+*		- Lista de peças finalizadas com mais uma peça
+*
 *
 *	$FV Valores de retorno:
 *		- FIM_CondRetOK
@@ -114,6 +138,17 @@
 *	$EP Parâmetros:
 *     $P cor - É a cor da barra escolhida para ver o número de peças
 *     $P numPecas - é o parámetro que receberá o numero de peças por referência
+*
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para uma lista de peças finalizadas
+*		- Existir um ponteiro não nulo para um inteiro 
+*		  a ser passado como parâmetro
+*		- Existir a cor passada como parâmetro
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro para inteiro apontando para o valor
+*		  do número de peças da lista
 *
 *	$FV Valores de retorno:
 *		- FIM_CondRetOK
