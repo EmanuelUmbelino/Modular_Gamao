@@ -104,6 +104,8 @@
 
 	static void imprimeVitoria ( CorPecas jogadorVencedor, int valorPartida ) ;
 
+	static void mudarTamanhoJanela( void ) ;
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -115,6 +117,7 @@
 	{
 		cores[Preta] = PRETO ;
 		cores[Vermelha] = VERMELHO ;
+		adjustWindowSize() ;
 		CLEAR_SCREEN ;
 		menuInicial() ;
 
@@ -128,12 +131,16 @@
 *
 *  $FC Função: JOG Menu Inicial
 *
+*  $ED Descrição da função
+*     Imprime e gerencia o menu inicial.
+*     Vai para a função escolhida ou sai do jogo dependendo da escolha do jogador. 
+*
 *  ****/
 
 	void menuInicial ( void ) {
 		int ch1, ch2, opcaoSelecionada = 0 ;
 		char nomeJogo[15] ;
-		while(1){
+		while(1) {
 			
 			puts("   _____              __  __               ____  ");
 			puts("  / ____|     /\\     |  \\/  |     /\\      / __ \\ ");
@@ -1026,5 +1033,10 @@ void imprimeVitoria ( CorPecas jogadorVencedor, int valorPartida )
 	CLEAR_SCREEN;
 }
 
+	void mudarTamanhoJanela( void )
+	{
+		HWND wh = GetConsoleWindow();
+		MoveWindow(wh, 100, 50, 1000, 550, TRUE);
+	}
 
 /********** Fim do módulo de implementação: Módulo Jogo **********/
