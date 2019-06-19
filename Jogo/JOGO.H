@@ -36,6 +36,10 @@
 *
 *	$FC Função: JOG Iniciar Jogo
 *
+*  $ESE Assertivas de saída esperadas
+*     - Execução do jogo finalizada.
+*
+*
 *************************************************************************/
 
    void JOG_IniciarJogo( void ) ;
