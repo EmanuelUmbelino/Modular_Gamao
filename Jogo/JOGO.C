@@ -1,34 +1,62 @@
+/***************************************************************************
+*  $MCI Módulo de implementação: Módulo Jogo
+*
+*  Arquivo gerado:              JOGO.C
+*  Letras identificadoras:      JOG
+*
+*  Projeto: INF 1301 Jogo Gamão via Terminal
+*  Autores: elu - Emanuel Lima Umbelino
+*			jpk - João Pedro Kalil
+*			phs - Pedro Henrique Soares
+*
+*  $HA Histórico de evolução:
+*	Versão		Autores		Data			Observações
+*	12			elu			17/06/2019		Melhorada movimentação e ajustes nas cores
+*	11			phs			17/06/2019		Aceitar / Recusar dobra de pontos e tela de vitória
+*	10			elu			15/06/2019		Finalizar peças e remover da barra
+*	9			jpk			11/06/2019		opção de sair do jogo e dobrar pontos
+*	8			jpk			11/06/2019		Carregar / Salvar jogo
+*	7			elu			08/06/2019		Movimentacao Basica
+*	6			elu			07/06/2019		Regra de dados iguais
+*	5			elu			07/06/2019		Mudança de jogador, sorteio de dados e possibilidades de jogadas
+*	4			elu			05/06/2019		Sistema de cores melhorado, sorteio de quem começa
+*	3			elu			04/06/2019		Menus
+*	2			elu			04/06/2019		Impressão básica tabuleiro
+*	1			elu			04/06/2019		Inicializado projeto
+*
+***************************************************************************/
+	#include <conio.h>
+	#include <stdio.h>
+	#include <string.h>
+	#include <windows.h>
 
-#include <conio.h>
-#include <stdio.h>
-#include <string.h>
-#include <windows.h>
+	#include "..\Tabuleiro\TABULEIRO.H"
+	#include "..\PecasCapturadas\PECASCAPTURADAS.H"
+	#include "..\PecasFinalizadas\PECASFINALIZADAS.H"
+	#include "..\Dado\DADO.H"
+	#include "..\DadoPontos\DADOPONTOS.H"
+	#include "..\Cor\COR.H"
+	#define JOGO_OWN
+	#include "JOGO.H"
+	#undef JOGO_OWN
 
-#include "..\Tabuleiro\TABULEIRO.H"
-#include "..\PecasCapturadas\PECASCAPTURADAS.H"
-#include "..\PecasFinalizadas\PECASFINALIZADAS.H"
-#include "..\Dado\DADO.H"
-#include "..\DadoPontos\DADOPONTOS.H"
-#include "..\Cor\COR.H"
-#define JOGO_OWN
-#include "JOGO.H"
-#undef JOGO_OWN
+	#ifdef _WIN32
+	# define CLEAR_SCREEN system ("cls")
+	#else
+	# define CLEAR_SCREEN puts("\x1b[H\x1b[2J")
+	#endif
 
-#ifdef _WIN32
-# define CLEAR_SCREEN system ("cls")
-#else
-# define CLEAR_SCREEN puts("\x1b[H\x1b[2J")
-#endif
+	#define VERMELHO "[1;31m"
+	#define PRETO "[1;32m"
+	#define PRIMARIO "[1;36m"
+	#define SECUNDARIO "[0;34m"
+	#define TERCIARIO "[1;33m"
 
-#define VERMELHO "[1;31m"
-#define PRETO "[1;32m"
-#define PRIMARIO "[1;36m"
-#define SECUNDARIO "[0;34m"
-#define TERCIARIO "[1;33m"
+/*****  Dados encapsulados no módulo  *****/
 
-	static char *cores[2];
+	static char *cores[2] ;
 
-	typedef enum passo{
+	typedef enum passo {
 
 		JogarDado = 0 ,
 
@@ -68,11 +96,12 @@
 
 	static void imprimeVitoria (CorPecas jogadorVencedor, int valorPartida) ;
 
+/*****  Código das funções exportadas pelo módulo  *****/
+
 /***************************************************************************
 *
 *  Função: JOG Iniciar Jogo
-*
-****************************************************************************/
+*  ****/
 
 	void JOG_IniciarJogo( void ) 
 	{
@@ -83,11 +112,15 @@
 
 	} /* Fim função: JOG Iniciar Jogo */
 
+
+/*****  Código das funções encapsuladas no módulo  *****/
+
+	
 /***************************************************************************
 *
 *  Função: Menu Inicial
 *
-****************************************************************************/
+*  ****/
 
 	void menuInicial() {
 		int ch1, ch2, opcaoSelecionada = 0 ;
@@ -149,7 +182,7 @@
 *
 *  Função: Novo Jogo
 *
-****************************************************************************/
+*  ****/
 
 void novoJogo(){
 	int dados[2];
@@ -191,7 +224,7 @@ void novoJogo(){
 *
 *  Função: Carregar Jogo
 *
-****************************************************************************/
+*  ****/
 
 void carregarJogo ( char * nomeJogo ) 
 {
@@ -984,3 +1017,6 @@ void imprimeVitoria (CorPecas jogadorVencedor, int valorPartida)
 	getch() ;
 	CLEAR_SCREEN;
 }
+
+
+/********** Fim do módulo de implementação: Módulo Jogo **********/
