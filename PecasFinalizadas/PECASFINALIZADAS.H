@@ -67,7 +67,7 @@
 *		- Existir uma variável para guardar um ponteiro para a 
 *		  lista de PECASFINALIZADAS
 *
-*  $ESE Assertivas de saída esperadas*
+*  $ESE Assertivas de saída esperadas
 *		- Ponteiro apontando para lista de peças finalizadas
 *
 *	$FV Valores de retorno:
