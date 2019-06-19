@@ -71,6 +71,13 @@
 *		- BAR_CondRetOK
 *		- BAR_CondRetFaltouMemoria
 *
+*	$EAE Assertivas de entradas esperadas
+*		- Existir uma variável para guardar um ponteiro para a barra
+*		  de peças capturadas
+*
+*  $ESE Assertivas de saída esperadas
+*		- Um ponteiro apontando para a barra de peças capturadas
+*
 *************************************************************************/
 
 	BAR_tpCondRet BAR_CriarBarra( void ) ;
@@ -85,6 +92,12 @@
 *	  peças capturadas.
 *     Faz nada caso a barra corrente não exista.
 *
+*	$EAE Assertivas de entradas esperadas
+*		- Existir a barra de peças capturadas
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro para barra de peças capturadas nulo
+*
 *************************************************************************/
 
 	void BAR_DestruirBarra( void ) ;
@@ -98,6 +111,16 @@
 *
 *	$EP Parâmetros:
 *     $P cor - é a cor da peça a ser inserida
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir a barra de peças capturadas
+*		- Existir a lista de peças da cor a ser inserida
+*
+*  $ESE Assertivas de saída esperadas
+*		- Lista da cor passada como parâmetro com um elemento a mais
+*		- Valem as assertivas estruturais da lista duplamente encadeada com cabeça.
+*		- Ponteiro corrente aponta para o primeiro nó da lista
+*
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
@@ -119,6 +142,17 @@
 *
 *	$EP Parâmetros:
 *     $P cor - é a cor da peça a ser removida
+*  $EAE Assertivas de entradas esperadas
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir a barra de peças capturadas
+*		- Existir a lista de peças da cor passada como parâmetro
+*		- Conter pelo menos 1 peça, da cor passada, na lista
+*
+*  $ESE Assertivas de saída esperadas
+*		- Lista da cor passada como parâmetro com um elemento a menos
+*		- Valem as assertivas estruturais da lista duplamente encadeada com cabeça.
+*		- Ponteiro corrente aponta para o primeiro nó da lista
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK
@@ -139,6 +173,16 @@
 *	$EP Parâmetros:
 *     $P cor - É a cor da barra escolhida para ver o número de peças
 *     $P numPecas - é o parámetro que receberá o numero de peças por referência
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir a barra de peças capturadas
+*		- Existir a lista de peças da cor passada como parâmetro
+*		- Existir um ponteiro para guardar o número de peças, da cor passada, na barra 
+*
+*  $ESE Assertivas de saída esperadas
+*		- Valem as assertivas estruturais da lista duplamente encadeada com cabeça.
+*		- Ponteiro para inteiro guardando a quantidade do numero de peças na barra 
+*		  para a cor passada como parâmetro
 *
 *	$FV Valores de retorno:
 *		- BAR_CondRetOK

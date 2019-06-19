@@ -69,6 +69,12 @@
 *     na posição inicial do jogo de gamão.
 *     Caso já exista uma tabuleiro, este será destruído.
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro nulo para a estrutura tabuleiro
+*
+*  $ESE Assertivas de saída esperada
+*		- Ponteiro para tabuleiro apontando para um tabuleiro alocado
+*
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK
 *		- TAB_CondRetFaltouMemoria
@@ -85,6 +91,12 @@
 *  $ED Descrição da função
 *     Remove e destroi as peças, destroi as casas e o tabuleiro corrente.
 *     Faz nada caso o tabuleiro corrente não exista.
+*
+*  $EAE Assertivas de entradas esperadas
+*	- Existir um ponteiro não nulo, apontando para um tabuleiro 
+*
+*  $ESE Assertivas de saída esperadas
+*	- Ponteiro para tabuleiro liberado e nulo 
 *
 *************************************************************************/
 
@@ -103,7 +115,18 @@
 *     $P cor - é a cor da peça a ser inserida
 *
 *  $EAE Assertivas de entradas esperadas
-*     Se tiver peças na casa: cor == TAB_CorPecasCasa( nCasa )
+*     - Existir um ponteiro para tabuleiro não nulo 
+*	  - Existir a cor passada como parâmetro
+*	  - Valor da casa passada como parâmetro ser
+*		maior que 0 e menor que 25
+*
+*  $ESE Assertivas de saída esperadas
+*	  - Tabuleiro com uma peça a mais na casa 
+*		passada como parametro
+*	  - Ponteiro do nó corrente apontando para 
+*		a primeira casa
+*	  - Vale as assertivas de lista duplamente encadeada 
+*		com cabeça 
 *
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK
@@ -128,6 +151,19 @@
 *     $P nCasa - é o número da casa escolhida para inserir
 *     $P cor - é a cor da peça a ser inserida
 *
+*  $EAE Assertivas de entradas esperadas
+*     - Existir um ponteiro para tabuleiro não nulo 
+*	  - Existir a cor passada como parâmetro
+*	  - Valor da casa passada como parâmetro ser
+*		maior que 0 e menor que 25
+*
+*  $ESE Assertivas de saída esperadas
+*		- Tabuleiro com uma peça a menos na casa 
+*		  passada como parâmetro
+*		- Vale as assertivas de lista duplamente encadeada 
+*		  com cabeça 
+*		- Ponteiro corrente apontando para o primeiro nó
+*
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK
 *		- TAB_CondRetTabNaoExiste
@@ -149,6 +185,20 @@
 *                    da casa escolhida.
 *                    Este parámetro é passado por referência.
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para tabuleiro não nulo
+*		- Parâmetro Casa ser maior que 0 e menor que 25
+*		- Existir ponteiro para inteiro onde será estorado
+*		  o número de peças da casa  
+*
+*  $ESE Assertivas de saída esperadas
+*		-  Ponteiro para numero de peças não nulo e 
+*		   com numero de peças
+*		- Vale as assertivas de lista duplamente encadeada 
+*		  com cabeça 
+*		- Ponteiro corrente apontando para o primeiro nó
+*
+*
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK
 *		- TAB_CondRetTabNaoExiste
@@ -168,6 +218,17 @@
 *     $P cor - É o parámetro que receberá a cor das peças
 *                    da casa escolhida.
 *                    Este parámetro é passado por referência.
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para um tabuleiro não nulo
+*		- Parâmetro Casa ser maior que 0 e menor que 25
+*		- Existir Ponteiro para Cor
+*
+*  $ESE Assertivas de saída esperadas 
+*		- Ponteiro para cor apontando para uma cor existente
+*		- Vale as assertivas de lista duplamente encadeada 
+*		  com cabeça 
+*		- Ponteiro corrente apontando para o primeiro nó
 *
 *	$FV Valores de retorno:
 *		- TAB_CondRetOK

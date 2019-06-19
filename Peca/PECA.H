@@ -71,6 +71,15 @@
 *  $ED Descrição da função
 *     Cria uma nova peça com a cor escolhida.
 *	
+*  $EAE Assertivas de entradas esperadas
+*	- Existir uma variável que guarde um ponteiro para 
+*	  um ponteiro de peça
+*	- Existir a cor passada 
+*
+*  $ESE Assertivas de saída esperadas
+*	- Ponteiro passado como parâmetro apontando para um ponteiro
+*	  que aponta para uma peça
+*
 *	$EP Parâmetros:
 *     $P peca - É o parámetro que receberá a peça criada por referencia
 *     $P cor - É a cor escolhida para criar a peça
@@ -95,6 +104,14 @@
 *     $P peca - É o ponteiro para a peça que quer obter cor
 *     $P cor - É o parámetro que receberá a cor da peça por referencia
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para uma peça
+*		- Existir um ponteiro para uma cor
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro para cor preenchido com a cor da peça 
+*		  passada por referência
+*
 *  $FV Valor retornado
 *		- PEC_CondRetOK
 *		- PEC_CondRetPecNaoExiste
@@ -107,6 +124,12 @@
 /***********************************************************************
 *
 *  $FC Função: PEC Destruir Peça
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um ponteiro para uma peça não nulo
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro para peça liberado
 *
 *  $EP Parâmetros
 *     $P peca - É o ponteiro para a peça que quer destruir

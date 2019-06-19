@@ -70,6 +70,12 @@
 *		- DPT_CondRetOK
 *		- DPT_CondRetFaltouMemoria
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir uma variável para guardar um ponteiro para o dado de pontos
+*
+*  $ESE Assertivas de saída esperadas
+*		- Um ponteiro apontando para um dado de pontos com o valor 1
+*
 *************************************************************************/
 
 	DPT_tpCondRet DPT_CriarDadoPontos ( void ) ;
@@ -84,6 +90,13 @@
 *
 *	$EED Assertivas estruturais: Quando um jogador dobra os pontos, ele não 
 *	pode fazer uma outra dobra de pontos até que o outro jogador tenha feito.
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um dado de pontos
+*		- Receber uma cor válida no jogo
+*
+*  $ESE Assertivas de saída esperadas
+*		- Dado de pontos com o valor dobrado
 *
 *	$EP Parâmetros:
 *     $P jogador - é a cor do jogador que efetuará a dobra
@@ -102,6 +115,12 @@
 *
 *	$FC Função: DPT Destruir dado de pontos
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um dado de pontos
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro do Dado de pontos nulo 
+*
 *	$EC Descrição: Função que destroi o dado de apostas.
 *
 *************************************************************************/
@@ -115,6 +134,13 @@
 *
 *	$EP Parâmetros:
 *     $P valor - é o valor da partida passado por referência
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um dado de pontos
+*		- Receber um ponteiro de inteiro para guardar o valor da partida
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro de inteiro com o valor atual da partida
 *
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
@@ -132,6 +158,14 @@
 *     $P jogador - é a cor do jogador que pode efetuar uma dobra
 *                    passado por referência
 *
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um dado de pontos
+*		- Receber um ponteiro para CorPecas 
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro para CorPecas com a cor do jogador que 
+*		  pode dobrar os pontos
+*
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
 *		- DPT_CondRetDPTNaoExiste
@@ -148,6 +182,19 @@
 *  $EP Parâmetros
 *     $P jogador - cor do jogador atual
 *     $P valor - valor atual da partida
+*
+*  $EAE Assertivas de entradas esperadas
+*		- Existir um dado de pontos
+*		- Receber um ponteiro para inteiro onde será armazenado 
+*		  o valor da partida
+*		- Receber um ponteiro para CorPecas onde será armazenado
+*		  a cor do jogador que pode dobrar atualmente
+*
+*  $ESE Assertivas de saída esperadas
+*		- Ponteiro para inteiro com o valor da partida que 
+*		  está sendo carregada
+*		- Ponteiro para CorPecas com a cor do jogador que pode 
+*		  dobrar na partida que está sendo carregada
 *
 *	$FV Valores de retorno:
 *		- DPT_CondRetOK
