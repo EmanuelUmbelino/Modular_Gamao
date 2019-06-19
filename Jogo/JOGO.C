@@ -1,4 +1,3 @@
-
 #include <conio.h>
 #include <stdio.h>
 #include <string.h>
@@ -68,6 +67,10 @@
 
 	static void imprimeVitoria (CorPecas jogadorVencedor, int valorPartida) ;
 
+	static void inicializarEstruturas ( void );
+
+	static void destruirEstruturas ( void );
+
 /***************************************************************************
 *
 *  Função: JOG Iniciar Jogo
@@ -82,9 +85,11 @@
 
 	} /* Fim função: JOG Iniciar Jogo */
 
-	void menuInicial() {
+	void menuInicial()
+	{
 		int ch1, ch2, opcaoSelecionada = 0;
 		char nomeJogo[15];
+
 		while(1){
 			
 			puts("   _____              __  __               ____  ");
@@ -105,9 +110,12 @@
 			if(opcaoSelecionada == 2) { printf("\t\t\033%s>",PRIMARIO); }
 			else{ printf("\t\t"); }
 			printf(" Sair\033[0m\n\n\n");
+
 			ch1 = getch();
 			ch2 = 0;
+			
 			CLEAR_SCREEN;
+
 			if (ch1 == 0xE0) { // a scroll key was pressed
 				ch2 = getch();
 				// determine what it was
@@ -124,10 +132,7 @@
 			}
 		}
 		if(opcaoSelecionada == 0){
-			TAB_CriarTabuleiro();
-			FIM_CriarFinalizadas();
-			DPT_CriarDadoPontos();
-			BAR_CriarBarra();
+			inicializarEstruturas();
 			novoJogo();
 		}
 		else if (opcaoSelecionada == 1)
@@ -139,15 +144,19 @@
 		}
 	}
 
-void novoJogo(){
+void novoJogo()
+{
 	int dados[2];
 	CorPecas jogadorInicial;
 	dados[0]=0;dados[1]=0;
+
 	CLEAR_SCREEN;
+	
 	printf("\n Sortear os 2 dados pra ver quem comeca\n\n");
 	printf("\n Escolha quem sera o \033%sVERMELHO\033[0m",cores[Vermelha]);
 	printf(" e quem sera o \033%sVERDE\033[0m\n\n",cores[Preta]);
 	printf("\n Pressione qualquer tecla para sortear quem comeca\n\n");
+	
 	while(1){
 		getch();
 		DAD_JogarDado(&dados[0]);
@@ -182,18 +191,17 @@ void carregarJogo ( char * nomeJogo )
 	CorPecas corPec = Neutro;
 	char Jogo[1];
 	
-	TAB_CriarTabuleiro();
-	FIM_CriarFinalizadas();
-	DPT_CriarDadoPontos();
-	BAR_CriarBarra();
+	inicializarEstruturas();
 
 	fp = fopen(nomeJogo, "r");
 	if (fp == NULL)
 	{
 		CLEAR_SCREEN;
-		printf(" Nao foi possivel carregar o jogo %s!\n",nomeJogo);
+
+		printf(" Nao foi possivel carregar o jogo %s!\n",nomeJogo) ;
 		printf("\n\n Pressione qualquer tecla para voltar ao menu\n\n") ;
 		getch() ;
+
 		CLEAR_SCREEN;
 		menuInicial();
 	}
@@ -289,6 +297,8 @@ void salvarJogo ( char * nomeJogo ){
 			fprintf(fp, "D\n%d\n",0);
 		fclose(fp);
 	}
+
+	destruirEstruturas();
 }
 
 void jogo( CorPecas jogadorAtual ){
@@ -298,13 +308,16 @@ void jogo( CorPecas jogadorAtual ){
 	Passo passo = JogarDado;
 	char nomeJogo[15];
 	int dados[4];
+
 	for(i = 0; i < 4; i ++){
 		dados[i] = 0;
 	}
+
 	DPT_ValorPartida(&valorPartida);
 	casaSelecionada = proxCasaDeCor( 0, jogadorAtual );
 	casaFixada = casaSelecionada;
 	podeDobrar = Neutro;
+
 	while(1){
 		CLEAR_SCREEN;
 		if(jogadorAtual == Vermelha){
@@ -343,7 +356,7 @@ void jogo( CorPecas jogadorAtual ){
 		}
 		
 		ch = getch();
-		if(ch == 'z') { // Z
+		if(ch == 'z' && ) { // Z
 			if(passo == EscolherPeca){
 				casaSelecionada = proxCasaDeCor( casaSelecionada, jogadorAtual );
 				casaFixada = casaSelecionada;
@@ -362,10 +375,12 @@ void jogo( CorPecas jogadorAtual ){
 			if(passo == JogarDado) {
 				DAD_JogarDado(&dados[0]) ; 
 				DAD_JogarDado(&dados[1]) ;
+
 				if(dados[0] == dados[1]){
 					dados[2] = dados[0] ;
 					dados[3] = dados[0] ;
 				}
+
 				passo = EscolherPeca;
 				if(casaFixada < 1 || casaFixada > 24){
 					passo = EscolherDado;
@@ -481,6 +496,7 @@ void jogo( CorPecas jogadorAtual ){
 					} else if (opcaoSelecionada == 1)
 					{
 						DPT_ValorPartida(&valorPartida);
+						destruirEstruturas() ;
 						imprimeVitoria(jogadorAtual, valorPartida);
 						menuInicial();
 					}
@@ -533,37 +549,41 @@ int movimentar ( int posInicio, int posFinal, CorPecas jogadorAtual ) {
 				BAR_InserePeca(corFinal);
 			}
 		} 
-		TAB_InserePecaCasa(posFinal,jogadorAtual);
+		TAB_InserePecaCasa( posFinal , jogadorAtual );
 	}
 	else {
 		FIM_FinalizarPeca( jogadorAtual ) ;
 		FIM_NumPecas( jogadorAtual , &numPecasFinalizadas ) ;
-		if ( numPecasFinalizadas == 15 )
+
+		if ( numPecasFinalizadas == 15 ) //condição de vitória
 		{
-			DPT_ValorPartida(&valorPartida);
+			DPT_ValorPartida( &valorPartida ) ;
+			destruirEstruturas() ;
 			imprimeVitoria( jogadorAtual, valorPartida ) ;
-			menuInicial();
+			menuInicial() ;
 
 		}
 	}
+
 	if(posInicio < 1 || posInicio > 24){
 		BAR_RemovePeca(jogadorAtual);
 	} else {
 		TAB_RemovePecaCasa(posInicio);
 	}
+
 	return 1;
 }
 
 int podeFinalizar (CorPecas jogadorAtual) {
 	int i = 1, a, n;
 	CorPecas c;
+
 	BAR_NumPecas (jogadorAtual, &n) ;
-	if(n > 0){
-		return 0;
-	}
-	if(jogadorAtual == Vermelha){
-		i = 7;
-	}
+	
+	if( n > 0 ) { return 0; }
+
+	if( jogadorAtual == Vermelha ) { i = 7; }
+	
 	for (a = 0; a < 18; i++, a++){
 		TAB_NumPecasCasa(i,&n);
 		if(n > 0){
@@ -590,24 +610,28 @@ int proxDado (int *dados, int dAtual) {
 
 int proxCasaDeCor ( int casaSelecionada, CorPecas cor ){
 	int i, qtdPecasCasas, bar;
-	CorPecas coresPecasCasa;
+	CorPecas coresPecasCasa ;
 	BAR_NumPecas (cor, &bar) ;
+
 	if ( bar > 0 ) {
 		if ( cor == Vermelha )
 			return 25 ;
 		else 
 			return 0 ;
 	}
-	for(i = casaSelecionada; i < 24; i++){
-		TAB_NumPecasCasa(i+1,&qtdPecasCasas);
+
+	for( i = casaSelecionada; i < 24; i++){
+		TAB_NumPecasCasa(i+1, &qtdPecasCasas);
 		if(qtdPecasCasas > 0){
 			// Se tiver peça na casa, ve a cor da peça
-			TAB_CorPecasCasa(i+1,&coresPecasCasa);
+			TAB_CorPecasCasa(i+1, &coresPecasCasa);
+			
 			if(coresPecasCasa == cor){
 				return i+1;
 			}
 		}
 	}
+
 	for(i = 0; i < casaSelecionada; i++){
 		TAB_NumPecasCasa(i+1,&qtdPecasCasas);
 		if(qtdPecasCasas > 0){
@@ -798,32 +822,49 @@ void imprimeSetaSelecao( int numeroCasa, CorPecas jogadorAtual, int casaSelecion
 
 void imprimeVitoria (CorPecas jogadorVencedor, int valorPartida)
 {
-	CLEAR_SCREEN;
-	printf("\033%s", cores[jogadorVencedor]);
+	CLEAR_SCREEN ;
+	printf("\033%s", cores[jogadorVencedor]) ;
 
 	if ( jogadorVencedor == Preta )
 	{
-		puts("  __      __                    _           __      __                                     ");
-		puts("  \\ \\    / /                   | |          \\ \\    / /                                     ");
-		puts("   \\ \\  / /    ___   _ __    __| |   ___     \\ \\  / /    ___   _ __     ___    ___   _   _ ");
-		puts("    \\ \\/ /    / _ \\ | '__|  / _` |  / _ \\     \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |");
-		puts("     \\  /    |  __/ | |    | (_| | |  __/      \\  /    |  __/ | | | | | (__  |  __/ | |_| |");
-		puts("      \\/      \\___| |_|     \\__,_|  \\___|       \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|");													
+		puts("  __      __                    _           __      __                                     ") ;
+		puts("  \\ \\    / /                   | |          \\ \\    / /                                     ") ;
+		puts("   \\ \\  / /    ___   _ __    __| |   ___     \\ \\  / /    ___   _ __     ___    ___   _   _ ") ;
+		puts("    \\ \\/ /    / _ \\ | '__|  / _` |  / _ \\     \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |") ;
+		puts("     \\  /    |  __/ | |    | (_| | |  __/      \\  /    |  __/ | | | | | (__  |  __/ | |_| |") ;
+		puts("      \\/      \\___| |_|     \\__,_|  \\___|       \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|") ;												
 	}
 	else if ( jogadorVencedor == Vermelha )
 	{
-		puts("  __      __                                   _   _                __      __                                     ");
-		puts("  \\ \\    / /                                  | | | |               \\ \\    / /                                     ");
-		puts("   \\ \\  / /    ___   _ __   _ __ ___     ___  | | | |__     ___      \\ \\  / /    ___   _ __     ___    ___   _   _ ");
-		puts("    \\ \\/ /    / _ \\ | '__| | '_ ` _ \\   / _ \\ | | | '_ \\   / _ \\      \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |");
-		puts("     \\  /    |  __/ | |    | | | | | | |  __/ | | | | | | | (_) |      \\  /    |  __/ | | | | | (__  |  __/ | |_| |");
-		puts("      \\/      \\___| |_|    |_| |_| |_|  \\___| |_| |_| |_|  \\___/        \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|");
+		puts("  __      __                                   _   _                __      __                                     ") ;
+		puts("  \\ \\    / /                                  | | | |               \\ \\    / /                                     ") ;
+		puts("   \\ \\  / /    ___   _ __   _ __ ___     ___  | | | |__     ___      \\ \\  / /    ___   _ __     ___    ___   _   _ ") ;
+		puts("    \\ \\/ /    / _ \\ | '__| | '_ ` _ \\   / _ \\ | | | '_ \\   / _ \\      \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |") ;
+		puts("     \\  /    |  __/ | |    | | | | | | |  __/ | | | | | | | (_) |      \\  /    |  __/ | | | | | (__  |  __/ | |_| |") ;
+		puts("      \\/      \\___| |_|    |_| |_| |_|  \\___| |_| |_| |_|  \\___/        \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|") ;
                                                                                                 
 	}
 
-	printf("\n\t\t\t\tTotal de pontos obtidos na partida: %d\n\n", valorPartida);
+	printf("\n\t\t\t\tTotal de pontos obtidos na partida: %d\n\n", valorPartida ) ;
 	printf("\n\n\033[0m  \tPressione qualquer tecla para voltar ao menu...\n\n") ;
 
 	getch() ;
-	CLEAR_SCREEN;
+	CLEAR_SCREEN ;
+}
+
+void inicializarEstruturas ( void )
+{
+	TAB_CriarTabuleiro() ;
+	FIM_CriarFinalizadas() ;
+	DPT_CriarDadoPontos() ;
+	BAR_CriarBarra() ;
+}
+
+
+void destruirEstruturas ( void )
+{
+	TAB_DestruirTabuleiro() ;
+	FIM_DestruirFinalizadas() ;
+	DPT_DestruirDadoPontos() ;
+	BAR_DestruirBarra() ;
 }
