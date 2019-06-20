@@ -109,6 +109,8 @@
 	static void destruirEstruturas ( void );
 
 	static void verificaCondicaoVitoriaEspecial( int * valorPartida , CorPecas jogadorVencedor ) ;
+	 
+	static void mudarTamanhoJanela( void ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -123,6 +125,7 @@
 	{
 		cores[Preta] = PRETO ;
 		cores[Vermelha] = VERMELHO ;
+		mudarTamanhoJanela() ;
 		CLEAR_SCREEN ;
 		menuInicial() ;
 
@@ -136,13 +139,17 @@
 *
 *  $FC Função: JOG Menu Inicial
 *
+*  $ED Descrição da função
+*     Imprime e gerencia o menu inicial.
+*     Vai para a função escolhida ou sai do jogo dependendo da escolha do jogador. 
+*
 *  ****/
 
 	void menuInicial ( void ) {
 		int ch1, ch2, opcaoSelecionada = 0 ;
 		char nomeJogo[15] ;
 
-		while(1){
+		while(1) {
 			
 			puts("   _____              __  __               ____  ");
 			puts("  / ____|     /\\     |  \\/  |     /\\      / __ \\ ");
@@ -433,6 +440,7 @@ void jogo ( CorPecas jogadorAtual ){
 		}
 	
 		printf("\nS - Salvar jogo");
+		printf("\nP - Passa jogada");
 		
 		if(passo != EscolherDado) {
 			printf("\nEsc - Fechar jogo");
@@ -454,7 +462,7 @@ void jogo ( CorPecas jogadorAtual ){
 				}
 			}
 		}
-		else if(ch == 'x') { // Xq
+		else if(ch == 'x') { // X
 			if(passo == EscolherPeca){
 				casaSelecionada = antCasaDeCor( casaSelecionada, jogadorAtual );
 				casaFixada = casaSelecionada;
@@ -688,7 +696,7 @@ int movimentar ( int posInicio, int posFinal, CorPecas jogadorAtual ) {
 
 /***************************************************************************
 *
-*  Função: Finalização da peça
+*  Função: Verifica se Peça Pode ser Finalizada
 *
 ****************************************************************************/
 
@@ -716,101 +724,120 @@ int podeFinalizar ( CorPecas jogadorAtual ) {
 
 /***************************************************************************
 *
-*  Função: 
+*  Função: Busca o Próximo Dado a Utilizar
 *
 ****************************************************************************/
 
-int proxDado ( int *dados, int dAtual ) {
-	int i = 0;
-	do {
-		dAtual ++;
-		i++;
-		if(dAtual > 3){
-			dAtual = 0;
-		}
-	} while(dados[dAtual] == 0 && i < 4);
-	return dAtual ;
-}
-
-int antDado (int *dados, int dAtual) {
-	int i = 0;
-	do {
-		dAtual --;
-		i++;
-		if(dAtual < 0){
-			dAtual = 3;
-		}
-	} while(dados[dAtual] == 0 && i < 4);
-	return dAtual ;
-}
-
-int antCasaDeCor ( int casaSelecionada, CorPecas cor ) {
-	int i, qtdPecasCasas, bar;
-	CorPecas coresPecasCasa;
-	BAR_NumPecas (cor, &bar) ;
-	if ( bar > 0 ) {
-		if ( cor == Vermelha )
-			return 25 ;
-		else 
-			return 0 ;
-	}
-	for(i = casaSelecionada-1; i > 0; i--){
-		TAB_NumPecasCasa(i,&qtdPecasCasas);
-		if(qtdPecasCasas > 0){
-			// Se tiver peça na casa, ve a cor da peça
-			TAB_CorPecasCasa(i,&coresPecasCasa);
-			if(coresPecasCasa == cor){
-				return i;
+	int proxDado ( int *dados, int dAtual ) {
+		int i = 0;
+		do {
+			dAtual ++;
+			i++;
+			if(dAtual > 3){
+				dAtual = 0;
 			}
-		}
-	}
-	for(i = 24; i >= casaSelecionada; i--){
-		TAB_NumPecasCasa(i,&qtdPecasCasas);
-		if(qtdPecasCasas > 0){
-			// Se tiver peça na casa, ve a cor da peça
-			TAB_CorPecasCasa(i,&coresPecasCasa);
-			if(coresPecasCasa == cor){
-				return i;
-			}
-		}
-	} 
-}
-
-int proxCasaDeCor ( int casaSelecionada, CorPecas cor ) {
-	int i, qtdPecasCasas, bar;
-	CorPecas coresPecasCasa ;
-	BAR_NumPecas (cor, &bar) ;
-
-	if ( bar > 0 ) {
-		if ( cor == Vermelha )
-			return 25 ;
-		else 
-			return 0 ;
+		} while(dados[dAtual] == 0 && i < 4);
+		return dAtual ;
 	}
 
-	for( i = casaSelecionada; i < 24; i++){
-		TAB_NumPecasCasa(i+1, &qtdPecasCasas);
-		if(qtdPecasCasas > 0){
-			// Se tiver peça na casa, ve a cor da peça
-			TAB_CorPecasCasa(i+1, &coresPecasCasa);
-			
-			if(coresPecasCasa == cor){
-				return i+1;
+/***************************************************************************
+*
+*  Função: Busca o Dado Anterior a Utilizar
+*
+****************************************************************************/
+
+	int antDado (int *dados, int dAtual) {
+		int i = 0;
+		do {
+			dAtual --;
+			i++;
+			if(dAtual < 0){
+				dAtual = 3;
 			}
-		}
+		} while(dados[dAtual] == 0 && i < 4);
+		return dAtual ;
 	}
 
-	for(i = 0; i < casaSelecionada; i++){
-		TAB_NumPecasCasa(i+1,&qtdPecasCasas);
-		if(qtdPecasCasas > 0){
-			// Se tiver peça na casa, ve a cor da peça
-			TAB_CorPecasCasa(i+1,&coresPecasCasa);
-			if(coresPecasCasa == cor){
-				return i+1;
+/***************************************************************************
+*
+*  Função: Obtem a Casa Anterior a Utilizar
+*
+****************************************************************************/
+
+	int antCasaDeCor ( int casaSelecionada, CorPecas cor ) {
+		int i, qtdPecasCasas, bar;
+		CorPecas coresPecasCasa;
+		BAR_NumPecas (cor, &bar) ;
+
+		if ( bar > 0 ) {
+			if ( cor == Vermelha )
+				return 25 ;
+			else 
+				return 0 ;
+		}
+		for(i = casaSelecionada-1; i > 0; i--){
+			TAB_NumPecasCasa(i,&qtdPecasCasas);
+			if(qtdPecasCasas > 0){
+				// Se tiver peça na casa, ve a cor da peça
+				TAB_CorPecasCasa(i,&coresPecasCasa);
+				if(coresPecasCasa == cor){
+					return i;
+				}
 			}
 		}
-	} 
-}
+		for(i = 24; i >= casaSelecionada; i--){
+			TAB_NumPecasCasa(i,&qtdPecasCasas);
+			if(qtdPecasCasas > 0){
+				// Se tiver peça na casa, ve a cor da peça
+				TAB_CorPecasCasa(i,&coresPecasCasa);
+				if(coresPecasCasa == cor){
+					return i;
+				}
+			}
+		} 
+	}
+
+/***************************************************************************
+*
+*  Função: Obtem a Próxima Casa a Utilizar
+*
+****************************************************************************/
+
+	int proxCasaDeCor ( int casaSelecionada, CorPecas cor ) {
+		int i, qtdPecasCasas, bar;
+		CorPecas coresPecasCasa ;
+		BAR_NumPecas (cor, &bar) ;
+
+		if ( bar > 0 ) {
+			if ( cor == Vermelha )
+				return 25 ;
+			else 
+				return 0 ;
+		}
+
+		for( i = casaSelecionada; i < 24; i++){
+			TAB_NumPecasCasa(i+1, &qtdPecasCasas);
+			if(qtdPecasCasas > 0){
+				// Se tiver peça na casa, ve a cor da peça
+				TAB_CorPecasCasa(i+1, &coresPecasCasa);
+				
+				if(coresPecasCasa == cor){
+					return i+1;
+				}
+			}
+		}
+
+		for(i = 0; i < casaSelecionada; i++){
+			TAB_NumPecasCasa(i+1,&qtdPecasCasas);
+			if(qtdPecasCasas > 0){
+				// Se tiver peça na casa, ve a cor da peça
+				TAB_CorPecasCasa(i+1,&coresPecasCasa);
+				if(coresPecasCasa == cor){
+					return i+1;
+				}
+			}
+		} 
+	}
 
 /***************************************************************************
 *
@@ -818,107 +845,107 @@ int proxCasaDeCor ( int casaSelecionada, CorPecas cor ) {
 *
 ****************************************************************************/
 
-void imprimirJogo ( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) 
-{
-	int i,f;
-	int qtdPecasCasas[24], qtdPecasBarras[2], qtdPecasFinalizadas[2];
-	CorPecas coresPecasCasas[24];
+	void imprimirJogo ( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) 
+	{
+		int i,f;
+		int qtdPecasCasas[24], qtdPecasBarras[2], qtdPecasFinalizadas[2];
+		CorPecas coresPecasCasas[24];
 
-	// Salvar o tipo de peça da casa
-	for(i = 0; i < 24; i++){
-		TAB_NumPecasCasa(i+1,&qtdPecasCasas[i]);
-		if(qtdPecasCasas[i] > 0){
-			// Se tiver peça na casa, ve a cor da peça
-			TAB_CorPecasCasa(i+1,&coresPecasCasas[i]);
+		// Salvar o tipo de peça da casa
+		for(i = 0; i < 24; i++){
+			TAB_NumPecasCasa(i+1,&qtdPecasCasas[i]);
+			if(qtdPecasCasas[i] > 0){
+				// Se tiver peça na casa, ve a cor da peça
+				TAB_CorPecasCasa(i+1,&coresPecasCasas[i]);
+			}
 		}
-	}
 
-	BAR_NumPecas (Preta, &qtdPecasBarras[0]) ;
-	BAR_NumPecas (Vermelha, &qtdPecasBarras[1]) ;
-	FIM_NumPecas (Preta, &qtdPecasFinalizadas[0]) ;
-	FIM_NumPecas (Vermelha, &qtdPecasFinalizadas[1]) ;
+		BAR_NumPecas (Preta, &qtdPecasBarras[0]) ;
+		BAR_NumPecas (Vermelha, &qtdPecasBarras[1]) ;
+		FIM_NumPecas (Preta, &qtdPecasFinalizadas[0]) ;
+		FIM_NumPecas (Vermelha, &qtdPecasFinalizadas[1]) ;
 
-	printf("\n  ");
-	for(i = 12; i > 6; i--){ 
-		imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("    ");
-	for(; i > 0; i--){
-		imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("\n");
-	printf("/-----------------------------------------\\\n");
-	printf("| ");
-	for(i = 12; i > 6; i--){
-		imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("| | ");
-	for(; i > 0; i--){
-		imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("|\n");
-	printf("|-------------------| |-------------------|\n");
-
-	for(f = 1; f < 6; f ++){
+		printf("\n  ");
+		for(i = 12; i > 6; i--){ 
+			imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
+		}
+		printf("    ");
+		for(; i > 0; i--){
+			imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
+		}
+		printf("\n");
+		printf("/-----------------------------------------\\\n");
 		printf("| ");
 		for(i = 12; i > 6; i--){
-			imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
-			printf("  ");
+			imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
 		}
-		printf("|");
-		imprimePeca(qtdPecasBarras[0],Preta,f);
-		printf("| ");
+		printf("| | ");
 		for(; i > 0; i--){
-			printf(" ");
-			imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
-			printf(" ");
+			imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
 		}
-		printf("|    ");
-		imprimePeca(qtdPecasFinalizadas[1],Vermelha,f);
-		printf("\n");
-	}
+		printf("|\n");
+		printf("|-------------------| |-------------------|\n");
 
-	printf("|                   | |                   |\n");
-	printf("|                   | |                   |\n");
+		for(f = 1; f < 6; f ++){
+			printf("| ");
+			for(i = 12; i > 6; i--){
+				imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
+				printf("  ");
+			}
+			printf("|");
+			imprimePeca(qtdPecasBarras[0],Preta,f);
+			printf("| ");
+			for(; i > 0; i--){
+				printf(" ");
+				imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
+				printf(" ");
+			}
+			printf("|    ");
+			imprimePeca(qtdPecasFinalizadas[1],Vermelha,f);
+			printf("\n");
+		}
 
-	for(f = 5; f > 0 ; f --){
+		printf("|                   | |                   |\n");
+		printf("|                   | |                   |\n");
+
+		for(f = 5; f > 0 ; f --){
+			printf("| ");
+			for(i = 13; i < 19; i++){
+				imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
+				printf("  ");
+			}
+			printf("|");
+			imprimePeca(qtdPecasBarras[1],Vermelha,f);
+			printf("| ");
+			for(; i < 25; i++){
+				printf(" ");
+				imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
+				printf(" ");
+			}
+			printf("|    ");
+			imprimePeca(qtdPecasFinalizadas[0],Preta,f);
+			printf("\n");
+		}
+		printf("|-------------------| |-------------------|\n");
 		printf("| ");
 		for(i = 13; i < 19; i++){
-			imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
-			printf("  ");
+			imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
 		}
-		printf("|");
-		imprimePeca(qtdPecasBarras[1],Vermelha,f);
-		printf("| ");
+		printf("| | ");
 		for(; i < 25; i++){
-			printf(" ");
-			imprimePeca(qtdPecasCasas[i-1],coresPecasCasas[i-1],f);
-			printf(" ");
+			imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
 		}
-		printf("|    ");
-		imprimePeca(qtdPecasFinalizadas[0],Preta,f);
-		printf("\n");
-	}
-	printf("|-------------------| |-------------------|\n");
-	printf("| ");
-	for(i = 13; i < 19; i++){
-		imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("| | ");
-	for(; i < 25; i++){
-		imprimeNumeroCasa(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("|\n");
-	printf("\\-----------------------------------------/\n");
-	printf("  ");
-	for(i = 13; i < 19; i++){
-		imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-	printf("    ");
-	for(; i < 25; i++){
-		imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
-	}
-} /* Fim função: JOG Imprimir Jogo */
+		printf("|\n");
+		printf("\\-----------------------------------------/\n");
+		printf("  ");
+		for(i = 13; i < 19; i++){
+			imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
+		}
+		printf("    ");
+		for(; i < 25; i++){
+			imprimeSetaSelecao(i, jogadorAtual, casaSelecionada, casaFixada, dados);
+		}
+	} /* Fim função: JOG Imprimir Jogo */
 
 /***************************************************************************
 *
@@ -926,18 +953,18 @@ void imprimirJogo ( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, 
 *
 ****************************************************************************/
 
-void imprimeResto ( int totalCasa, CorPecas cor ) {
-	if( totalCasa - 4 > 9){
-		printf("\b");
+	void imprimeResto ( int totalCasa, CorPecas cor ) {
+		if( totalCasa - 4 > 9){
+			printf("\b");
+		}
+		if(totalCasa > 5){
+			printf("\b\033%s+%d\033[0m",cores[cor],totalCasa-4);
+		} else if(totalCasa == 5) {
+			printf("\033%so\033[0m",cores[cor]);
+		} else{
+			printf(" ");
+		}
 	}
-	if(totalCasa > 5){
-		printf("\b\033%s+%d\033[0m",cores[cor],totalCasa-4);
-	} else if(totalCasa == 5) {
-		printf("\033%so\033[0m",cores[cor]);
-	} else{
-		printf(" ");
-	}
-}
 
 /***************************************************************************
 *
@@ -945,55 +972,55 @@ void imprimeResto ( int totalCasa, CorPecas cor ) {
 *
 ****************************************************************************/
 
-void imprimePeca ( int totalCasa, CorPecas cor, int posicao ) {
-	if(posicao == 5){
-		imprimeResto(totalCasa,cor);
-		return;
-	}
-	if(totalCasa >= posicao){
-		printf("\033%so\033[0m",cores[cor]);
-	} else{
-		printf(" ");
-	}
-}
-
-/***************************************************************************
-*
-*  Função: Verifica se tem peca na casa
-*
-****************************************************************************/
-
-int temDadoNessaCasa ( int numeroCasa, CorPecas jogadorAtual, int casaFixada, int dados[4] ) {
-	int i, casa;
-	for(i = 0; i < 4; i++){
-		if(jogadorAtual == Vermelha) {
-			casa = casaFixada - dados[i];
-		} else {
-			casa = casaFixada + dados[i];
+	void imprimePeca ( int totalCasa, CorPecas cor, int posicao ) {
+		if(posicao == 5){
+			imprimeResto(totalCasa,cor);
+			return;
 		}
-		if(dados[i] != 0 && numeroCasa == casa)
-			return 1;
+		if(totalCasa >= posicao){
+			printf("\033%so\033[0m",cores[cor]);
+		} else{
+			printf(" ");
+		}
 	}
-	return 0;
-}
 
 /***************************************************************************
 *
-*  Função: Imprimi Numero da casa
+*  Função: Verifica se tem Peca na Casa
 *
 ****************************************************************************/
 
-void imprimeNumeroCasa ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) {
-	if(numeroCasa == casaSelecionada){
-		printf("\033%s%02d\033[0m ",PRIMARIO,numeroCasa);
-	} else if(numeroCasa == casaFixada){
-		printf("\033%s%02d\033[0m ",TERCIARIO,numeroCasa);
-	} else if(temDadoNessaCasa(numeroCasa, jogadorAtual, casaFixada, dados) == 1){
-		printf("\033%s%02d\033[0m ",SECUNDARIO,numeroCasa);
-	} else{
-		printf("%02d ",numeroCasa);
+	int temDadoNessaCasa ( int numeroCasa, CorPecas jogadorAtual, int casaFixada, int dados[4] ) {
+		int i, casa;
+		for(i = 0; i < 4; i++){
+			if(jogadorAtual == Vermelha) {
+				casa = casaFixada - dados[i];
+			} else {
+				casa = casaFixada + dados[i];
+			}
+			if(dados[i] != 0 && numeroCasa == casa)
+				return 1;
+		}
+		return 0;
 	}
-}
+
+/***************************************************************************
+*
+*  Função: Imprimi Numero da Casa
+*
+****************************************************************************/
+
+	void imprimeNumeroCasa ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) {
+		if(numeroCasa == casaSelecionada){
+			printf("\033%s%02d\033[0m ",PRIMARIO,numeroCasa);
+		} else if(numeroCasa == casaFixada){
+			printf("\033%s%02d\033[0m ",TERCIARIO,numeroCasa);
+		} else if(temDadoNessaCasa(numeroCasa, jogadorAtual, casaFixada, dados) == 1){
+			printf("\033%s%02d\033[0m ",SECUNDARIO,numeroCasa);
+		} else{
+			printf("%02d ",numeroCasa);
+		}
+	}
 
 /***************************************************************************
 *
@@ -1001,29 +1028,29 @@ void imprimeNumeroCasa ( int numeroCasa, CorPecas jogadorAtual, int casaSelecion
 *
 ****************************************************************************/
 
-void imprimeSetaSelecao ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) {
-	if(numeroCasa == casaSelecionada){
-		if(numeroCasa < 13){
-			printf("\033%s\\/\033[0m ",PRIMARIO);
-		} else {
-      		printf("\033%s/\\\033[0m ",PRIMARIO);
+	void imprimeSetaSelecao ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) {
+		if(numeroCasa == casaSelecionada){
+			if(numeroCasa < 13){
+				printf("\033%s\\/\033[0m ",PRIMARIO);
+			} else {
+				printf("\033%s/\\\033[0m ",PRIMARIO);
+			}
+		} else if(numeroCasa == casaFixada){
+			if(numeroCasa < 13){
+				printf("\033%s\\/\033[0m ",TERCIARIO);
+			} else {
+				printf("\033%s/\\\033[0m ",TERCIARIO);
+			}
+		} else if(temDadoNessaCasa(numeroCasa, jogadorAtual, casaFixada, dados) == 1){
+			if(numeroCasa < 13){
+				printf("\033%s\\/\033[0m ",SECUNDARIO);
+			} else {
+				printf("\033%s/\\\033[0m ",SECUNDARIO);
+			}
+		} else{
+			printf("   ");
 		}
-	} else if(numeroCasa == casaFixada){
-		if(numeroCasa < 13){
-			printf("\033%s\\/\033[0m ",TERCIARIO);
-		} else {
-      		printf("\033%s/\\\033[0m ",TERCIARIO);
-		}
-	} else if(temDadoNessaCasa(numeroCasa, jogadorAtual, casaFixada, dados) == 1){
-		if(numeroCasa < 13){
-			printf("\033%s\\/\033[0m ",SECUNDARIO);
-		} else {
-      		printf("\033%s/\\\033[0m ",SECUNDARIO);
-		}
-	} else{
-		printf("   ");
 	}
-}
 
 /***************************************************************************
 *
@@ -1031,69 +1058,100 @@ void imprimeSetaSelecao ( int numeroCasa, CorPecas jogadorAtual, int casaSelecio
 *
 ****************************************************************************/
 
-void imprimeVitoria ( CorPecas jogadorVencedor, int valorPartida )
-{
-	CLEAR_SCREEN ;
-	printf("\033%s", cores[jogadorVencedor]) ;
-
-	if ( jogadorVencedor == Preta )
+	void imprimeVitoria ( CorPecas jogadorVencedor, int valorPartida )
 	{
-		puts("  __      __                    _           __      __                                     ") ;
-		puts("  \\ \\    / /                   | |          \\ \\    / /                                     ") ;
-		puts("   \\ \\  / /    ___   _ __    __| |   ___     \\ \\  / /    ___   _ __     ___    ___   _   _ ") ;
-		puts("    \\ \\/ /    / _ \\ | '__|  / _` |  / _ \\     \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |") ;
-		puts("     \\  /    |  __/ | |    | (_| | |  __/      \\  /    |  __/ | | | | | (__  |  __/ | |_| |") ;
-		puts("      \\/      \\___| |_|     \\__,_|  \\___|       \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|") ;												
+		CLEAR_SCREEN ;
+		printf("\033%s", cores[jogadorVencedor]) ;
+
+		if ( jogadorVencedor == Preta )
+		{
+			puts("  __      __                    _           __      __                                     ") ;
+			puts("  \\ \\    / /                   | |          \\ \\    / /                                     ") ;
+			puts("   \\ \\  / /    ___   _ __    __| |   ___     \\ \\  / /    ___   _ __     ___    ___   _   _ ") ;
+			puts("    \\ \\/ /    / _ \\ | '__|  / _` |  / _ \\     \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |") ;
+			puts("     \\  /    |  __/ | |    | (_| | |  __/      \\  /    |  __/ | | | | | (__  |  __/ | |_| |") ;
+			puts("      \\/      \\___| |_|     \\__,_|  \\___|       \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|") ;												
+		}
+		else if ( jogadorVencedor == Vermelha )
+		{
+			puts("  __      __                                   _   _                __      __                                     ") ;
+			puts("  \\ \\    / /                                  | | | |               \\ \\    / /                                     ") ;
+			puts("   \\ \\  / /    ___   _ __   _ __ ___     ___  | | | |__     ___      \\ \\  / /    ___   _ __     ___    ___   _   _ ") ;
+			puts("    \\ \\/ /    / _ \\ | '__| | '_ ` _ \\   / _ \\ | | | '_ \\   / _ \\      \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |") ;
+			puts("     \\  /    |  __/ | |    | | | | | | |  __/ | | | | | | | (_) |      \\  /    |  __/ | | | | | (__  |  __/ | |_| |") ;
+			puts("      \\/      \\___| |_|    |_| |_| |_|  \\___| |_| |_| |_|  \\___/        \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|") ;
+																									
+		}
+
+		printf("\n\t\t\t\tTotal de pontos obtidos na partida: %d\n\n", valorPartida ) ;
+		printf("\n\n\033[0m  \tPressione qualquer tecla para voltar ao menu...\n\n") ;
+
+		getch() ;
+		CLEAR_SCREEN ;
 	}
-	else if ( jogadorVencedor == Vermelha )
+
+
+/***************************************************************************
+*
+*  Função: Verifica se Houve um Caso Especial de Vitória
+*
+****************************************************************************/
+
+	void verificaCondicaoVitoriaEspecial( int * valorPartida , CorPecas jogadorVencedor )
 	{
-		puts("  __      __                                   _   _                __      __                                     ") ;
-		puts("  \\ \\    / /                                  | | | |               \\ \\    / /                                     ") ;
-		puts("   \\ \\  / /    ___   _ __   _ __ ___     ___  | | | |__     ___      \\ \\  / /    ___   _ __     ___    ___   _   _ ") ;
-		puts("    \\ \\/ /    / _ \\ | '__| | '_ ` _ \\   / _ \\ | | | '_ \\   / _ \\      \\ \\/ /    / _ \\ | '_ \\   / __|  / _ \\ | | | |") ;
-		puts("     \\  /    |  __/ | |    | | | | | | |  __/ | | | | | | | (_) |      \\  /    |  __/ | | | | | (__  |  __/ | |_| |") ;
-		puts("      \\/      \\___| |_|    |_| |_| |_|  \\___| |_| |_| |_|  \\___/        \\/      \\___| |_| |_|  \\___|  \\___|  \\__,_|") ;
-                                                                                                
+		int fatorMultiplicador = 1, numPecasFinalizadas = 0, numPecasBarra = 0 ;
+
+		CorPecas jogadorPerdedor = jogadorVencedor == Preta ? Vermelha : Preta ;
+
+		FIM_NumPecas( jogadorPerdedor , &numPecasFinalizadas ) ;
+		BAR_NumPecas( jogadorPerdedor , &numPecasBarra ) ;
+
+		// Vitória por gamão
+		if ( numPecasFinalizadas == 0 ) fatorMultiplicador = 2 ;
+		
+		// Vitória por backgammon
+		if ( ( numPecasFinalizadas == 0 ) && ( numPecasBarra > 0 ) ) fatorMultiplicador = 3 ;
+
+		*valorPartida = ( *valorPartida ) * fatorMultiplicador ;
 	}
 
-	printf("\n\t\t\t\tTotal de pontos obtidos na partida: %d\n\n", valorPartida ) ;
-	printf("\n\n\033[0m  \tPressione qualquer tecla para voltar ao menu...\n\n") ;
+/***************************************************************************
+*
+*  Função: Inicializa as Estruturas Utilizadas Pelo Jogo
+*
+****************************************************************************/
 
-	getch() ;
-	CLEAR_SCREEN ;
-}
+	void inicializarEstruturas ( void )
+	{
+		TAB_CriarTabuleiro() ;
+		FIM_CriarFinalizadas() ;
+		DPT_CriarDadoPontos() ;
+		BAR_CriarBarra() ;
+	}
 
-void verificaCondicaoVitoriaEspecial( int * valorPartida , CorPecas jogadorVencedor )
-{
-	int fatorMultiplicador = 1, numPecasFinalizadas = 0, numPecasBarra = 0 ;
+/***************************************************************************
+*
+*  Função: Configura o Tamanho da Tela do Terminal (DOS)
+*
+****************************************************************************/
 
-	CorPecas jogadorPerdedor = jogadorVencedor == Preta ? Vermelha : Preta ;
-
-	FIM_NumPecas( jogadorPerdedor , &numPecasFinalizadas ) ;
-	BAR_NumPecas( jogadorPerdedor , &numPecasBarra ) ;
-
-	// Vitória por gamão
-	if ( numPecasFinalizadas == 0 ) fatorMultiplicador = 2 ;
-	
-	// Vitória por backgammon
-	if ( ( numPecasFinalizadas == 0 ) && ( numPecasBarra > 0 ) ) fatorMultiplicador = 3 ;
-
-	*valorPartida = ( *valorPartida ) * fatorMultiplicador ;
-}
-
-void inicializarEstruturas ( void )
-{
-	TAB_CriarTabuleiro() ;
-	FIM_CriarFinalizadas() ;
-	DPT_CriarDadoPontos() ;
-	BAR_CriarBarra() ;
-}
+	void mudarTamanhoJanela( void )
+	{
+		HWND wh = GetConsoleWindow();
+		MoveWindow(wh, 100, 50, 1000, 550, TRUE);
+	}
 
 
-void destruirEstruturas ( void )
-{
-	TAB_DestruirTabuleiro() ;
-	FIM_DestruirFinalizadas() ;
-	DPT_DestruirDadoPontos() ;
-	BAR_DestruirBarra() ;
-}
+/***************************************************************************
+*
+*  Função: Destroi as Estruturas Utilizadas Pelo Jogo
+*
+****************************************************************************/
+
+	void destruirEstruturas ( void )
+	{
+		TAB_DestruirTabuleiro() ;
+		FIM_DestruirFinalizadas() ;
+		DPT_DestruirDadoPontos() ;
+		BAR_DestruirBarra() ;
+	}
