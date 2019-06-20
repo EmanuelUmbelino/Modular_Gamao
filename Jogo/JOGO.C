@@ -74,7 +74,7 @@
 
 	static void carregarJogo ( char * nomeJogo ) ;
  
-	static void salvarJogo ( char * nomeJogo ) ;
+	static void salvarJogo ( char * nomeJogo, CorPecas jogadorAtual ) ;
 
 	static void jogo ( CorPecas jogadorAtual ) ;
 
@@ -265,6 +265,7 @@
 		FILE * fp;
 		int i, j, casa, numPecas, numPecasAux, valorPartida;
 		CorPecas corPec = Neutro;
+		CorPecas jogadorAtual = Neutro;
 		char Jogo[1];
 		
 		inicializarEstruturas();
@@ -321,13 +322,17 @@
 				{
 					fscanf(fp,"%d\n", &valorPartida);
 				}
-				else
+				else if (strcmp(Jogo, "J")==0)
+				{
+					fscanf(fp,"%d\n", &jogadorAtual);
+				}
+				else 
 				{
 					fscanf(fp,"%d\n", &corPec);
 				}
 			}
 			DPT_CarregaDadoPontos(corPec, valorPartida);
-			jogo(corPec);
+			jogo(jogadorAtual);
 		}
 	}
 
@@ -337,7 +342,7 @@
 *
 ****************************************************************************/
 
-	void salvarJogo ( char * nomeJogo ) {
+	void salvarJogo ( char * nomeJogo, CorPecas jogadorAtual ) {
 		FILE * fp;
 		int i, num;
 		CorPecas  podeDobrar, corPec;
@@ -375,6 +380,7 @@
 				fprintf(fp, "D\n%d\n",1);
 			else
 				fprintf(fp, "D\n%d\n",0);
+			fprintf(fp,"J\n%d\n",jogadorAtual);
 			fclose(fp);
 		}
 	}
@@ -428,6 +434,7 @@ void jogo ( CorPecas jogadorAtual ){
 		if(passo == JogarDado){
 			printf("\nEspaco - jogar dados");
 			printf("\nD - Dobrar pontos");
+			printf("\nS - Salvar jogo");
 		}
 		else if(passo == EscolherPeca){
 			printf("\nZ e X - manipulam a seta");
@@ -438,8 +445,7 @@ void jogo ( CorPecas jogadorAtual ){
 			printf("\nEspaco - confirmar jogada");
 			printf("\nEsc - voltar para selecao de peca");
 		}
-	
-		printf("\nS - Salvar jogo");
+
 		printf("\nP - Passa jogada");
 		
 		if(passo != EscolherDado) {
@@ -552,10 +558,13 @@ void jogo ( CorPecas jogadorAtual ){
 		}
 		else if (ch == 's')
 		{
-			CLEAR_SCREEN;
-			printf("Insira o nome do jogo para ser salvo (Max de 15 caracteres)..\n");
-			scanf("%s",nomeJogo) ;
-			salvarJogo(nomeJogo);
+			if (passo == JogarDado)
+			{
+				CLEAR_SCREEN;
+				printf("Insira o nome do jogo para ser salvo (Max de 15 caracteres)..\n");
+				scanf("%s",nomeJogo) ;
+				salvarJogo(nomeJogo, jogadorAtual);
+			}
 		}
 		else if (ch == 'd')
 		{
