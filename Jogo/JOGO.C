@@ -100,11 +100,7 @@
 
 	static void ImprimeSetaSelecao ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) ;
 
-	static void ImprimeVitoria ( CorPecas jogadorVencedor, int valorPartida ) ;
-
-	static void InicializarEstruturas ( void ) ;
-
-	static void DestruirEstruturas ( void ) ;
+	static void FimDeJogo ( CorPecas jogadorVencedor, int valorPartida ) ;
 
 	static void VerificaCondicaoVitoriaEspecial( int * valorPartida, CorPecas jogadorVencedor ) ;
 
@@ -142,7 +138,7 @@
 
 	void MenuInicial ( void )
 	{
-		int i, ch1, ch2, opcaoSelecionada = 0 ;
+		int i, ch, opcaoSelecionada = 0 ;
 		char *opcoes[3], nomeJogo[15] ;
 		HWND wh ;
 		opcoes[0] = "Novo Jogo" ;
@@ -168,15 +164,20 @@
 			} /* for */
 			printf( "\n\n\n" ) ;
 
-			ch1 = getch( ) ;
-			ch2 = 0 ;
+			ch = getch( ) ;
 			CLEAR_SCREEN ;
-			if ( ch1 == 0xE0 ) /* alguma seta */
+			if ( ch == 0xE0 ) /* alguma seta */
 				opcaoSelecionada = TrocarOpcao( opcaoSelecionada, 2 ) ;
-			else if ( ch1 == 13 ) /* enter */
+			else if ( ch == 13 ) /* enter */
 				break ;
 		} /* while */
-
+		if ( opcaoSelecionada == 2)
+			return ;
+		
+		TAB_CriarTabuleiro( ) ;
+		FIM_CriarFinalizadas( ) ;
+		DPT_CriarDadoPontos( ) ;
+		BAR_CriarBarra( ) ;
 		if ( opcaoSelecionada == 0 ) {
 			NovoJogo( ) ;
 		} /* if */
@@ -201,8 +202,6 @@
 		dados[0]=0 ; dados[1]=0 ;
 
 		CLEAR_SCREEN ;
-		InicializarEstruturas( ) ;
-		
 		printf( "\n   Sortear os 2 dados pra ver quem comeca\n  \n  " ) ;
 		printf( "\n   Escolha quem sera o \033%sVERMELHO\033[0m", cores[Vermelha] ) ;
 		printf( " e quem sera o \033%sVERDE\033[0m\n  \n  ", cores[Preta] ) ;
@@ -253,8 +252,6 @@
 		CorPecas corPec = Neutro ;
 		CorPecas jogadorAtual = Neutro ;
 		char jogo;
-		
-		InicializarEstruturas( ) ;
 
 		fp = fopen( nomeJogo, "r" ) ;
 		if ( fp == NULL ) {
@@ -315,33 +312,31 @@
 			printf( "Nao foi possivel salvar o jogo!\n  " ) ;
 		} /* if */
 		else {	
-			corPec = podeDobrar = Neutro ;
-			fprintf( fp, "T\n  " ) ;
+			corPec = podeDobrar = Preta ;
+			fprintf( fp, "T\n" ) ;
 			for ( i=1 ; i<25 ; i++ ) {
 				TAB_NumPecasCasa( i, &num ) ;
 				TAB_CorPecasCasa( i, &corPec ) ;
-				fprintf( fp, "%d %d %d\n  ", i, num, corPec ) ;
+				fprintf( fp, "%d %d %d\n", i, num, corPec ) ;
 			} /* for */
-			fprintf( fp, "B\n  " ) ;
+			fprintf( fp, "B\n" ) ;
 			BAR_NumPecas( Vermelha, &num ) ;
-			fprintf( fp, "%d %d\n  ", 1, num ) ;
+			fprintf( fp, "%d %d\n", 1, num ) ;
 			BAR_NumPecas( Preta, &num ) ;
-			fprintf( fp, "%d %d\n  ", 0, num ) ;
+			fprintf( fp, "%d %d\n", 0, num ) ;
 			
-			fprintf( fp, "F\n  " ) ;
+			fprintf( fp, "F\n" ) ;
 			FIM_NumPecas( Vermelha, &num ) ;
-			fprintf( fp, "%d %d\n  ", 1, num ) ;
+			fprintf( fp, "%d %d\n", 1, num ) ;
 			FIM_NumPecas( Preta, &num ) ;
-			fprintf( fp, "%d %d\n  ", 0, num ) ;
+			fprintf( fp, "%d %d\n", 0, num ) ;
 
 			DPT_ValorPartida( &num ) ;
-			fprintf( fp, "V\n  %d\n  ", num ) ;
+			fprintf( fp, "V\n%d\n", num ) ;
 			DPT_QuemPodeDobrar( &podeDobrar ) ;
-			if ( podeDobrar == Vermelha )
-				fprintf( fp, "D\n  %d\n  ", 1 ) ;
-			else
-				fprintf( fp, "D\n  %d\n  ", 0 ) ;
-			fprintf( fp, "J\n  %d\n  ", jogadorAtual ) ;
+			fprintf( fp, "D\n%d\n", podeDobrar ) ;
+
+			fprintf( fp, "J\n%d\n", jogadorAtual ) ;
 			fclose( fp ) ;
 		} /* else */
 	} /* Fim função: JOG Salvar Jogo */
@@ -354,8 +349,7 @@
 
 	void Jogo ( CorPecas jogadorAtual )
 	{
-		int casaSelecionada, casaFixada, dAtual = 0, ch, i, valorPartida ;
-		int ch1, ch2, opcaoSelecionada = 0 ;
+		int casaSelecionada, casaFixada, dAtual = 0, ch, i, valorPartida, opcaoSelecionada = 0 ;
 		CorPecas podeDobrar ;
 		Passo passo = JogarDado ;
 		char nomeJogo[15] ;
@@ -365,14 +359,13 @@
 			dados[i] = 0 ;
 
 		DPT_ValorPartida( &valorPartida ) ;
+		DPT_QuemPodeDobrar( &podeDobrar ) ;
 
 		if ( jogadorAtual == Vermelha )
 			casaSelecionada = AntCasaDeCor( 0, jogadorAtual ) ;
 		else
 			casaSelecionada = ProxCasaDeCor( 0, jogadorAtual ) ;
-		
 		casaFixada = casaSelecionada ;
-		podeDobrar = Neutro ;
 
 		while ( 1 ) {
 			CLEAR_SCREEN ;
@@ -481,18 +474,21 @@
 				} /* if */
 				else {
 					CLEAR_SCREEN ;
-					printf( "Se o jogo nao foi salvo ele nao podera ser continuado de onde parou.\n  Deseja continuar?[S / N]\n  " ) ;
+					printf( "\n  Se o jogo nao foi salvo ele nao podera ser continuado de onde parou.\n  Deseja realmente deseja sair?[S / N]\n  " ) ;
 					ch = getch( ) ;
-					if ( ch == 's' )
+					if ( ch == 's' ) {
+						TAB_DestruirTabuleiro( ) ;
+						FIM_DestruirFinalizadas( ) ;
+						DPT_DestruirDadoPontos( ) ;
+						BAR_DestruirBarra( ) ;
 						break ;
-					else
-						continue ;
+					} /* if */
 				} /* else */
 			} /* else if */
 			else if ( ch == 's' ) {
 				if ( passo == JogarDado ) {
 					CLEAR_SCREEN ;
-					printf( "Insira o nome do jogo para ser salvo ( Max de 15 caracteres )..\n  " ) ;
+					printf( "\n Insira o nome do jogo para ser salvo ( Max de 15 caracteres )..\n  " ) ;
 					scanf( "%s", nomeJogo ) ;
 					SalvarJogo( nomeJogo, jogadorAtual ) ;
 				} /* if */
@@ -518,12 +514,11 @@
 							else
 								printf( " " ) ;
 							printf( " Recusar\033[0m\n  " ) ;
-							ch1 = getch( ) ;
-							ch2 = 0 ;
+							ch = getch( ) ;
 							CLEAR_SCREEN ;
-							if ( ch1 == 0xE0 ) /* alguma seta */
+							if ( ch == 0xE0 ) /* alguma seta */
 								opcaoSelecionada = TrocarOpcao( opcaoSelecionada, 1 ) ;
-							else if ( ch1 == 13 ) /* enter */
+							else if ( ch == 13 ) /* enter */
 								break ;
 						} /* while */
 						if ( opcaoSelecionada == 0 ) {
@@ -533,8 +528,7 @@
 						} /* if */
 						else if ( opcaoSelecionada == 1 ) {
 							DPT_ValorPartida( &valorPartida ) ;
-							DestruirEstruturas( ) ;
-							ImprimeVitoria( jogadorAtual, valorPartida ) ;
+							FimDeJogo( jogadorAtual, valorPartida ) ;
 							MenuInicial( ) ;
 						} /* else if */
 					} /* if */
@@ -547,14 +541,19 @@
 			} /* else if */
 			else if ( ch == 'p' ) {
 				if ( passo != JogarDado ) {
-					dados[0] = 0 ;
-					dados[1] = 0 ;
-					dados[2] = 0 ;
-					dados[3] = 0 ;
-					jogadorAtual = !jogadorAtual ;
-					passo = JogarDado ;
-					casaSelecionada = ProxCasaDeCor( 0, jogadorAtual ) ;
-					casaFixada = casaSelecionada ;
+					CLEAR_SCREEN ;
+					printf( "\n  So deve pular a jogada se nao houver mais movimentos possiveis.\n  Deseja realmente deseja pular a jogada?[S / N]\n  " ) ;
+					ch = getch( ) ;
+					if ( ch == 's' ) {
+						dados[0] = 0 ;
+						dados[1] = 0 ;
+						dados[2] = 0 ;
+						dados[3] = 0 ;
+						jogadorAtual = !jogadorAtual ;
+						passo = JogarDado ;
+						casaSelecionada = ProxCasaDeCor( 0, jogadorAtual ) ;
+						casaFixada = casaSelecionada ;
+					} /* if */
 				} /* if */
 			} /* else if */
 			else
@@ -601,8 +600,7 @@
 			if ( numPecasFinalizadas == 15 ) { /* condição de vitória */
 				DPT_ValorPartida( &valorPartida ) ;
 				VerificaCondicaoVitoriaEspecial( &valorPartida, jogadorAtual ) ;
-				DestruirEstruturas( ) ;
-				ImprimeVitoria( jogadorAtual, valorPartida ) ;
+				FimDeJogo( jogadorAtual, valorPartida ) ;
 				MenuInicial( ) ;
 			} /* if */
 		} /* else */
@@ -950,12 +948,16 @@
 
 /***************************************************************************
 *
-*  Função: JOG Imprime Vitória
+*  Função: JOG Fim De Jogo
 *
 *  ****/
 
-	void ImprimeVitoria ( CorPecas jogadorVencedor, int valorPartida )
+	void FimDeJogo ( CorPecas jogadorVencedor, int valorPartida )
 	{
+		TAB_DestruirTabuleiro( ) ;
+		FIM_DestruirFinalizadas( ) ;
+		DPT_DestruirDadoPontos( ) ;
+		BAR_DestruirBarra( ) ;
 		CLEAR_SCREEN ;
 		printf( "\033%s", cores[jogadorVencedor] ) ;
 
@@ -980,7 +982,6 @@
 		printf( "\n  \n  \033[0m  \tPressione qualquer tecla para voltar ao menu...\n  \n  " ) ;
 
 		getch( ) ;
-		CLEAR_SCREEN ;
 	} /* Fim função: JOG Imprime Vitória */
 
 
@@ -1008,42 +1009,13 @@
 
 /***************************************************************************
 *
-*  Função: JOG Inicializa as Estruturas Utilizadas Pelo Jogo
-*
-*  ****/
-
-	void InicializarEstruturas ( void )
-	{
-		TAB_CriarTabuleiro( ) ;
-		FIM_CriarFinalizadas( ) ;
-		DPT_CriarDadoPontos( ) ;
-		BAR_CriarBarra( ) ;
-	} /* Fim função: JOG Inicializa as Estruturas Utilizadas Pelo Jogo */
-
-/***************************************************************************
-*
-*  Função: JOG Destroi as Estruturas Utilizadas Pelo Jogo
-*
-*  ****/
-
-	void DestruirEstruturas ( void )
-	{
-		TAB_DestruirTabuleiro( ) ;
-		FIM_DestruirFinalizadas( ) ;
-		DPT_DestruirDadoPontos( ) ;
-		BAR_DestruirBarra( ) ;
-	} /* Fim função: JOG Destroi as Estruturas Utilizadas Pelo Jogo */
-
-/***************************************************************************
-*
 *  Função: JOG Trocar Opcao
 *  ****/
 
 	int TrocarOpcao( int opcaoSelecionada, int numOpcoes ) 
 	{
 		int ch = getch( ) ;
-		switch( ch )
-		{
+		switch ( ch ) {
 			case 72: opcaoSelecionada -= 1 ; break ; /* seta para cima */
 			case 80: opcaoSelecionada += 1 ; break ; /* seta para baixo */
 		} ; /* switch */
