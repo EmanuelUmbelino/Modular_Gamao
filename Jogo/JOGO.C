@@ -124,9 +124,6 @@
 		cores[Preta] = PRETO ;
 		cores[Vermelha] = VERMELHO ;
 
-		HWND wh = GetConsoleWindow( ) ;
-		MoveWindow( wh, 100, 50, 1000, 550, TRUE ) ;
-
 		MenuInicial( ) ;
 	} /* Fim função: JOG Iniciar Jogo */
 
@@ -147,10 +144,13 @@
 	{
 		int i, ch1, ch2, opcaoSelecionada = 0 ;
 		char *opcoes[3], nomeJogo[15] ;
+		HWND wh ;
 		opcoes[0] = "Novo Jogo" ;
 		opcoes[1] = "Carregar Jogo" ;
 		opcoes[2] = "Sair" ;
 
+		wh = GetConsoleWindow( ) ;
+		MoveWindow( wh, 100, 50, 1000, 550, TRUE ) ;
 		CLEAR_SCREEN ;
 		while ( 1 ) {
 			puts( "   _____              __  __               ____  " ) ;
@@ -252,7 +252,7 @@
 		int i, j, casa, numPecas, numPecasAux, valorPartida ;
 		CorPecas corPec = Neutro ;
 		CorPecas jogadorAtual = Neutro ;
-		char Jogo;
+		char jogo;
 		
 		InicializarEstruturas( ) ;
 
@@ -265,8 +265,8 @@
 			MenuInicial( ) ;
 		} /* if */
 		else {
-			while ( fscanf( fp, "%c\n", &Jogo )!=EOF ) {
-				if ( Jogo == 'T' ) {
+			while ( fscanf( fp, "%c\n", &jogo )!=EOF ) {
+				if ( jogo == 'T' ) {
 					for ( i=0 ; i<24 ; i++ ) {
 						fscanf( fp, "%d %d %d\n  ", &casa, &numPecas, &corPec ) ;
 						TAB_NumPecasCasa( casa, &numPecasAux ) ;
@@ -276,20 +276,20 @@
 							TAB_InserePecaCasa( casa, corPec ) ; 
 					} /* for */
 				} /* if */
-				else if ( Jogo == 'B' || Jogo == 'F' ) {
+				else if ( jogo == 'B' || jogo == 'F' ) {
 					for ( i=0 ; i<2 ; i++ ) {
 						fscanf( fp, "%d %d\n  ", &corPec, &numPecas ) ;
 						for ( j=0 ; j<numPecas ; j++ ) {
-							if ( Jogo == 'B' )
+							if ( jogo == 'B' )
 								BAR_InserePeca( corPec ) ;
 							else
 								FIM_FinalizarPeca( corPec ) ;
 						} /* for */
 					} /* for */
 				} /* else if */
-				else if ( Jogo == 'V' )
+				else if ( jogo == 'V' )
 					fscanf( fp, "%d\n  ", &valorPartida ) ;
-				else if ( Jogo == 'J' )
+				else if ( jogo == 'J' )
 					fscanf( fp, "%d\n  ", &jogadorAtual ) ;
 				else
 					fscanf( fp, "%d\n  ", &corPec ) ;
@@ -1064,7 +1064,7 @@
 	{
 		if ( jogadorAtual == Vermelha )
 			return casaFixada - dadoAtual ;
-		return casaFixada + dados[dAtual] ;
+		return casaFixada + dadoAtual ;
 	} /* Fim função: JOG Casa Selecionada */
 
 /********** Fim do módulo de implementação: Módulo Jogo **********/
