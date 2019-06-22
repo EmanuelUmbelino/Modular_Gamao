@@ -46,7 +46,7 @@
 
 #undef JOGO_EXT
 
-/********** Fim do módulo de definição: JOG  Jogo **********/
+/********** Fim do módulo de definição: Jogo **********/
 
 #else
 #endif
