@@ -84,17 +84,15 @@
 
 	static int ProxDado ( int *dados, int dAtual ) ;
 
-	static int AntDado ( int *dados, int dAtual ) ;
+	static int AntCasaComPeca ( int casaSelecionada, CorPecas cor ) ;
 
-	static int AntCasaDeCor ( int casaSelecionada, CorPecas cor ) ;
-
-	static int ProxCasaDeCor ( int casaSelecionada, CorPecas cor ) ;
+	static int ProxCasaComPeca ( int casaSelecionada, CorPecas cor ) ;
 
 	static void ImprimirJogo ( CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) ;
 
 	static void ImprimePeca ( int totalCasa, CorPecas cor, int posicao ) ;
 
-	static int TemDadoNessaCasa ( int numeroCasa, CorPecas jogadorAtual, int casaFixada, int dados[4] ) ;
+	static int CasaApontadaPorDado ( int numeroCasa, CorPecas jogadorAtual, int casaFixada, int dados[4] ) ;
 
 	static void ImprimeNumeroCasa ( int numeroCasa, CorPecas jogadorAtual, int casaSelecionada, int casaFixada, int dados[4] ) ;
 
@@ -362,9 +360,9 @@
 		DPT_QuemPodeDobrar( &podeDobrar ) ;
 
 		if ( jogadorAtual == Vermelha )
-			casaSelecionada = AntCasaDeCor( 0, jogadorAtual ) ;
+			casaSelecionada = AntCasaComPeca( 0, jogadorAtual ) ;
 		else
-			casaSelecionada = ProxCasaDeCor( 0, jogadorAtual ) ;
+			casaSelecionada = ProxCasaComPeca( 0, jogadorAtual ) ;
 		casaFixada = casaSelecionada ;
 
 		while ( 1 ) {
@@ -405,9 +403,12 @@
 			} /* if */
 			
 			ch = getch( ) ;
-			if ( ch == 'z' || ch == 'Z' ) {
+			if ( ch == 'z' || ch == 'Z' || ch == 'x' || ch == 'X' ) {
 				if ( passo == EscolherPeca ) {
-					casaSelecionada = ProxCasaDeCor( casaSelecionada, jogadorAtual ) ;
+					if ( ch == 'z' || ch == 'Z' )
+						casaSelecionada = ProxCasaComPeca( casaSelecionada, jogadorAtual ) ;
+					else
+						casaSelecionada = AntCasaComPeca( casaSelecionada, jogadorAtual ) ;
 					casaFixada = casaSelecionada ;
 				}  /* if */
 				else if ( passo == EscolherDado ) {
@@ -415,21 +416,10 @@
 					casaSelecionada = CasaSelecionada( jogadorAtual, casaFixada, dados[dAtual] ) ;
 				} /* else if */
 			} /* if */
-			else if ( ch == 'x' || ch == 'X' ) {
-				if ( passo == EscolherPeca ) {
-					casaSelecionada = AntCasaDeCor( casaSelecionada, jogadorAtual ) ;
-					casaFixada = casaSelecionada ;
-				} /* if */
-				else if ( passo == EscolherDado ) {
-					dAtual = AntDado ( dados, dAtual ) ;
-					casaSelecionada = CasaSelecionada( jogadorAtual, casaFixada, dados[dAtual] ) ;
-				} /* else if */
-			} /* else if */
 			else if ( ch == 32 ) { /* barra de espaço */
 				if ( passo == JogarDado ) {
 					DAD_JogarDado( &dados[0] ) ; 
 					DAD_JogarDado( &dados[1] ) ;
-
 					if ( dados[0] == dados[1] ) {
 						dados[2] = dados[0] ;
 						dados[3] = dados[0] ;
@@ -459,9 +449,9 @@
 						else
 							passo = EscolherPeca ;
 						if ( jogadorAtual == Vermelha )
-							casaSelecionada = AntCasaDeCor( 0, jogadorAtual ) ;
+							casaSelecionada = AntCasaComPeca( 0, jogadorAtual ) ;
 						else
-							casaSelecionada = ProxCasaDeCor( 0, jogadorAtual ) ;
+							casaSelecionada = ProxCasaComPeca( 0, jogadorAtual ) ;
 						casaFixada = casaSelecionada ;
 					} /* if */
 				} /* else if */
@@ -551,7 +541,7 @@
 						dados[3] = 0 ;
 						jogadorAtual = !jogadorAtual ;
 						passo = JogarDado ;
-						casaSelecionada = ProxCasaDeCor( 0, jogadorAtual ) ;
+						casaSelecionada = ProxCasaComPeca( 0, jogadorAtual ) ;
 						casaFixada = casaSelecionada ;
 					} /* if */
 				} /* if */
@@ -614,7 +604,7 @@
 
 /***************************************************************************
 *
-*  Função: JOG Verifica se Peça Pode ser Finalizada
+*  Função: JOG Verifica se Jogador Pode Finalizar
 *
 *  ****/
 
@@ -640,11 +630,11 @@
 			} /* if */
 		} /* for */
 		return 1 ;
-	} /* Fim função: JOG Verifica se Peça Pode ser Finalizada */
+	} /* Fim função: JOG Verifica se Jogador Pode Finalizar */
 
 /***************************************************************************
 *
-*  Função: JOG Busca o Próximo Dado a Utilizar
+*  Função: JOG Proximo Dado a ser Utilizado
 *
 *  ****/
 
@@ -659,34 +649,15 @@
 		} /* do */ 
 		while ( dados[dAtual] == 0 && i < 4 ) ;
 		return dAtual ;
-	} /* Fim função: JOG Busca o Próximo Dado a Utilizar */
+	} /* Fim função: JOG Proximo Dado a ser Utilizado */
 
 /***************************************************************************
 *
-*  Função: JOG Busca o Dado Anterior a Utilizar
+*  Função: JOG Casa Anterior Com Pecas
 *
 *  ****/
 
-	int AntDado ( int *dados, int dAtual )
-	{
-		int i = 0 ;
-		do {
-			dAtual -- ;
-			i++ ;
-			if ( dAtual < 0 )
-				dAtual = 3 ;
-		} /* do */
-		while ( dados[dAtual] == 0 && i < 4 ) ;
-		return dAtual ;
-	} /* Fim função: JOG Busca o Dado Anterior a Utilizar */
-
-/***************************************************************************
-*
-*  Função: JOG Obtem a Casa Anterior a Utilizar
-*
-*  ****/
-
-	int AntCasaDeCor ( int casaSelecionada, CorPecas cor )
+	int AntCasaComPeca ( int casaSelecionada, CorPecas cor )
 	{
 		int i, qtdPecasCasas, bar ;
 		CorPecas coresPecasCasa ;
@@ -716,7 +687,7 @@
 					return i ;
 			} /* if */
 		}  /* for */
-	} /* Fim função: JOG Obtem a Casa Anterior a Utilizar */
+	} /* Fim função: JOG Casa Anterior Com Pecas */
 
 /***************************************************************************
 *
@@ -724,7 +695,7 @@
 *
 *  ****/
 
-	int ProxCasaDeCor ( int casaSelecionada, CorPecas cor )
+	int ProxCasaComPeca ( int casaSelecionada, CorPecas cor )
 	{
 		int i, qtdPecasCasas, bar ;
 		CorPecas coresPecasCasa ;
@@ -887,11 +858,11 @@
 
 /***************************************************************************
 *
-*  Função: JOG Tem Dado Para essa Casa
+*  Função: JOG Verifica se Casa é Apontada Por algum Dado
 *
 *  ****/
 
-	int TemDadoNessaCasa ( int numeroCasa, CorPecas jogadorAtual, int casaFixada, int dados[4] ) 
+	int CasaApontadaPorDado ( int numeroCasa, CorPecas jogadorAtual, int casaFixada, int dados[4] ) 
 	{
 		int i, casa ;
 		for ( i = 0 ; i < 4 ; i++ ) {
@@ -900,7 +871,7 @@
 				return 1 ;
 		} /* for */
 		return 0 ;
-	} /* Fim função: JOG Tem Dado Para essa Casa */
+	} /* Fim função: JOG Verifica se Casa é Apontada Por algum Dado */
 
 /***************************************************************************
 *
@@ -913,7 +884,7 @@
 			printf( "\033%s%02d\033[0m ", PRIMARIO, numeroCasa ) ;
 		else if ( numeroCasa == casaFixada )
 			printf( "\033%s%02d\033[0m ", TERCIARIO, numeroCasa ) ;
-		else if ( TemDadoNessaCasa( numeroCasa, jogadorAtual, casaFixada, dados ) == 1 )
+		else if ( CasaApontadaPorDado( numeroCasa, jogadorAtual, casaFixada, dados ) == 1 )
 			printf( "\033%s%02d\033[0m ", SECUNDARIO, numeroCasa ) ;
 		else
 			printf( "%02d ", numeroCasa ) ;
@@ -932,7 +903,7 @@
 			tipo = PRIMARIO ;
 		else if ( numeroCasa == casaFixada )
 			tipo = TERCIARIO ;
-		else if ( TemDadoNessaCasa( numeroCasa, jogadorAtual, casaFixada, dados ) == 1 )
+		else if ( CasaApontadaPorDado( numeroCasa, jogadorAtual, casaFixada, dados ) == 1 )
 			tipo = SECUNDARIO ;
 		else {
 			printf( "   " ) ;
