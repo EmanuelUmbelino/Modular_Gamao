@@ -405,7 +405,7 @@
 			} /* if */
 			
 			ch = getch( ) ;
-			if ( ch == 'z' ) {
+			if ( ch == 'z' || ch == 'Z' ) {
 				if ( passo == EscolherPeca ) {
 					casaSelecionada = ProxCasaDeCor( casaSelecionada, jogadorAtual ) ;
 					casaFixada = casaSelecionada ;
@@ -415,7 +415,7 @@
 					casaSelecionada = CasaSelecionada( jogadorAtual, casaFixada, dados[dAtual] ) ;
 				} /* else if */
 			} /* if */
-			else if ( ch == 'x' ) {
+			else if ( ch == 'x' || ch == 'X' ) {
 				if ( passo == EscolherPeca ) {
 					casaSelecionada = AntCasaDeCor( casaSelecionada, jogadorAtual ) ;
 					casaFixada = casaSelecionada ;
@@ -466,7 +466,7 @@
 					} /* if */
 				} /* else if */
 			} /* else if */
-			else if ( ch == 27 ) {// Esc
+			else if ( ch == 27 ) { /* esc */
 				if ( passo == EscolherDado ) {
 					dAtual = 0 ;
 					casaSelecionada = casaFixada ;
@@ -476,7 +476,7 @@
 					CLEAR_SCREEN ;
 					printf( "\n  Se o jogo nao foi salvo ele nao podera ser continuado de onde parou.\n  Deseja realmente deseja sair?[S / N]\n  " ) ;
 					ch = getch( ) ;
-					if ( ch == 's' ) {
+					if ( ch == 's' || ch == 'S' ) {
 						TAB_DestruirTabuleiro( ) ;
 						FIM_DestruirFinalizadas( ) ;
 						DPT_DestruirDadoPontos( ) ;
@@ -485,7 +485,7 @@
 					} /* if */
 				} /* else */
 			} /* else if */
-			else if ( ch == 's' ) {
+			else if ( ch == 's' || ch == 'S' ) {
 				if ( passo == JogarDado ) {
 					CLEAR_SCREEN ;
 					printf( "\n Insira o nome do jogo para ser salvo ( Max de 15 caracteres )..\n  " ) ;
@@ -493,7 +493,7 @@
 					SalvarJogo( nomeJogo, jogadorAtual ) ;
 				} /* if */
 			} /* else if */
-			else if ( ch == 'd' ) {
+			else if ( ch == 'd' || ch == 'D' ) {
 				if ( passo == JogarDado ) {
 					if ( jogadorAtual == podeDobrar || podeDobrar == Neutro ) {
 						CLEAR_SCREEN ;
@@ -539,12 +539,12 @@
 					} /* else */
 				} /* if */
 			} /* else if */
-			else if ( ch == 'p' ) {
+			else if ( ch == 'p' || ch == 'P' ) {
 				if ( passo != JogarDado ) {
 					CLEAR_SCREEN ;
 					printf( "\n  So deve pular a jogada se nao houver mais movimentos possiveis.\n  Deseja realmente deseja pular a jogada?[S / N]\n  " ) ;
 					ch = getch( ) ;
-					if ( ch == 's' ) {
+					if ( ch == 's' || ch == 'S' ) {
 						dados[0] = 0 ;
 						dados[1] = 0 ;
 						dados[2] = 0 ;
@@ -574,7 +574,6 @@
 
 		if ( jogadorAtual == Vermelha && posFinal < 1 && !PodeFinalizar( jogadorAtual ) )
 			return 0 ;
-		
 		if ( jogadorAtual == Preta && posFinal > 24 && !PodeFinalizar( jogadorAtual ) )
 			return 0 ;
 		
